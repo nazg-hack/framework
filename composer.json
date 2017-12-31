@@ -1,0 +1,46 @@
+{
+  "name": "ytake/hhadr",
+  "description": "",
+  "keywords": [
+    "hhvm",
+    "hack"
+  ],
+  "license": "BSD-3-Clause",
+  "authors": [
+    {
+      "name": "Yuuki Takezawa",
+      "email": "yuuki.takezawa@comnect.jp.net"
+    }
+  ],
+  "require": {
+    "php": ">=7.0",
+    "hhvm": ">=3.20.0",
+    "ext-asio": "*",
+    "hhvm/hhvm-autoload": "^1.5",
+    "hhvm/hsl": "^1.0.0",
+    "hack-psr/psr7-http-message-hhi": "^1.0.0",
+    "ytake/hh-container": "^0.4.0",
+    "ytake/hh-config-aggregator": "^0.1.1",
+    "ytake/heredity": "^0.1.0",
+    "facebook/hack-router": "^0.10",
+    "zendframework/zend-diactoros": "^1.6.1",
+    "fguillot/json-rpc": "^1.2.4",
+    "cakephp/chronos": "^1.1.2",
+    "monolog/monolog": "^1.23.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^6.0",
+    "91carriage/phpunit-hhi": "^6.2.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Ytake\\Adr\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "classmap": [
+      "tests/"
+    ]
+  },
+  "minimum-stability": "stable"
+}
