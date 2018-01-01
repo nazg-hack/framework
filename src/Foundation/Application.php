@@ -8,7 +8,7 @@ use Ytake\Heredity\MiddlewareStack;
 use Ytake\Heredity\PsrContainerResolver;
 use Ytake\Adr\RequestHandler\FallbackHandler;
 use Ytake\Adr\Foundation\Dependency\DependencyInterface;
-use Ytake\Adr\Response\HttpResponse;
+use Ytake\Adr\Response;
 use Interop\Http\Server\RequestHandlerInterface;
 use Interop\Http\Server\MiddlewareInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -26,7 +26,12 @@ class Application {
   ): void {
     $container = $this->registerContainer();
     $router = $container->get(BaseRouter::class);
-    invariant($router instanceof BaseRouter, "aaaa %s", "awesome");
+    invariant(
+      $router instanceof BaseRouter, 
+      "%s class must extend %s", 
+      get_class($router), 
+      BaseRouter::class
+    );
     list($middleware, $path) = $router->routePsr7Request($serverRequest);    
     $heredity = new Heredity(
       new MiddlewareStack(
@@ -34,7 +39,7 @@ class Application {
         new PsrContainerResolver($container)
       ),
     );
-    $response = new HttpResponse($heredity->process($serverRequest, new FallbackHandler()));
+    $response = new Response($heredity->process($serverRequest, new FallbackHandler()));
     $response->send();
   }
 
@@ -47,12 +52,6 @@ class Application {
   }
 
   protected function middleware(): ImmVector<string> {
-    return ImmVector{
-      \Ytake\Adr\Middleware\ResponseShape::class,
-    };
-  }
-
-  protected function send(): void {
-    
+    return ImmVector{};
   }
 }

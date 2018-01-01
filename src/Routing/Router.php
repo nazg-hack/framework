@@ -1,12 +1,12 @@
 <?hh // strict
 
-namespace Ytake\Adr\Foundation;
+namespace Ytake\Adr\Routing;
 
 use Facebook\HackRouter\BaseRouter;
 use Facebook\HackRouter\HttpMethod;
-use Ytake\Adr\Middleware\AbstractMiddleware;
+use Interop\Http\Server\MiddlewareInterface;
 
-type TResponder = classname<AbstractMiddleware>;
+type TResponder = classname<MiddlewareInterface>;
 
 final class Router extends BaseRouter<TResponder> {
 

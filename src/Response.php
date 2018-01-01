@@ -1,12 +1,12 @@
 <?hh
 
-namespace Ytake\Adr\Response;
+namespace Ytake\Adr;
 
 use Psr\Http\Message\ResponseInterface;
 use Zend\Diactoros\Response\SapiEmitter;
 use Zend\Diactoros\Response\EmitterInterface;
 
-class HttpResponse {
+class Response {
   
   public function __construct(protected ResponseInterface $response) {}
 

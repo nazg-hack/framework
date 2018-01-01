@@ -11,7 +11,7 @@ class ApplicationModule extends ServiceModule
   {
     $container->set(
       \Facebook\HackRouter\BaseRouter::class, 
-      $container ==> new \Ytake\Adr\Foundation\Router(),
+      $container ==> new \Ytake\Adr\Routing\Router(),
       \Ytake\HHContainer\Scope::SINGLETON
     );
   }

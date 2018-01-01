@@ -35,7 +35,10 @@
   "autoload": {
     "psr-4": {
       "Ytake\\Adr\\": "src/"
-    }
+    },
+    "files": [
+      "src/Struct/Shapes.php"
+    ]
   },
   "autoload-dev": {
     "classmap": [
