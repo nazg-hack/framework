@@ -9,11 +9,14 @@ use Ytake\Heredity\PsrContainerResolver;
 use Ytake\Adr\RequestHandler\FallbackHandler;
 use Ytake\Adr\Foundation\Dependency\DependencyInterface;
 use Ytake\Adr\Response;
+use Ytake\Adr\Routing\HttpMethod;
 use Interop\Http\Server\RequestHandlerInterface;
 use Interop\Http\Server\MiddlewareInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Container\ContainerInterface;
+
+type ActionClass = classname<MiddlewareInterface>;
 
 class Application {
 
@@ -53,5 +56,9 @@ class Application {
 
   protected function middleware(): ImmVector<string> {
     return ImmVector{};
+  }
+
+  public function setApplicationRoutes(ImmMap<HttpMethod, ImmMap<string, ActionClass>> $routes): void {
+    
   }
 }
