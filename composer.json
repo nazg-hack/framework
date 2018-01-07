@@ -1,6 +1,6 @@
 {
   "name": "ytake/hhadr",
-  "description": "",
+  "description": "http micro framework for Hack",
   "keywords": [
     "hhvm",
     "hack"
@@ -19,7 +19,7 @@
     "hhvm/hhvm-autoload": "^1.5",
     "hhvm/hsl": "^1.0.0",
     "hack-psr/psr7-http-message-hhi": "^1.0.0",
-    "ytake/hh-container": "^0.4.0",
+    "ytake/hh-container": "^0.5",
     "ytake/hh-config-aggregator": "^0.1.1",
     "ytake/heredity": "^0.1.0",
     "facebook/hack-router": "^0.10",
@@ -35,14 +35,14 @@
   "autoload": {
     "psr-4": {
       "Ytake\\Adr\\": "src/"
-    },
-    "files": [
-      "src/Struct/Shapes.php"
-    ]
+    }
   },
   "autoload-dev": {
     "classmap": [
       "tests/"
+    ],
+    "files": [
+      "tests/Struct/Shapes.php"
     ]
   },
   "minimum-stability": "stable"

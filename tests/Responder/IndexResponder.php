@@ -1,10 +1,8 @@
 <?hh
 
-namespace Ytake\Adr\Responder;
-
 use Psr\Http\Message\ResponseInterface;
 use Zend\Diactoros\Response\JsonResponse;
-use Ytake\Adr\Struct\IndexStructure;
+use IndexStructure;
 
 final class IndexResponder {
 
