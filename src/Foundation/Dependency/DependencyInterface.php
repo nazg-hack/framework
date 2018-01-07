@@ -8,5 +8,7 @@ interface DependencyInterface {
 
   public function registerConfig(array<mixed, mixed> $config): void;
 
-  public function register(): ContainerInterface;
+  public function register(): void;
+
+  public function getContainer(): ContainerInterface;
 }

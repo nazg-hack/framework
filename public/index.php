@@ -15,11 +15,7 @@ call_user_func(function() {
     ],
     __DIR__.'/resources/cached.config.cache.hh'
   );
-  $app = new Application(
-    new \Ytake\Adr\Foundation\Dependency\Dependency(
-      new \Ytake\HHContainer\FactoryContainer()
-    )
-  );
+  $app = new Application(new \Ytake\Adr\Foundation\Dependency\Dependency());
   $app->setApplicationConfig($aggregator->getMergedConfig());
   $app->run(ServerRequestFactory::fromGlobals());
 });
