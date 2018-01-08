@@ -1,6 +1,6 @@
 <?hh // strict
 
-namespace Ytake\Adr\Foundation\Dependency;
+namespace Nazg\Foundation\Dependency;
 
 use Psr\Container\ContainerInterface;
 

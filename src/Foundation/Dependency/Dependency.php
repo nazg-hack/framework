@@ -1,12 +1,12 @@
 <?hh // strict
 
-namespace Ytake\Adr\Foundation\Dependency;
+namespace Nazg\Foundation\Dependency;
 
 use Psr\Container\ContainerInterface;
 use Ytake\HHContainer\FactoryContainer;
-use Ytake\Adr\Foundation\Service;
-use Ytake\Adr\Foundation\Dependency\DependencyInterface;
-use Ytake\Adr\Routing\RouteServiceModule;
+use Nazg\Foundation\Service;
+use Nazg\Foundation\Dependency\DependencyInterface;
+use Nazg\Routing\RouteServiceModule;
 
 type TServiceModule = classname<\Ytake\HHContainer\ServiceModule>;
 

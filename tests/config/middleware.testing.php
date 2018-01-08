@@ -1,6 +1,6 @@
 <?hh 
 
-use Ytake\Adr\Foundation\Service;
+use Nazg\Foundation\Service;
 
 return [
   Service::MIDDLEWARES => [

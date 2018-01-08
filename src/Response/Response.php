@@ -1,6 +1,6 @@
 <?hh
 
-namespace Ytake\Adr;
+namespace Nazg\Response;
 
 use Psr\Http\Message\ResponseInterface;
 use Zend\Diactoros\Response\SapiEmitter;

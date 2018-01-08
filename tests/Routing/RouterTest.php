@@ -1,9 +1,9 @@
 <?hh 
 
 use PHPUnit\Framework\TestCase;
-use Ytake\Adr\Routing\Router;
-use Ytake\Adr\Foundation\Service;
-use Ytake\Adr\Routing\HttpMethod;
+use Nazg\Routing\Router;
+use Nazg\Foundation\Service;
+use Nazg\Routing\HttpMethod;
 use Zend\Diactoros\ServerRequestFactory;
 
 class RouterTest extends TestCase {

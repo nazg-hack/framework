@@ -1,9 +1,13 @@
 {
-  "name": "ytake/hhadr",
-  "description": "http micro framework for Hack",
+  "name": "nazg/framework",
+  "description": "Http Microframework for Hack",
   "keywords": [
     "hhvm",
-    "hack"
+    "hack",
+    "psr",
+    "psr-7",
+    "psr-11",
+    "psr-15"
   ],
   "license": "BSD-3-Clause",
   "authors": [
@@ -26,7 +30,8 @@
     "zendframework/zend-diactoros": "^1.6.1",
     "fguillot/json-rpc": "^1.2.4",
     "cakephp/chronos": "^1.1.2",
-    "monolog/monolog": "^1.23.0"
+    "monolog/monolog": "^1.23.0",
+    "libreworks/psr3-log-hhi": "^1.0.1"
   },
   "require-dev": {
     "phpunit/phpunit": "^6.0",
@@ -34,7 +39,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Ytake\\Adr\\": "src/"
+      "Nazg\\": "src/"
     }
   },
   "autoload-dev": {
