@@ -1,6 +1,6 @@
 <?hh // strict 
 
-namespace Ytake\Adr\Foundation;
+namespace Nazg\Foundation;
 
 enum Service: string as string {
   CONFIG = 'app.config';

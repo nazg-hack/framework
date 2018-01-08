@@ -1,7 +1,7 @@
 <?hh 
 
-use Ytake\Adr\Foundation\Service;
-use Ytake\Adr\Routing\HttpMethod;
+use Nazg\Foundation\Service;
+use Nazg\Routing\HttpMethod;
 
 return [
   Service::ROUTES => [

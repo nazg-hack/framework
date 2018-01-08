@@ -1,9 +1,4 @@
-# HHAdr
+# Nazg\Nazg
 
-ADR Sample Application for HHVM/Hack  
+Http Application / Microframework for HHVM/Hack  
 
-## Install
-
-```bash
-$ hhvm -c php7.ini $(which composer) install
-```

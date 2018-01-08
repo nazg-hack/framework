@@ -1,6 +1,6 @@
 <?hh //strict
 
-namespace Ytake\Adr\Routing;
+namespace Nazg\Routing;
 
 enum HttpMethod: string {
   HEAD = 'HEAD';

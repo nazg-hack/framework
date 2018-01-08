@@ -1,6 +1,6 @@
 <?hh // strict
 
-namespace Ytake\Adr\Routing;
+namespace Nazg\Routing;
 
 use Facebook\HackRouter\BaseRouter;
 use Facebook\HackRouter\HttpMethod as HackRouterHttpMethod;

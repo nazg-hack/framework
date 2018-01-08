@@ -1,10 +1,15 @@
 <?hh // strict
 
-namespace Ytake\Adr\Routing;
+namespace Nazg\Routing;
 
 use Ytake\HHContainer\ServiceModule;
 use Ytake\HHContainer\FactoryContainer;
-use Ytake\Adr\Foundation\Service;
+use Nazg\Foundation\Service;
+use Nazg\Routing\HttpMethod;
+use Nazg\Exceptions\NotFoundHttpException;
+use Facebook\HackRouter\BaseRouter;
+use Facebook\HackRouter\HttpMethod as HackRouterHttpMethod;
+use Interop\Http\Server\MiddlewareInterface;
 
 class RouteServiceModule extends ServiceModule
 {
@@ -12,10 +17,20 @@ class RouteServiceModule extends ServiceModule
   {
     $container->set(
       \Facebook\HackRouter\BaseRouter::class, 
-      $container ==> new \Ytake\Adr\Routing\Router(
-        $container->get(Service::CONFIG)|>$$[Service::ROUTES]
+      $container ==> new \Nazg\Routing\Router(
+        $this->resolveRoutes($container)
       ),
       \Ytake\HHContainer\Scope::SINGLETON
     );
+  }
+  
+  protected function resolveRoutes(FactoryContainer $container): ImmRouteMap {
+    $config = $container->get(Service::CONFIG);
+    if(is_array($config)) {
+      if(array_key_exists(Service::ROUTES, $config)) {
+        return $config[Service::ROUTES];
+      }
+    }
+    throw new NotFoundHttpException("No routes.");
   }
 }

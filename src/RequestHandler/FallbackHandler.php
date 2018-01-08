@@ -1,6 +1,6 @@
 <?hh
 
-namespace Ytake\Adr\RequestHandler;
+namespace Nazg\RequestHandler;
 
 use Interop\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ServerRequestInterface;
