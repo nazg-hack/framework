@@ -18,7 +18,7 @@
   ],
   "require": {
     "php": ">=7.0",
-    "hhvm": ">=3.20.0",
+    "hhvm": ">=3.22.0",
     "ext-asio": "*",
     "hhvm/hhvm-autoload": "^1.5",
     "hhvm/hsl": "^1.0.0",
