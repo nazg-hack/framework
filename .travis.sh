@@ -4,7 +4,6 @@ hhvm --version
 curl https://getcomposer.org/installer | hhvm -d hhvm.jit=0 --php -- /dev/stdin --install-dir=/usr/local/bin --filename=composer
 
 cd /var/source
-hhvm -c php7.ini /usr/local/bin/composer install
+hhvm -d hhvm.php7.all=1 -d hhvm.jit=0 -d hhvm.hack.lang.auto_typecheck=0 /usr/local/bin/composer install
 
-hh_server --check $(pwd)
-hhvm -c php7.ini vendor/bin/phpunit
+hhvm -d hhvm.php7.all=1 -d hhvm.jit=0 -d hhvm.hack.lang.auto_typecheck=0 vendor/bin/phpunit
