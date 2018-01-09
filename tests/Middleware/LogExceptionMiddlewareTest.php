@@ -42,7 +42,7 @@ class LogExceptionMiddlewareTest extends TEstCase {
     $container->register(OverrideLogServiceModule::class);
     $container->set(
       LogExceptionMiddleware::class,
-      $container ==> new LogExceptionMiddleware($container->get(LoggerInterface::class)),
+      $container ==> new LogExceptionMiddleware($this->resolveLogger($container)),
     );
     $container->set(
       FakeThrowExceptionMiddleware::class,
@@ -50,5 +50,13 @@ class LogExceptionMiddlewareTest extends TEstCase {
     );
     $container->lockModule();
     return $container;
+  }
+
+  private function resolveLogger(FactoryContainer $container): LoggerInterface {
+    $instance = $container->get(LoggerInterface::class);
+    if($instance instanceof LoggerInterface) {
+      return $instance;
+    }
+    return new \Monolog\Logger("Nazg.Log");
   }
 }
