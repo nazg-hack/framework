@@ -5,10 +5,12 @@ namespace Nazg\Log;
 use Ytake\HHContainer\ServiceModule;
 use Ytake\HHContainer\FactoryContainer;
 use Psr\Log\LoggerInterface;
+use Monolog\Logger;
 use Monolog\Monolog;
 use Monolog\Handler\StreamHandler;
 
 class LogServiceModule extends ServiceModule {
+
   public function provide(FactoryContainer $container): void
   {
     $container->set(
@@ -19,9 +21,8 @@ class LogServiceModule extends ServiceModule {
   }
 
   protected function defaultLogger(): LoggerInterface {
-    $monolog = new Monolog("application Log");
-    $handler = new StreamHandler('php://stdout',Logger::WARNING);
-    $monolog->pushHandler($handler);
+    $monolog = new Logger("Nazg.Log");
+    $monolog->pushHandler(new StreamHandler('php://stdout', Logger::WARNING));
     return $monolog;
   }
 }
