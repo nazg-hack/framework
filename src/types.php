@@ -1,6 +1,6 @@
-<?hh //strict
+<?hh // strict
 
-namespace Nazg\Routing;
+namespace Nazg\Http;
 
 enum HttpMethod: string {
   HEAD = 'HEAD';

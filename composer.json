@@ -40,7 +40,10 @@
   "autoload": {
     "psr-4": {
       "Nazg\\": "src/"
-    }
+    },
+    "files": [
+      "src/types.php"
+    ]
   },
   "autoload-dev": {
     "classmap": [

@@ -2,7 +2,7 @@
 
 namespace Nazg\Middleware;
 
-use Nazg\Routing\HttpMethod;
+use Nazg\Http\HttpMethod;
 use Psr\Log\LoggerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;

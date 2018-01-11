@@ -1,7 +1,7 @@
 <?hh 
 
 use Nazg\Foundation\Service;
-use Nazg\Routing\HttpMethod;
+use Nazg\Http\HttpMethod;
 
 return [
   Service::ROUTES => ImmMap {

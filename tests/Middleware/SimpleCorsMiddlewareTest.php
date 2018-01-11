@@ -1,6 +1,6 @@
 <?hh 
 
-use Nazg\Routing\HttpMethod;
+use Nazg\Http\HttpMethod;
 use Nazg\Middleware\SimpleCorsMiddleware;
 use Nazg\Middleware\AccessControl;
 use PHPUnit\Framework\TestCase;

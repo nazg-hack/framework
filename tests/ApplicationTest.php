@@ -27,15 +27,7 @@ class ApplicationTest extends TestCase {
       new ArrayProvider(['config_cache_enabled' => false])
     ]);
     $dependency = new \Nazg\Foundation\Dependency\Dependency();
-    $app = new class($dependency) extends Application{
-      protected function send(ResponseInterface $response): void {
-        $decode = json_decode($response->getBody()->getContents());
-        Assert::assertObjectHasAttribute('id', $decode);
-        Assert::assertObjectHasAttribute('message', $decode);
-        Assert::assertObjectHasAttribute('server', $decode);
-      }
-    };
-    
+    $app = new OverrideApplication($dependency);
     $app->setApplicationConfig($aggregator->getMergedConfig());
     $app->run(
       ServerRequestFactory::fromGlobals([
@@ -48,5 +40,14 @@ class ApplicationTest extends TestCase {
         'server' => 'hhvm',
       ])
     );
+  }
+}
+
+class OverrideApplication extends Application {
+  protected function send(ResponseInterface $response): void {
+    $decode = json_decode($response->getBody()->getContents());
+    Assert::assertObjectHasAttribute('id', $decode);
+    Assert::assertObjectHasAttribute('message', $decode);
+    Assert::assertObjectHasAttribute('server', $decode);
   }
 }

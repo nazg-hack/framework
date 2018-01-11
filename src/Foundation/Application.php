@@ -24,6 +24,8 @@ class Application {
   
   protected ImmVector<TMiddlewareClass> $im = ImmVector{};
 
+  protected ?RequestHandlerInterface $requestHandler;
+
   public function __construct(
     protected DependencyInterface $dependency
   ) {}
@@ -47,8 +49,27 @@ class Application {
     }
     $heredity = $this->middlewareProcessor($middleware, $container);
     $this->send(
-      $heredity->process($serverRequest, new FallbackHandler())
+      $heredity->process(
+        $this->marshalAttributes($serverRequest, $attributes), 
+        $this->requestHandler ?: new FallbackHandler()
+      )
     );
+  }
+
+  protected function marshalAttributes(
+    ServerRequestInterface $request, 
+    ImmMap<string, string> $attributes
+  ): ServerRequestInterface {
+    if ($attributes->count()) {
+      foreach($attributes as $key => $attribute) {
+        $request = $request->withAttribute($key, $attribute);
+      }
+    }
+    return $request;
+  }
+
+  public function setRequestHandler(RequestHandlerInterface $handler): void {
+    $this->requestHandler = $handler;
   }
 
   public function setApplicationConfig(array<mixed, mixed> $config): void {
