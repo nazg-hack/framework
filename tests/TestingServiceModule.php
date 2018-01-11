@@ -10,5 +10,9 @@ class TestingServiceModule extends ServiceModule {
       \IndexAction::class, 
       $container ==> new \IndexAction()
     );
+    $container->set(
+      \ParameterAction::class, 
+      $container ==> new \ParameterAction()
+    );
   }
 }
