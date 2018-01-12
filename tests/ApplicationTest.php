@@ -21,7 +21,7 @@ class ApplicationTest extends TestCase {
     $this->assertInstanceOf(Application::class, $app);
   }
   
-  public function testG(): void {
+  public function testShouldReturnQueryParam(): void {
     $aggregator = new ConfigAggreagator([
       new PhpFileProvider(__DIR__ . '/config/*.{hh,php}'),
       new ArrayProvider(['config_cache_enabled' => false])
@@ -38,6 +38,25 @@ class ApplicationTest extends TestCase {
       [
         'message' => 'testing',
         'server' => 'hhvm',
+      ])
+    );
+  }
+
+  public function testShouldBeValidationFaild():void {
+    $aggregator = new ConfigAggreagator([
+      new PhpFileProvider(__DIR__ . '/config/*.{hh,php}'),
+      new ArrayProvider(['config_cache_enabled' => false])
+    ]);
+    $app = new Application(new \Nazg\Foundation\Dependency\Dependency());
+    $app->setApplicationConfig($aggregator->getMergedConfig());
+    $app->run(
+      ServerRequestFactory::fromGlobals([
+        'REQUEST_URI' => '/validate/12',
+        'REQUEST_METHOD' => 'GET'
+      ],
+      [
+        'parameter1' => 'testing',
+        'parameter2' => 'hhvm',
       ])
     );
   }

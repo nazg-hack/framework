@@ -3,12 +3,12 @@
 namespace Nazg\Foundation;
 
 use Facebook\HackRouter\BaseRouter;
-use Ytake\Heredity\Heredity;
 use Ytake\Heredity\MiddlewareStack;
 use Ytake\Heredity\PsrContainerResolver;
+use Nazg\Http\HttpMethod;
 use Nazg\RequestHandler\FallbackHandler;
+use Nazg\Foundation\Middleware\Dispatcher;
 use Nazg\Foundation\Dependency\DependencyInterface;
-use Nazg\Routing\HttpMethod;
 use Interop\Http\Server\RequestHandlerInterface;
 use Interop\Http\Server\MiddlewareInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -49,9 +49,8 @@ class Application {
     }
     $heredity = $this->middlewareProcessor($middleware, $container);
     $this->send(
-      $heredity->process(
-        $this->marshalAttributes($serverRequest, $attributes), 
-        $this->requestHandler ?: new FallbackHandler()
+      $heredity->handle(
+        $this->marshalAttributes($serverRequest, $attributes)
       )
     );
   }
@@ -109,15 +108,18 @@ class Application {
   protected function middlewareProcessor(
     TMiddlewareClass $middleware,
     ContainerInterface $container
-  ): MiddlewareInterface {
+  ): RequestHandlerInterface {
     $appMiddleware = $this->im->concat($this->middleware())
     |>$$->concat(Set{$middleware})->toArray();
-    return new Heredity(
+    $dispatcher = new Dispatcher(
       new MiddlewareStack(
         $appMiddleware,
         new PsrContainerResolver($container)
       ),
-    );    
+      $this->requestHandler ?: new FallbackHandler()
+    );
+    $dispatcher->setContainer($container);
+    return $dispatcher;
   }
 
   protected function send(ResponseInterface $response): void {

@@ -7,9 +7,9 @@ use Ytake\HHContainer\ServiceModule;
 use Ytake\HHContainer\FactoryContainer;
 use Psr\Log\LoggerInterface;
 use Zend\Diactoros\ServerRequestFactory;
-use Ytake\Heredity\Heredity;
 use Ytake\Heredity\MiddlewareStack;
 use Ytake\Heredity\PsrContainerResolver;
+use Nazg\Foundation\Middleware\Dispatcher;
 
 class LogExceptionMiddlewareTest extends TEstCase {
   /**
@@ -17,15 +17,15 @@ class LogExceptionMiddlewareTest extends TEstCase {
    */
   public function testShouldThrowException(): void {
     $container = $this->getDependencyContainer();
-    $heredity = new Heredity(
+    $heredity = new Dispatcher(
       new MiddlewareStack(
         [LogExceptionMiddleware::class, FakeThrowExceptionMiddleware::class],
         new PsrContainerResolver($container),
       ),
-    );
-    $response = $heredity->process(
-      ServerRequestFactory::fromGlobals(),
       new StubRequestHandler(),
+    );
+    $response = $heredity->handle(
+      ServerRequestFactory::fromGlobals()
     );
   }
   

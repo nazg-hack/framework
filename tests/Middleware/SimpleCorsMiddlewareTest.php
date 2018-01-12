@@ -7,23 +7,23 @@ use PHPUnit\Framework\TestCase;
 use Ytake\HHContainer\ServiceModule;
 use Ytake\HHContainer\FactoryContainer;
 use Zend\Diactoros\ServerRequestFactory;
-use Ytake\Heredity\Heredity;
 use Ytake\Heredity\MiddlewareStack;
 use Ytake\Heredity\PsrContainerResolver;
+use Nazg\Foundation\Middleware\Dispatcher;
 
 class SimpleCorsMiddlewareTest extends TestCase {
   
   public function testShouldThrowException(): void {
     $container = $this->getDependencyContainer();
-    $heredity = new Heredity(
+    $heredity = new Dispatcher(
       new MiddlewareStack(
         [SimpleCorsMiddleware::class],
         new PsrContainerResolver($container),
       ),
+      new StubRequestHandler(), 
     );
-    $response = $heredity->process(
+    $response = $heredity->handle(
       ServerRequestFactory::fromGlobals(),
-      new StubRequestHandler(),
     );
     $headers = $response->getHeaders();
     $this->assertArrayHasKey(AccessControl::AllowHeaders, $headers);

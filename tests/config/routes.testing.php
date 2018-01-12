@@ -8,6 +8,7 @@ return [
     HttpMethod::GET => ImmMap {
       '/' => IndexAction::class,
       '/testing/{id}' => ParameterAction::class,
+      '/validate/{id}' => ValidateAction::class,
     },
   },
 ];

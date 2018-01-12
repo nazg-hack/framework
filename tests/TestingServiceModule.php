@@ -14,5 +14,13 @@ class TestingServiceModule extends ServiceModule {
       \ParameterAction::class, 
       $container ==> new \ParameterAction()
     );
+    $container->set(
+      \ValidateAction::class, 
+      $container ==> new \ValidateAction()
+    );
+    $container->set(
+      \ValidateActionValid::class, 
+      $container ==> new \ValidateActionValid()
+    );
   }
 }
