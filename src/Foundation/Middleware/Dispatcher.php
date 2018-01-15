@@ -5,7 +5,7 @@ namespace Nazg\Foundation\Middleware;
 use ReflectionMethod;
 use Ytake\Heredity\Heredity;
 use Nazg\Foundation\Validation\Attribute;
-use Nazg\Foundation\Validation\Validation;
+use Nazg\Foundation\Validation\Validator;
 use Nazg\Foundation\Validation\ValidatorFactory;
 use Interop\Http\Server\MiddlewareInterface;
 use Interop\Http\Server\RequestHandlerInterface;
@@ -27,11 +27,11 @@ class Dispatcher extends Heredity {
     MiddlewareInterface $middleware,
     ServerRequestInterface $request
   ): ResponseInterface {
-    $this->findAttributse($middleware, $request);
+    $this->validateInterceptor($middleware, $request);
     return $middleware->process($request, $this);
   }
 
-  protected function findAttributse(
+  protected function validateInterceptor(
     MiddlewareInterface $middleware, 
     ServerRequestInterface $request
   ): void {
@@ -39,10 +39,11 @@ class Dispatcher extends Heredity {
     $attribute = $rm->getAttribute(Attribute::Named);
     if (is_array($attribute)) {
       if(array_key_exists($this->validatorIndex, $attribute)) {
-        $v = new ValidatorFactory(
-          $this->container?->get((string)$attribute[$this->validatorIndex])
-        );
-        var_dump($v->validate());
+        $validator = $this->container?->get((string)$attribute[$this->validatorIndex]);
+        if($validator instanceof Validator) {
+          $factory = new ValidatorFactory($validator, $request);
+          $factory->validator()->validate();
+        }
       }
     }
   }

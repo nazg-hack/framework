@@ -42,6 +42,9 @@ class ApplicationTest extends TestCase {
     );
   }
 
+  /**
+   * @expectedException \Nazg\Foundation\Validation\ValidationException
+   */
   public function testShouldBeValidationFaild():void {
     $aggregator = new ConfigAggreagator([
       new PhpFileProvider(__DIR__ . '/config/*.{hh,php}'),

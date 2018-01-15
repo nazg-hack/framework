@@ -2,16 +2,18 @@
 
 namespace Nazg\Foundation\Validation;
 
+use Psr\Http\Message\ServerRequestInterface;
+
 class ValidatorFactory {
   
   public function __construct(
-    protected mixed $validatorName
+    protected Validator $validatorName,
+    protected ServerRequestInterface $request
   ) {}
 
-  public function validate(): bool {
-    if($this->validatorName instanceof Validation) {
-      return $this->validatorName->validate();
-    }
-    return true;
+  public function validator(): Validator {
+    $validator = $this->validatorName;
+    $validator->validateRequest($this->request);
+    return $validator;
   }
 }

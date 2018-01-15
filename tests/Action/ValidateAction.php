@@ -8,7 +8,8 @@ use Interop\Http\Server\RequestHandlerInterface;
 use Zend\Diactoros\Response\JsonResponse;
 
 final class ValidateAction implements MiddlewareInterface {
-  <<RequestValidation(\ValidateActionValid::class)>>
+
+  <<RequestValidation(\MockValidateActionFaild::class)>>
   public function process(
     ServerRequestInterface $request,
     RequestHandlerInterface $handler,
