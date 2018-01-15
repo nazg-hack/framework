@@ -1,12 +1,14 @@
 <?hh 
 
 use Nazg\Foundation\Service;
-use Nazg\Routing\HttpMethod;
+use Nazg\Http\HttpMethod;
 
 return [
-  Service::ROUTES => [
+  Service::ROUTES => ImmMap {
     HttpMethod::GET => ImmMap {
       '/' => IndexAction::class,
+      '/testing/{id}' => ParameterAction::class,
+      '/validate/{id}' => ValidateAction::class,
     },
-  ],
+  },
 ];

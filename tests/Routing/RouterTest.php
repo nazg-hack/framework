@@ -3,7 +3,7 @@
 use PHPUnit\Framework\TestCase;
 use Nazg\Routing\Router;
 use Nazg\Foundation\Service;
-use Nazg\Routing\HttpMethod;
+use Nazg\Http\HttpMethod;
 use Zend\Diactoros\ServerRequestFactory;
 
 class RouterTest extends TestCase {

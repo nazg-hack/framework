@@ -2,6 +2,7 @@
 
 namespace Nazg\Routing;
 
+use Nazg\Http\HttpMethod;
 use Facebook\HackRouter\BaseRouter;
 use Facebook\HackRouter\HttpMethod as HackRouterHttpMethod;
 use Interop\Http\Server\MiddlewareInterface;

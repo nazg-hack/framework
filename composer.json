@@ -22,6 +22,7 @@
     "ext-asio": "*",
     "hhvm/hhvm-autoload": "^1.5",
     "hhvm/hsl": "^1.0.0",
+    "hhvm/type-assert": "^3.2.0",
     "hack-psr/psr7-http-message-hhi": "^1.0.0",
     "ytake/hh-container": "^0.5",
     "ytake/hh-config-aggregator": "^0.1.1",
@@ -40,7 +41,10 @@
   "autoload": {
     "psr-4": {
       "Nazg\\": "src/"
-    }
+    },
+    "files": [
+      "src/types.php"
+    ]
   },
   "autoload-dev": {
     "classmap": [
