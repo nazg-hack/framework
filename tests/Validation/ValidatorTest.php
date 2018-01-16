@@ -73,7 +73,7 @@ class MockStructureValidateFalied extends Validator {
     if(!$this->skipValidateStructure) {
       TypeAssert\matches_type_structure(
         type_structure(self::class, 'TestRequest'),
-        $this->request->getQueryParams(),
+        $this->request?->getQueryParams(),
       );
     }
   }
@@ -89,10 +89,12 @@ class MockStructureValidateSuccess extends Validator {
   protected bool $shouldThrowException = false;
   protected bool $skipValidateStructure = false; 
   protected function assertValidateResult(): Vector<string> {
-    $params = $this->request->getQueryParams();
+    $params = $this->request?->getQueryParams();
     $v = Vector{};
-    if ($params['message'] !== 'testing') {
-      $v = $v->concat(['error!']);
+    if (is_array($params)) {
+      if ($params['message'] !== 'testing') {
+        $v = $v->concat(['error!']);
+      }
     }
     return $v;
   }
@@ -101,7 +103,7 @@ class MockStructureValidateSuccess extends Validator {
     if(!$this->skipValidateStructure) {
       TypeAssert\matches_type_structure(
         type_structure(self::class, 'TestRequest'),
-        $this->request->getQueryParams(),
+        $this->request?->getQueryParams(),
       );
     }
   }

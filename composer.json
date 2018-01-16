@@ -29,8 +29,6 @@
     "ytake/heredity": "^0.1.0",
     "facebook/hack-router": "^0.10",
     "zendframework/zend-diactoros": "^1.6.1",
-    "fguillot/json-rpc": "^1.2.4",
-    "cakephp/chronos": "^1.1.2",
     "monolog/monolog": "^1.23.0",
     "libreworks/psr3-log-hhi": "^1.0.1"
   },
