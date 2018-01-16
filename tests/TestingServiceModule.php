@@ -18,9 +18,5 @@ class TestingServiceModule extends ServiceModule {
       \ValidateAction::class, 
       $container ==> new \ValidateAction()
     );
-    $container->set(
-      \ValidateActionValid::class, 
-      $container ==> new \ValidateActionValid()
-    );
   }
 }

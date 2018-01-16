@@ -21,27 +21,6 @@ class ApplicationTest extends TestCase {
     $this->assertInstanceOf(Application::class, $app);
   }
   
-  public function testShouldReturnQueryParam(): void {
-    $aggregator = new ConfigAggreagator([
-      new PhpFileProvider(__DIR__ . '/config/*.{hh,php}'),
-      new ArrayProvider(['config_cache_enabled' => false])
-    ]);
-    $dependency = new \Nazg\Foundation\Dependency\Dependency();
-    $app = new OverrideApplication($dependency);
-    $app->setApplicationConfig($aggregator->getMergedConfig());
-    $app->run(
-      ServerRequestFactory::fromGlobals([
-        'REQUEST_URI' => '/testing/12?message=testing&server=hhvm',
-        'QUERY_STRING' => 'message=testing&server=hhvm',
-        'REQUEST_METHOD' => 'GET'
-      ],
-      [
-        'message' => 'testing',
-        'server' => 'hhvm',
-      ])
-    );
-  }
-
   /**
    * @expectedException \Nazg\Foundation\Validation\ValidationException
    */
@@ -62,14 +41,5 @@ class ApplicationTest extends TestCase {
         'parameter2' => 'hhvm',
       ])
     );
-  }
-}
-
-class OverrideApplication extends Application {
-  protected function send(ResponseInterface $response): void {
-    $decode = json_decode($response->getBody()->getContents());
-    Assert::assertObjectHasAttribute('id', $decode);
-    Assert::assertObjectHasAttribute('message', $decode);
-    Assert::assertObjectHasAttribute('server', $decode);
   }
 }
