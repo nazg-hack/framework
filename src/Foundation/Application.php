@@ -3,9 +3,9 @@
 namespace Nazg\Foundation;
 
 use Facebook\HackRouter\BaseRouter;
-use Ytake\Heredity\MiddlewareStack;
-use Ytake\Heredity\PsrContainerResolver;
 use Nazg\Http\HttpMethod;
+use Nazg\Heredity\MiddlewareStack;
+use Nazg\Heredity\PsrContainerResolver;
 use Nazg\RequestHandler\FallbackHandler;
 use Nazg\Foundation\Middleware\Dispatcher;
 use Nazg\Foundation\Dependency\DependencyInterface;
