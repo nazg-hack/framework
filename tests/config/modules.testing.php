@@ -3,7 +3,7 @@
 use Nazg\Foundation\Service;
 
 return [
-  Service::MODULES => [
-      \TestingServiceModule::class,
-  ],
+  Service::MODULES => ImmVector{
+    \TestingServiceModule::class,
+  },
 ];

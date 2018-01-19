@@ -7,7 +7,7 @@ use Facebook\HackRouter\BaseRouter;
 use Facebook\HackRouter\HttpMethod as HackRouterHttpMethod;
 use Interop\Http\Server\MiddlewareInterface;
 
-type TResponder = classname<MiddlewareInterface>;
+type TResponder = ImmVector<classname<MiddlewareInterface>>;
 type ImmRouteMap = ImmMap<HttpMethod, ImmMap<string, TResponder>>;
 
 final class Router extends BaseRouter<TResponder> {

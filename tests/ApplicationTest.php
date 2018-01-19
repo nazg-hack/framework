@@ -8,6 +8,7 @@ use Ytake\HHConfigAggreagator\ConfigAggreagator;
 use Ytake\HHConfigAggreagator\PhpFileProvider;
 use Zend\Diactoros\ServerRequestFactory;
 use Psr\Http\Message\ResponseInterface;
+use function Facebook\FBExpect\expect;
 
 class ApplicationTest extends TestCase {
   
@@ -18,7 +19,7 @@ class ApplicationTest extends TestCase {
     ]);
     $app = new Application(new \Nazg\Foundation\Dependency\Dependency());
     $app->setApplicationConfig($aggregator->getMergedConfig());
-    $this->assertInstanceOf(Application::class, $app);
+    expect($app)->toBeInstanceOf(Application::class);
   }
   
   /**
@@ -41,5 +42,40 @@ class ApplicationTest extends TestCase {
         'parameter2' => 'hhvm',
       ])
     );
+  }
+
+  public function testShouldBeOverrideResponse():void {
+    $aggregator = new ConfigAggreagator([
+      new PhpFileProvider(__DIR__ . '/config/*.{hh,php}'),
+      new ArrayProvider(['config_cache_enabled' => false])
+    ]);
+    $app = new OverrideApplication(new \Nazg\Foundation\Dependency\Dependency());
+    $app->setApplicationConfig($aggregator->getMergedConfig());
+    $app->run(
+      ServerRequestFactory::fromGlobals([
+        'REQUEST_URI' => '/testing/12',
+        'REQUEST_METHOD' => 'GET'
+      ],
+      [
+        'parameter1' => 'testing',
+        'parameter2' => 'hhvm',
+      ])
+    );
+    $stream = $app->getResponse()?->getBody();
+    if($stream instanceof \Psr\Http\Message\StreamInterface) {
+      $expect = '{"id":"changed_value","parameter1":"testing","parameter2":"hhvm"}';
+      expect($stream->getContents())->toBeSame($expect);
+    }
+  }
+}
+
+final class OverrideApplication extends Application {
+  private ?ResponseInterface $response;
+  <<__Override>>
+  protected function send(ResponseInterface $response): void {
+    $this->response = $response;
+  }
+  public function getResponse(): ?ResponseInterface {
+    return $this->response;
   }
 }

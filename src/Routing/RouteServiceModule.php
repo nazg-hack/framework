@@ -11,8 +11,8 @@ use Facebook\HackRouter\BaseRouter;
 use Facebook\HackRouter\HttpMethod as HackRouterHttpMethod;
 use Interop\Http\Server\MiddlewareInterface;
 
-class RouteServiceModule extends ServiceModule
-{
+class RouteServiceModule extends ServiceModule {
+  <<__Override>>
   public function provide(FactoryContainer $container): void
   {
     $container->set(

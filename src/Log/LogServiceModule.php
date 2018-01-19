@@ -10,7 +10,7 @@ use Monolog\Monolog;
 use Monolog\Handler\StreamHandler;
 
 class LogServiceModule extends ServiceModule {
-
+  <<__Override>>
   public function provide(FactoryContainer $container): void
   {
     $container->set(

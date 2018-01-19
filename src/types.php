@@ -1,12 +1,6 @@
-<?hh // strict
+<?hh
 
-namespace Nazg\Http;
+namespace Nazg\Types;
 
-enum HttpMethod: string {
-  HEAD = 'HEAD';
-  GET = 'GET';
-  POST = 'POST'; 
-  PATCH = 'PATCH';
-  PUT = 'PUT';
-  DELETE = 'DELETE';
-}
+type TMiddlewareClass = classname<\Interop\Http\Server\MiddlewareInterface>;
+type TServiceModule = classname<\Ytake\HHContainer\ServiceModule>;
