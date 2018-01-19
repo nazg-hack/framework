@@ -7,8 +7,8 @@ use Ytake\HHContainer\ServiceModule;
 use Ytake\HHContainer\FactoryContainer;
 use Psr\Log\LoggerInterface;
 use Zend\Diactoros\ServerRequestFactory;
-use Ytake\Heredity\MiddlewareStack;
-use Ytake\Heredity\PsrContainerResolver;
+use Nazg\Heredity\MiddlewareStack;
+use Nazg\Heredity\PsrContainerResolver;
 use Nazg\Foundation\Middleware\Dispatcher;
 
 class LogExceptionMiddlewareTest extends TEstCase {
