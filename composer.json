@@ -18,7 +18,7 @@
   ],
   "require": {
     "php": ">=7.0",
-    "hhvm": ">=3.22.0",
+    "hhvm": ">=3.24.0",
     "ext-asio": "*",
     "hhvm/hhvm-autoload": "^1.5",
     "hhvm/hsl": "^1.0.0",
@@ -26,7 +26,7 @@
     "hack-psr/psr7-http-message-hhi": "^1.0.0",
     "ytake/hh-container": "^0.5",
     "ytake/hh-config-aggregator": "^0.1.1",
-    "ytake/heredity": "^0.1.0",
+    "nazg/heredity": "^0.2.0",
     "facebook/hack-router": "^0.11",
     "zendframework/zend-diactoros": "^1.6.1",
     "monolog/monolog": "^1.23.0",

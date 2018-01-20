@@ -3,7 +3,7 @@
 namespace Nazg\Foundation\Middleware;
 
 use ReflectionMethod;
-use Ytake\Heredity\Heredity;
+use Nazg\Heredity\Heredity;
 use Nazg\Foundation\Validation\Attribute;
 use Nazg\Foundation\Validation\Validator;
 use Nazg\Foundation\Validation\ValidatorFactory;

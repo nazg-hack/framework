@@ -1,14 +1,29 @@
 <?hh // strict
 
+/**
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ *
+ * This software consists of voluntary contributions made by many individuals
+ * and is licensed under the MIT license.
+ *
+ * Copyright (c) 2017-2018 Yuuki Takezawa
+ *
+ */
 namespace Nazg\Foundation;
 
 use Facebook\HackRouter\BaseRouter;
-use Ytake\Heredity\MiddlewareStack;
-use Ytake\Heredity\PsrContainerResolver;
 use Nazg\Http\HttpMethod;
+use Nazg\Heredity\{ MiddlewareStack, PsrContainerResolver };
 use Nazg\Response\Emitter;
 use Nazg\RequestHandler\FallbackHandler;
 use Nazg\Foundation\Middleware\Dispatcher;
+use Nazg\Foundation\Bootstrap\BootstrapRegister;
 use Nazg\Foundation\Dependency\DependencyInterface;
 use Interop\Http\Server\RequestHandlerInterface;
 use Interop\Http\Server\MiddlewareInterface;
@@ -22,6 +37,8 @@ class Application {
 
   protected ?RequestHandlerInterface $requestHandler;
 
+  protected ?BootstrapRegister $bootstrapRegister;
+
   public function __construct(
     protected DependencyInterface $dependency
   ) {}
@@ -30,6 +47,8 @@ class Application {
     ServerRequestInterface $serverRequest
   ): void {
     $container = $this->getContainer();
+    // register bootstrap for framework application 
+    $this->bootstrap($container);
     $router = $container->get(BaseRouter::class);
     invariant(
       $router instanceof BaseRouter, 
@@ -61,6 +80,15 @@ class Application {
       }
     }
     return $request;
+  }
+  
+  private function bootstrap(ContainerInterface $container): void {
+    $bootstrap = $this->bootstrapRegister ?: new BootstrapRegister($container);
+    $bootstrap->register();
+  }
+
+  public function setBootstrap(BootstrapRegister $br): void {
+    $this->bootstrapRegister = $br; 
   }
 
   public function setRequestHandler(RequestHandlerInterface $handler): void {
