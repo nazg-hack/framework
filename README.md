@@ -1,6 +1,6 @@
 # Nazg Micro Fremawork Core Repository
 
-[![Build Status](https://travis-ci.org/ytake/nazg-framework.svg?branch=feature%2Fseparate-module)](https://travis-ci.org/ytake/nazg-framework)
+[![Build Status](https://travis-ci.org/nazg-hack/framework.svg?branch=master)](https://travis-ci.org/nazg-hack/framework)
 
 Http Application / Microframework for HHVM/Hack  
 
