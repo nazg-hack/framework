@@ -24,7 +24,7 @@ type Bootstrap = classname<BootstrapRegisterInterface>;
 class BootstrapRegister implements BootstrapRegisterInterface {
   
   protected ImmVector<Bootstrap> $ibr = ImmVector{
-    \Nazg\Foundation\Exceptions\ExceptionRegister::class,
+    \Nazg\Foundation\Exception\ExceptionRegister::class,
   };
   
   public function __construct(
