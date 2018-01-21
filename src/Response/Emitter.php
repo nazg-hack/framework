@@ -1,4 +1,4 @@
-<?hh
+<?hh 
 
 /**
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -15,15 +15,19 @@
  * Copyright (c) 2017-2018 Yuuki Takezawa
  *
  */
-namespace Nazg\RequestHandler;
+namespace Nazg\Response;
 
-use Interop\Http\Server\RequestHandlerInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Zend\Diactoros\Response\JsonResponse;
+use Zend\Diactoros\Response\SapiEmitter;
+use Zend\Diactoros\Response\EmitterInterface;
 
-class FallbackHandler implements RequestHandlerInterface {
-  public function handle(ServerRequestInterface $request): ResponseInterface {
-    return new JsonResponse([]);
+class Emitter {
+
+  public function emit(ResponseInterface $response): void {
+    $this->emitter()->emit($response);
   }
+
+  public function emitter(): EmitterInterface {
+    return new SapiEmitter();
+  }  
 }

@@ -6,9 +6,12 @@ use Nazg\Http\HttpMethod;
 return [
   Service::ROUTES => ImmMap {
     HttpMethod::GET => ImmMap {
-      '/' => IndexAction::class,
-      '/testing/{id}' => ParameterAction::class,
-      '/validate/{id}' => ValidateAction::class,
+      '/' => ImmVector {IndexAction::class},
+      '/testing/{id}' => ImmVector {
+        FakeAttributeMiddleware::class,
+        ParameterAction::class,
+      },
+      '/validate/{id}' => ImmVector {ValidateAction::class},
     },
   },
 ];

@@ -1,30 +1,43 @@
-<?hh
+<?hh // strict
 
+/**
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ *
+ * This software consists of voluntary contributions made by many individuals
+ * and is licensed under the MIT license.
+ *
+ * Copyright (c) 2017-2018 Yuuki Takezawa
+ *
+ */
 namespace Nazg\Foundation;
 
 use Facebook\HackRouter\BaseRouter;
 use Nazg\Http\HttpMethod;
-use Nazg\Heredity\MiddlewareStack;
-use Nazg\Heredity\PsrContainerResolver;
+use Nazg\Heredity\{ MiddlewareStack, PsrContainerResolver };
+use Nazg\Response\Emitter;
 use Nazg\RequestHandler\FallbackHandler;
 use Nazg\Foundation\Middleware\Dispatcher;
+use Nazg\Foundation\Bootstrap\BootstrapRegister;
 use Nazg\Foundation\Dependency\DependencyInterface;
 use Interop\Http\Server\RequestHandlerInterface;
 use Interop\Http\Server\MiddlewareInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Container\ContainerInterface;
-use Zend\Diactoros\Response\SapiEmitter;
-use Zend\Diactoros\Response\EmitterInterface;
-
-type TMiddlewareClass = classname<MiddlewareInterface>;
-type TServiceModule = classname<\Ytake\HHContainer\ServiceModule>;
 
 class Application {
   
-  protected ImmVector<TMiddlewareClass> $im = ImmVector{};
+  protected ImmVector<\Nazg\Types\TMiddlewareClass> $im = ImmVector{};
 
   protected ?RequestHandlerInterface $requestHandler;
+
+  protected ?BootstrapRegister $bootstrapRegister;
 
   public function __construct(
     protected DependencyInterface $dependency
@@ -34,6 +47,8 @@ class Application {
     ServerRequestInterface $serverRequest
   ): void {
     $container = $this->getContainer();
+    // register bootstrap for framework application 
+    $this->bootstrap($container);
     $router = $container->get(BaseRouter::class);
     invariant(
       $router instanceof BaseRouter, 
@@ -66,6 +81,15 @@ class Application {
     }
     return $request;
   }
+  
+  private function bootstrap(ContainerInterface $container): void {
+    $bootstrap = $this->bootstrapRegister ?: new BootstrapRegister($container);
+    $bootstrap->register();
+  }
+
+  public function setBootstrap(BootstrapRegister $br): void {
+    $this->bootstrapRegister = $br; 
+  }
 
   public function setRequestHandler(RequestHandlerInterface $handler): void {
     $this->requestHandler = $handler;
@@ -82,8 +106,19 @@ class Application {
   public function getContainer(): ContainerInterface {
     return $this->dependency->getContainer();
   }
-
-  protected function middleware(): ImmVector<TMiddlewareClass> {
+  
+  /**
+   * Middleware always executed by the application
+   * must override application class
+   *
+   * <code>
+   * <<__Override>> 
+   * protected function middleware(): ImmVector<\Nazg\Types\TMiddlewareClass> {
+   *   return ImmVector{};
+   * }
+   * </code>
+   */
+  protected function middleware(): ImmVector<\Nazg\Types\TMiddlewareClass> {
     return ImmVector{};
   }
 
@@ -91,7 +126,10 @@ class Application {
     if(is_array($config)) {
       if(array_key_exists(Service::MODULES, $config)) {
         if($this->dependency instanceof \Nazg\Foundation\Dependency\Dependency) {
-          $this->dependency->appendModules(new Vector($config[Service::MODULES]));
+          $vModule = $config[Service::MODULES];
+          if ($vModule instanceof ImmVector) {
+            $this->dependency->appendModules($vModule->toVector());
+          }
         }
       }
     }
@@ -100,17 +138,19 @@ class Application {
   private function registerMiddlewares(mixed $config): void {
     if(is_array($config)) {
       if(array_key_exists(Service::MIDDLEWARES, $config)) {
-        $this->im = new ImmVector($config[Service::MIDDLEWARES]);
+        if ($config[Service::MIDDLEWARES] instanceof ImmVector) {
+          $this->im = $config[Service::MIDDLEWARES];
+        }
       }
     }
   }
 
   protected function middlewareProcessor(
-    TMiddlewareClass $middleware,
+    ImmVector<\Nazg\Types\TMiddlewareClass> $middleware,
     ContainerInterface $container
   ): RequestHandlerInterface {
     $appMiddleware = $this->im->concat($this->middleware())
-    |>$$->concat(Set{$middleware})->toArray();
+    |>$$->concat($middleware)->toArray();
     $dispatcher = new Dispatcher(
       new MiddlewareStack(
         $appMiddleware,
@@ -121,12 +161,8 @@ class Application {
     $dispatcher->setContainer($container);
     return $dispatcher;
   }
-
+    
   protected function send(ResponseInterface $response): void {
-    $this->emitter()->emit($response);
-  }
-
-  protected function emitter(): EmitterInterface {
-    return new SapiEmitter();
+    (new Emitter())->emit($response);
   }
 }

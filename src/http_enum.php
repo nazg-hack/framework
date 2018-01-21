@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 
 /**
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -15,15 +15,17 @@
  * Copyright (c) 2017-2018 Yuuki Takezawa
  *
  */
-namespace Nazg\RequestHandler;
+namespace Nazg\Http;
 
-use Interop\Http\Server\RequestHandlerInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\ResponseInterface;
-use Zend\Diactoros\Response\JsonResponse;
+enum HttpMethod: string {
+  HEAD = 'HEAD';
+  GET = 'GET';
+  POST = 'POST'; 
+  PATCH = 'PATCH';
+  PUT = 'PUT';
+  DELETE = 'DELETE';
+}
 
-class FallbackHandler implements RequestHandlerInterface {
-  public function handle(ServerRequestInterface $request): ResponseInterface {
-    return new JsonResponse([]);
-  }
+enum StatusCode: int {
+  StatusInternalServerError = 500;
 }

@@ -18,5 +18,9 @@ class TestingServiceModule extends ServiceModule {
       \ValidateAction::class, 
       $container ==> new \ValidateAction()
     );
+    $container->set(
+      \FakeAttributeMiddleware::class, 
+      $container ==> new \FakeAttributeMiddleware()
+    );
   }
 }

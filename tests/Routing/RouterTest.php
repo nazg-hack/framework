@@ -11,7 +11,9 @@ class RouterTest extends TestCase {
   public function testShouldBeMatchRoute(): void {
     $router = new Router(ImmMap{
       HttpMethod::GET => ImmMap {
-        '/' => IndexAction::class,
+        '/' => ImmVector{
+          IndexAction::class
+        },
       },
     });
     $match = $router->routePsr7Request(
@@ -21,7 +23,7 @@ class RouterTest extends TestCase {
       ])
     );
     $this->assertInternalType('array', $match);
-    $this->assertSame(\IndexAction::class, $match[0]);
+    $this->assertContains(\IndexAction::class, $match[0]);
   }
 
   /**
@@ -30,7 +32,7 @@ class RouterTest extends TestCase {
   public function testShouldNotBeMatchRoute(): void {
     $router = new Router(ImmMap{
       HttpMethod::GET => ImmMap {
-        '/' => IndexAction::class,
+        '/' => ImmVector{IndexAction::class},
       },
     });
     $match = $router->routePsr7Request(

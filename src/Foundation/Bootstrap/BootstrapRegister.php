@@ -15,15 +15,30 @@
  * Copyright (c) 2017-2018 Yuuki Takezawa
  *
  */
-namespace Nazg\Foundation\Dependency;
+namespace Nazg\Foundation\Bootstrap;
 
 use Psr\Container\ContainerInterface;
 
-interface DependencyInterface {  
+type Bootstrap = classname<BootstrapRegisterInterface>;
 
-  public function registerConfig(array<mixed, mixed> $config): void;
+class BootstrapRegister implements BootstrapRegisterInterface {
+  
+  protected ImmVector<Bootstrap> $ibr = ImmVector{
+    \Nazg\Foundation\Exception\ExceptionRegister::class,
+  };
+  
+  public function __construct(
+    protected ContainerInterface $container
+  ) {}
 
-  public function register(): void;
-
-  public function getContainer(): ContainerInterface;
+  public function register(): void {
+    foreach($this->ibr->getIterator() as $i) {
+      if($this->container->has($i)) {
+        $instance = $this->container->get($i);
+        if ($instance instanceof BootstrapRegisterInterface) {
+          $instance->register();
+        }
+      }
+    }
+  }
 }

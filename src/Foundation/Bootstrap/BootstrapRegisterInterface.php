@@ -1,4 +1,4 @@
-<?hh
+<?hh // strict
 
 /**
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -15,15 +15,11 @@
  * Copyright (c) 2017-2018 Yuuki Takezawa
  *
  */
-namespace Nazg\RequestHandler;
+namespace Nazg\Foundation\Bootstrap;
 
-use Interop\Http\Server\RequestHandlerInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\ResponseInterface;
-use Zend\Diactoros\Response\JsonResponse;
+use Nazg\Exceptions\ExceptionHandleInterface;
 
-class FallbackHandler implements RequestHandlerInterface {
-  public function handle(ServerRequestInterface $request): ResponseInterface {
-    return new JsonResponse([]);
-  }
+interface BootstrapRegisterInterface {
+
+  public function register(): void;
 }

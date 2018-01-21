@@ -8,13 +8,11 @@ use Nazg\Foundation\Service;
 use Nazg\Foundation\Dependency\DependencyInterface;
 use Nazg\Routing\RouteServiceModule;
 
-type TServiceModule = classname<\Ytake\HHContainer\ServiceModule>;
-
 class Dependency implements DependencyInterface {
   
   protected FactoryContainer $container;
   
-  protected Vector<TServiceModule> $modules = Vector{
+  protected Vector<\Nazg\Types\TServiceModule> $modules = Vector{
     RouteServiceModule::class,
   };
 
@@ -41,7 +39,7 @@ class Dependency implements DependencyInterface {
     $this->registerServiceModule();
   }
 
-  public function appendModules(Vector<TServiceModule> $modules): void {
+  public function appendModules(Vector<\Nazg\Types\TServiceModule> $modules): void {
     $this->modules->addAll($modules);
   }
 
