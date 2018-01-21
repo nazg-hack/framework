@@ -22,18 +22,15 @@ use Psr\Container\ContainerInterface;
 type Bootstrap = classname<BootstrapRegisterInterface>;
 
 class BootstrapRegister implements BootstrapRegisterInterface {
-  
-  protected ImmVector<Bootstrap> $ibr = ImmVector{
-    \Nazg\Foundation\Exception\ExceptionRegister::class,
-  };
-  
-  public function __construct(
-    protected ContainerInterface $container
-  ) {}
+
+  protected ImmVector<Bootstrap>
+    $ibr = ImmVector {\Nazg\Foundation\Exception\ExceptionRegister::class};
+
+  public function __construct(protected ContainerInterface $container) {}
 
   public function register(): void {
-    foreach($this->ibr->getIterator() as $i) {
-      if($this->container->has($i)) {
+    foreach ($this->ibr->getIterator() as $i) {
+      if ($this->container->has($i)) {
         $instance = $this->container->get($i);
         if ($instance instanceof BootstrapRegisterInterface) {
           $instance->register();

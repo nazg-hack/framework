@@ -20,10 +20,10 @@ namespace Nazg\Foundation\Validation;
 use Psr\Http\Message\ServerRequestInterface;
 
 class ValidatorFactory {
-  
+
   public function __construct(
     protected Validator $validatorName,
-    protected ServerRequestInterface $request
+    protected ServerRequestInterface $request,
   ) {}
 
   public function validator(): Validator {

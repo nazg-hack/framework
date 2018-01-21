@@ -22,9 +22,7 @@ use Nazg\Foundation\Bootstrap\BootstrapRegisterInterface;
 
 class ExceptionRegister implements BootstrapRegisterInterface {
 
-  public function __construct(
-    protected ExceptionHandleInterface $handler
-  ) {}
+  public function __construct(protected ExceptionHandleInterface $handler) {}
 
   public function register(): void {
     set_exception_handler([$this->handler, 'handleException']);

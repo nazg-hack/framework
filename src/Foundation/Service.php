@@ -1,4 +1,4 @@
-<?hh // strict 
+<?hh // strict
 
 /**
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -17,7 +17,7 @@
  */
 namespace Nazg\Foundation;
 
-enum Service: string as string {
+enum Service : string as string {
   CONFIG = 'app.config';
   MODULES = 'module';
   ROUTES = 'route';

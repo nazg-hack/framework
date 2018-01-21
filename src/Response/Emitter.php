@@ -1,4 +1,4 @@
-<?hh 
+<?hh
 
 /**
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -29,5 +29,5 @@ class Emitter {
 
   public function emitter(): EmitterInterface {
     return new SapiEmitter();
-  }  
+  }
 }

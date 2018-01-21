@@ -28,21 +28,20 @@ use Interop\Http\Server\MiddlewareInterface;
 
 class RouteServiceModule extends ServiceModule {
   <<__Override>>
-  public function provide(FactoryContainer $container): void
-  {
+  public function provide(FactoryContainer $container): void {
     $container->set(
-      \Facebook\HackRouter\BaseRouter::class, 
+      \Facebook\HackRouter\BaseRouter::class,
       $container ==> new \Nazg\Routing\Router(
-        $this->resolveRoutes($container)
+        $this->resolveRoutes($container),
       ),
-      \Ytake\HHContainer\Scope::SINGLETON
+      \Ytake\HHContainer\Scope::SINGLETON,
     );
   }
-  
+
   protected function resolveRoutes(FactoryContainer $container): ImmRouteMap {
     $config = $container->get(Service::CONFIG);
-    if(is_array($config)) {
-      if(array_key_exists(Service::ROUTES, $config)) {
+    if (is_array($config)) {
+      if (array_key_exists(Service::ROUTES, $config)) {
         return $config[Service::ROUTES];
       }
     }

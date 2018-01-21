@@ -33,12 +33,15 @@ class LogExceptionMiddleware implements MiddlewareInterface {
   ): ResponseInterface {
     try {
       return $handler->handle($request);
-    } catch(\Exception $e) {
-      $this->log->warning($e->getMessage(), [
-        'file' => $e->getFile(),
-        'line' => $e->getLine(),
-        'trace' => $e->getTraceAsString()
-      ]);
+    } catch (\Exception $e) {
+      $this->log->warning(
+        $e->getMessage(),
+        [
+          'file' => $e->getFile(),
+          'line' => $e->getLine(),
+          'trace' => $e->getTraceAsString(),
+        ],
+      );
       throw $e;
     }
   }

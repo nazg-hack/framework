@@ -20,7 +20,7 @@ namespace Nazg\Foundation\Validation;
 use Psr\Http\Message\ServerRequestInterface;
 use Facebook\TypeAssert;
 
-enum Attribute: string as string {
+enum Attribute : string as string {
   Named = 'RequestValidation';
 }
 
@@ -28,15 +28,15 @@ enum Attribute: string as string {
 abstract class Validator {
 
   protected ?ServerRequestInterface $request;
-  
-  protected Vector<string> $messages = Vector{};
 
-  protected Vector<string> $validateMethods = Vector{};
+  protected Vector<string> $messages = Vector {};
+
+  protected Vector<string> $validateMethods = Vector {};
 
   protected bool $shouldThrowException = false;
 
-  // disabled type assert for request parameters 
-  protected bool $skipValidateStructure = true; 
+  // disabled type assert for request parameters
+  protected bool $skipValidateStructure = true;
 
   public function validateRequest(ServerRequestInterface $request): void {
     $this->request = $request;
@@ -44,9 +44,9 @@ abstract class Validator {
 
   public function validate(): bool {
     if (!is_null($this->request)) {
-      $this->assertStructure(); 
+      $this->assertStructure();
     }
-    if($this->errors()->count()) {
+    if ($this->errors()->count()) {
       if ($this->shouldThrowException) {
         throw new ValidationException($this);
       }
@@ -54,14 +54,14 @@ abstract class Validator {
     }
     return true;
   }
-  
+
   <<__Memoize>>
   public function errors(): ImmVector<string> {
     return $this->assertValidateResult()->immutable();
   }
 
   protected function assertStructure(): void {
-    if(!$this->skipValidateStructure) {
+    if (!$this->skipValidateStructure) {
       // here
     }
   }

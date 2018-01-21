@@ -17,15 +17,15 @@
  */
 namespace Nazg\Http;
 
-enum HttpMethod: string {
+enum HttpMethod : string {
   HEAD = 'HEAD';
   GET = 'GET';
-  POST = 'POST'; 
+  POST = 'POST';
   PATCH = 'PATCH';
   PUT = 'PUT';
   DELETE = 'DELETE';
 }
 
-enum StatusCode: int {
+enum StatusCode : int {
   StatusInternalServerError = 500;
 }

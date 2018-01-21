@@ -9,7 +9,7 @@
     "psr-11",
     "psr-15"
   ],
-  "license": "BSD-3-Clause",
+  "license": "MIT",
   "authors": [
     {
       "name": "Yuuki Takezawa",

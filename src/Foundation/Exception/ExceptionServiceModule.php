@@ -24,26 +24,24 @@ use Nazg\Exceptions\ExceptionHandleInterface;
 
 class ExceptionServiceModule extends ServiceModule {
   <<__Override>>
-  public function provide(
-    FactoryContainer $container
-  ): void {
+  public function provide(FactoryContainer $container): void {
     $container->set(
-      ExceptionHandleInterface::class, 
+      ExceptionHandleInterface::class,
       $container ==> new ExceptionHandler(new Emitter()),
     );
     $container->set(
-      ExceptionRegister::class, 
+      ExceptionRegister::class,
       $container ==> new ExceptionRegister(
-        $this->invariantExceptionHandler($container)
+        $this->invariantExceptionHandler($container),
       ),
     );
   }
 
   private function invariantExceptionHandler(
-    FactoryContainer $container
+    FactoryContainer $container,
   ): ExceptionHandleInterface {
     $instance = $container->get(ExceptionHandleInterface::class);
-    if($instance instanceof ExceptionHandleInterface) {
+    if ($instance instanceof ExceptionHandleInterface) {
       return $instance;
     }
     throw new \LogicException();

@@ -1,4 +1,4 @@
-<?hh 
+<?hh
 
 /**
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -26,12 +26,11 @@ use Monolog\Handler\StreamHandler;
 
 class LogServiceModule extends ServiceModule {
   <<__Override>>
-  public function provide(FactoryContainer $container): void
-  {
+  public function provide(FactoryContainer $container): void {
     $container->set(
       LoggerInterface::class,
       $container ==> $this->defaultLogger(),
-      \Ytake\HHContainer\Scope::SINGLETON
+      \Ytake\HHContainer\Scope::SINGLETON,
     );
   }
 

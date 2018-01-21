@@ -1,4 +1,4 @@
-<?hh 
+<?hh
 
 /**
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -26,18 +26,18 @@ use Zend\Diactoros\Response\JsonResponse;
 type ExceptionMap = ImmMap<string, mixed>;
 
 class ExceptionHandler implements ExceptionHandleInterface {
-  
+
   public function __construct(protected Emitter $emitter) {}
-  
+
   /**
    * @see https://github.com/zendframework/zend-diactoros/blob/master/doc/book/custom-responses.md
    */
   public function render(ExceptionMap $em, \Exception $e): void {
     $this->emitter->emit(
       new JsonResponse(
-        $em->toArray(), 
-        StatusCode::StatusInternalServerError
-      )
+        $em->toArray(),
+        StatusCode::StatusInternalServerError,
+      ),
     );
   }
 
@@ -46,15 +46,17 @@ class ExceptionHandler implements ExceptionHandleInterface {
   }
 
   protected function toImmMap(\Exception $e): ExceptionMap {
-    return new ImmMap([
-      'message' => $e->getMessage(),
-      'exception' => get_class($e),
-      'file' => $e->getFile(),
-      'line' => $e->getLine(),
-      'trace' => map(
-        $e->getTrace(), 
-        $v ==> (new Map($v))|>$$->removeKey('args')|>$$->toArray()
-      ),
-    ]);
+    return new ImmMap(
+      [
+        'message' => $e->getMessage(),
+        'exception' => get_class($e),
+        'file' => $e->getFile(),
+        'line' => $e->getLine(),
+        'trace' => map(
+          $e->getTrace(),
+          $v ==> (new Map($v)) |> $$->removeKey('args') |> $$->toArray(),
+        ),
+      ],
+    );
   }
 }

@@ -19,7 +19,7 @@ namespace Nazg\Foundation\Dependency;
 
 use Psr\Container\ContainerInterface;
 
-interface DependencyInterface {  
+interface DependencyInterface {
 
   public function registerConfig(array<mixed, mixed> $config): void;
 
