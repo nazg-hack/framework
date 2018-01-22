@@ -1,5 +1,7 @@
 <?hh 
 
+namespace NazgTest\Middleware;
+
 use Nazg\Log\LogServiceModule;
 use Nazg\Middleware\LogExceptionMiddleware;
 use PHPUnit\Framework\TestCase;
@@ -10,6 +12,7 @@ use Zend\Diactoros\ServerRequestFactory;
 use Nazg\Heredity\MiddlewareStack;
 use Nazg\Heredity\PsrContainerResolver;
 use Nazg\Foundation\Middleware\Dispatcher;
+use NazgTest\StubRequestHandler;
 
 class LogExceptionMiddlewareTest extends TEstCase {
   /**

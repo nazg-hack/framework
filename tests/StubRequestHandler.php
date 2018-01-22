@@ -1,5 +1,7 @@
 <?hh
 
+namespace NazgTest;
+
 use Interop\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;

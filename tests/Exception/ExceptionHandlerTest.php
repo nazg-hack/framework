@@ -1,5 +1,7 @@
 <?hh // strict
 
+namespace NazgTest\Exception;
+
 use PHPUnit\Framework\TestCase;
 use Ytake\HHContainer\ServiceModule;
 use Ytake\HHContainer\FactoryContainer;

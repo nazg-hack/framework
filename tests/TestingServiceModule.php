@@ -1,26 +1,31 @@
 <?hh // strict
 
+namespace NazgTest;
+
 use Ytake\HHContainer\FactoryContainer;
 use Ytake\HHContainer\ServiceModule;
 
 class TestingServiceModule extends ServiceModule {
   public function provide(FactoryContainer $container): void {
-    $container->set(stdClass::class, $container ==> new stdClass());
     $container->set(
-      \IndexAction::class, 
-      $container ==> new \IndexAction()
+      \NazgTest\Action\IndexAction::class, 
+      $container ==> new \NazgTest\Action\IndexAction()
     );
     $container->set(
-      \ParameterAction::class, 
-      $container ==> new \ParameterAction()
+      \NazgTest\Action\ParameterAction::class, 
+      $container ==> new \NazgTest\Action\ParameterAction()
     );
     $container->set(
-      \ValidateAction::class, 
-      $container ==> new \ValidateAction()
+      \NazgTest\Action\ValidateAction::class, 
+      $container ==> new \NazgTest\Action\ValidateAction()
     );
     $container->set(
-      \FakeAttributeMiddleware::class, 
-      $container ==> new \FakeAttributeMiddleware()
+      \NazgTest\Middleware\FakeAttributeMiddleware::class, 
+      $container ==> new \NazgTest\Middleware\FakeAttributeMiddleware()
+    );
+    $container->set(
+      \NazgTest\Validation\MockValidateActionFaild::class, 
+      $container ==> new \NazgTest\Validation\MockValidateActionFaild()
     );
   }
 }

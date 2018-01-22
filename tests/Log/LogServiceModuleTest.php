@@ -1,5 +1,7 @@
 <?hh 
 
+namespace NazgTest\Middleware;
+
 use Nazg\Log\LogServiceModule;
 use PHPUnit\Framework\TestCase;
 use Ytake\HHContainer\ServiceModule;

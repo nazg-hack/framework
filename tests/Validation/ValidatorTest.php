@@ -1,5 +1,7 @@
 <?hh 
 
+namespace NazgTest\Validation;
+
 use Facebook\TypeAssert;
 use PHPUnit\Framework\TestCase;
 use Nazg\Foundation\Validation\Validator;
