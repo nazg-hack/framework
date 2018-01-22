@@ -1,5 +1,7 @@
 <?hh 
 
+namespace NazgTest\Routing;
+
 use PHPUnit\Framework\TestCase;
 use Nazg\Routing\Router;
 use Nazg\Foundation\Service;
@@ -12,7 +14,7 @@ class RouterTest extends TestCase {
     $router = new Router(ImmMap{
       HttpMethod::GET => ImmMap {
         '/' => ImmVector{
-          IndexAction::class
+          \NazgTest\Action\IndexAction::class
         },
       },
     });
@@ -23,7 +25,7 @@ class RouterTest extends TestCase {
       ])
     );
     $this->assertInternalType('array', $match);
-    $this->assertContains(\IndexAction::class, $match[0]);
+    $this->assertContains(\NazgTest\Action\IndexAction::class, $match[0][0]);
   }
 
   /**
@@ -32,7 +34,7 @@ class RouterTest extends TestCase {
   public function testShouldNotBeMatchRoute(): void {
     $router = new Router(ImmMap{
       HttpMethod::GET => ImmMap {
-        '/' => ImmVector{IndexAction::class},
+        '/' => ImmVector{\NazgTest\Action\IndexAction::class},
       },
     });
     $match = $router->routePsr7Request(

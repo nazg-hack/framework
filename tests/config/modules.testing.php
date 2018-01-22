@@ -1,9 +1,7 @@
 <?hh 
 
-use Nazg\Foundation\Service;
-
 return [
-  Service::MODULES => ImmVector{
-    \TestingServiceModule::class,
+  \Nazg\Foundation\Service::MODULES => ImmVector{
+    \NazgTest\TestingServiceModule::class,
   },
 ];

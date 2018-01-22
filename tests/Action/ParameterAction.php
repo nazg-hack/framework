@@ -1,5 +1,7 @@
 <?hh 
 
+namespace NazgTest\Action;
+
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Interop\Http\Server\MiddlewareInterface;

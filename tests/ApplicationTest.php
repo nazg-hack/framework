@@ -1,5 +1,7 @@
 <?hh
 
+namespace NazgTest;
+
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Nazg\Foundation\Application;

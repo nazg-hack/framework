@@ -148,8 +148,9 @@ class Application {
     ContainerInterface $container,
   ): RequestHandlerInterface {
     $appMiddleware =
-      $this->im->concat($this->middleware())
-        |> $$->concat($middleware)->toArray();
+      $this->im
+        ->concat($this->middleware())
+        ->concat($middleware)->toArray();
     $dispatcher = new Dispatcher(
       new MiddlewareStack(
         $appMiddleware,

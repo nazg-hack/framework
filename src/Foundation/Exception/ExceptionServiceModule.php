@@ -41,9 +41,10 @@ class ExceptionServiceModule extends ServiceModule {
     FactoryContainer $container,
   ): ExceptionHandleInterface {
     $instance = $container->get(ExceptionHandleInterface::class);
-    if ($instance instanceof ExceptionHandleInterface) {
-      return $instance;
-    }
-    throw new \LogicException();
+    invariant(
+      $instance instanceof ExceptionHandleInterface,
+      "Interface '\Nazg\Exceptions\ExceptionHandleInterface' is not implemented by this class",
+    );
+    return $instance;
   }
 }

@@ -1,17 +1,18 @@
 <?hh 
 
-use Nazg\Foundation\Service;
-use Nazg\Http\HttpMethod;
-
 return [
-  Service::ROUTES => ImmMap {
-    HttpMethod::GET => ImmMap {
-      '/' => ImmVector {IndexAction::class},
-      '/testing/{id}' => ImmVector {
-        FakeAttributeMiddleware::class,
-        ParameterAction::class,
+  \Nazg\Foundation\Service::ROUTES => ImmMap {
+    \Nazg\Http\HttpMethod::GET => ImmMap {
+      '/' => ImmVector {
+        \NazgTest\Action\IndexAction::class
       },
-      '/validate/{id}' => ImmVector {ValidateAction::class},
+      '/testing/{id}' => ImmVector {
+        \NazgTest\Middleware\FakeAttributeMiddleware::class,
+        \NazgTest\Action\ParameterAction::class,
+      },
+      '/validate/{id}' => ImmVector {
+        \NazgTest\Action\ValidateAction::class
+      },
     },
   },
 ];

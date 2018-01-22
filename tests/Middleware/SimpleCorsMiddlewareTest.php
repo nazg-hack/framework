@@ -1,5 +1,7 @@
 <?hh 
 
+namespace NazgTest\Middleware;
+
 use Nazg\Http\HttpMethod;
 use Nazg\Middleware\SimpleCorsMiddleware;
 use Nazg\Middleware\AccessControl;
@@ -20,7 +22,7 @@ class SimpleCorsMiddlewareTest extends TestCase {
         [SimpleCorsMiddleware::class],
         new PsrContainerResolver($container),
       ),
-      new StubRequestHandler(), 
+      new \NazgTest\StubRequestHandler(), 
     );
     $response = $heredity->handle(
       ServerRequestFactory::fromGlobals(),

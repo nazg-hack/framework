@@ -1,5 +1,7 @@
 <?hh // strict
 
+namespace NazgTest\Validation;
+
 use Nazg\Foundation\Validation\Validator;
 use Psr\Http\Message\ServerRequestInterface;
 

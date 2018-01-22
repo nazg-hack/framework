@@ -1,8 +1,10 @@
 <?hh
 
+namespace NazgTest\Responder;
+
 use Psr\Http\Message\ResponseInterface;
 use Zend\Diactoros\Response\JsonResponse;
-use IndexStructure;
+use NazgTest\IndexStructure;
 
 final class IndexResponder {
 
