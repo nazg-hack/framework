@@ -20,8 +20,8 @@ namespace Nazg\Middleware;
 use Psr\Log\LoggerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Interop\Http\Server\MiddlewareInterface;
-use Interop\Http\Server\RequestHandlerInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
 class LogExceptionMiddleware implements MiddlewareInterface {
 

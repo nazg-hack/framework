@@ -24,7 +24,7 @@ use Nazg\Routing\HttpMethod;
 use Nazg\Exceptions\NotFoundHttpException;
 use Facebook\HackRouter\BaseRouter;
 use Facebook\HackRouter\HttpMethod as HackRouterHttpMethod;
-use Interop\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\MiddlewareInterface;
 
 class RouteServiceModule extends ServiceModule {
   <<__Override>>

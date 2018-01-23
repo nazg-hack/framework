@@ -1,6 +1,8 @@
 # Nazg Micro Framework Core Repository
 
-[![Build Status](https://travis-ci.org/nazg-hack/framework.svg?branch=master)](https://travis-ci.org/nazg-hack/framework)
+[![Packagist](https://img.shields.io/badge/HHVM-%3E=3.24-orange.svg?style=flat-square)](https://packagist.org/packages/nazg/framework)
+[![Packagist](https://img.shields.io/packagist/l/nazg/framework.svg?style=flat-square)](https://packagist.org/packages/nazg/framework)
+[![Build Status](http://img.shields.io/travis/nazg-hack/framework/master.svg?style=flat-square)](https://travis-ci.org/nazg-hack/framework)
 
 Http Application / Microframework for HHVM/Hack  
 
