@@ -17,9 +17,9 @@
  */
 namespace Nazg\RequestHandler;
 
-use Interop\Http\Server\RequestHandlerInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use Zend\Diactoros\Response\JsonResponse;
 
 class FallbackHandler implements RequestHandlerInterface {

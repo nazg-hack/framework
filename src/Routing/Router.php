@@ -20,7 +20,7 @@ namespace Nazg\Routing;
 use Nazg\Http\HttpMethod;
 use Facebook\HackRouter\BaseRouter;
 use Facebook\HackRouter\HttpMethod as HackRouterHttpMethod;
-use Interop\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\MiddlewareInterface;
 
 type TResponder = ImmVector<classname<MiddlewareInterface>>;
 type ImmRouteMap = ImmMap<HttpMethod, ImmMap<string, TResponder>>;
