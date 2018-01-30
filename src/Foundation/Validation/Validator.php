@@ -24,7 +24,6 @@ enum Attribute : string as string {
   Named = 'RequestValidation';
 }
 
-<<__ConsistentConstruct>>
 abstract class Validator {
 
   protected ?ServerRequestInterface $request;
