@@ -1,4 +1,4 @@
-<?hh 
+<?hh
 
 return [
   \Nazg\Foundation\Service::ROUTES => ImmMap {

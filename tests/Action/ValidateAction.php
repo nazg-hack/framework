@@ -1,4 +1,4 @@
-<?hh 
+<?hh
 
 namespace NazgTest\Action;
 

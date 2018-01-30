@@ -29,6 +29,7 @@ final class Router extends BaseRouter<TResponder> {
 
   public function __construct(private ImmRouteMap $routeMap) {}
 
+  <<__Override>>
   protected function getRoutes(
   ): ImmMap<HackRouterHttpMethod, ImmMap<string, TResponder>> {
     $i = $this->routeMap->getIterator();

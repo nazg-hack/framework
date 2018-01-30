@@ -12,5 +12,5 @@ final class IndexResponder {
 
   public function response():ResponseInterface  {
     return new JsonResponse(Shapes::toArray($this->shape));
-  }  
+  }
 }

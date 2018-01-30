@@ -1,4 +1,4 @@
-<?hh 
+<?hh
 
 namespace NazgTest\Middleware;
 
@@ -14,7 +14,7 @@ use Nazg\Heredity\PsrContainerResolver;
 use Nazg\Foundation\Middleware\Dispatcher;
 
 class SimpleCorsMiddlewareTest extends TestCase {
-  
+
   public function testShouldThrowException(): void {
     $container = $this->getDependencyContainer();
     $heredity = new Dispatcher(
@@ -22,7 +22,7 @@ class SimpleCorsMiddlewareTest extends TestCase {
         [SimpleCorsMiddleware::class],
         new PsrContainerResolver($container),
       ),
-      new \NazgTest\StubRequestHandler(), 
+      new \NazgTest\StubRequestHandler(),
     );
     $response = $heredity->handle(
       ServerRequestFactory::fromGlobals(),
@@ -40,7 +40,7 @@ class SimpleCorsMiddlewareTest extends TestCase {
       $container ==> new SimpleCorsMiddleware(
         shape(
           'origin' => '*',
-          'header' => 'testing', 
+          'header' => 'testing',
           'methods' => Vector{
             HttpMethod::GET
           }

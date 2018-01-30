@@ -1,4 +1,4 @@
-<?hh 
+<?hh
 
 namespace NazgTest\Validation;
 
@@ -14,7 +14,7 @@ class ValidatorTest extends TestCase {
     $this->assertNotCount(0, $v->errors());
     $this->assertFalse($v->validate());
   }
-  
+
   /**
    * @expectedException \Facebook\TypeAssert\IncorrectTypeException
    */
@@ -53,6 +53,7 @@ class MockValidateFalied extends Validator {
 
   protected bool $shouldThrowException = false;
 
+  <<__Override>>
   protected function assertValidateResult(): Vector<string> {
     return new Vector(['error1']);
   }
@@ -66,11 +67,13 @@ class MockStructureValidateFalied extends Validator {
   );
 
   protected bool $shouldThrowException = false;
-  protected bool $skipValidateStructure = false; 
+  protected bool $skipValidateStructure = false;
+  <<__Override>>
   protected function assertValidateResult(): Vector<string> {
     return new Vector(['error1']);
   }
 
+  <<__Override>>
   protected function assertStructure(): void {
     if(!$this->skipValidateStructure) {
       TypeAssert\matches_type_structure(
@@ -89,7 +92,8 @@ class MockStructureValidateSuccess extends Validator {
   );
 
   protected bool $shouldThrowException = false;
-  protected bool $skipValidateStructure = false; 
+  protected bool $skipValidateStructure = false;
+  <<__Override>>
   protected function assertValidateResult(): Vector<string> {
     $params = $this->request?->getQueryParams();
     $v = Vector{};
@@ -101,6 +105,7 @@ class MockStructureValidateSuccess extends Validator {
     return $v;
   }
 
+  <<__Override>>
   protected function assertStructure(): void {
     if(!$this->skipValidateStructure) {
       TypeAssert\matches_type_structure(

@@ -1,4 +1,4 @@
-<?hh 
+<?hh
 
 namespace NazgTest\Middleware;
 
@@ -31,7 +31,7 @@ class LogExceptionMiddlewareTest extends TEstCase {
       ServerRequestFactory::fromGlobals()
     );
   }
-  
+
   /**
    * @depends testShouldThrowException
    */
@@ -39,7 +39,7 @@ class LogExceptionMiddlewareTest extends TEstCase {
     $this->assertFileExists(OverrideLogServiceModule::LOG_FILE);
     unlink(OverrideLogServiceModule::LOG_FILE);
   }
-  
+
   private function getDependencyContainer(): FactoryContainer {
     $container = new FactoryContainer();
     $container->register(OverrideLogServiceModule::class);

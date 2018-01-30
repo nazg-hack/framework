@@ -37,7 +37,7 @@ class ExceptionServiceModule extends ServiceModule {
     );
   }
 
-  private function invariantExceptionHandler(
+  protected function invariantExceptionHandler(
     FactoryContainer $container,
   ): ExceptionHandleInterface {
     $instance = $container->get(ExceptionHandleInterface::class);

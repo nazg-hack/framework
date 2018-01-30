@@ -1,4 +1,4 @@
-<?hh 
+<?hh
 
 namespace NazgTest\Routing;
 
@@ -9,7 +9,7 @@ use Nazg\Http\HttpMethod;
 use Zend\Diactoros\ServerRequestFactory;
 
 class RouterTest extends TestCase {
-  
+
   public function testShouldBeMatchRoute(): void {
     $router = new Router(ImmMap{
       HttpMethod::GET => ImmMap {
