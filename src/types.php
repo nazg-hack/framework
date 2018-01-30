@@ -19,3 +19,4 @@ namespace Nazg\Types;
 
 type TMiddlewareClass = classname<\Psr\Http\Server\MiddlewareInterface>;
 type TServiceModule = classname<\Ytake\HHContainer\ServiceModule>;
+type ExceptionImmMap = ImmMap<string, mixed>;
