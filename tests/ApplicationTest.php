@@ -13,7 +13,7 @@ use Psr\Http\Message\ResponseInterface;
 use function Facebook\FBExpect\expect;
 
 class ApplicationTest extends TestCase {
-  
+
   public function testShouldReturnApplicationInstance(): void {
     $aggregator = new ConfigAggreagator([
       new PhpFileProvider(__DIR__ . '/config/*.{hh,php}'),
@@ -23,7 +23,7 @@ class ApplicationTest extends TestCase {
     $app->setApplicationConfig($aggregator->getMergedConfig());
     expect($app)->toBeInstanceOf(Application::class);
   }
-  
+
   /**
    * @expectedException \Nazg\Foundation\Validation\ValidationException
    */

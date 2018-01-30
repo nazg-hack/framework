@@ -43,7 +43,7 @@ class OverrideEmitter extends Emitter {
 
   private ?ResponseInterface $response;
 
-  <<__Override>>  
+  <<__Override>>
   public function emit(ResponseInterface $response): void {
     $this->response = $response;
   }

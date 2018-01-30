@@ -38,7 +38,7 @@
     "phpunit/phpunit": "^5.1",
     "91carriage/phpunit-hhi": "^5.1",
     "facebook/fbexpect": "^0.4.0",
-    "mockery/mockery": "^0.9.5"
+    "hhvm/hhast": "^0.6.0"
   },
   "autoload": {
     "psr-4": {

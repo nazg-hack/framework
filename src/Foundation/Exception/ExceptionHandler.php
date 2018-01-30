@@ -19,33 +19,38 @@ namespace Nazg\Foundation\Exception;
 
 use Nazg\Http\StatusCode;
 use Nazg\Response\Emitter;
+use Nazg\Types\ExceptionImmMap;
 use Nazg\Exceptions\ExceptionHandleInterface;
 use function HH\Lib\Vec\map;
+use Psr\Http\Message\ResponseInterface;
 use Zend\Diactoros\Response\JsonResponse;
-
-type ExceptionMap = ImmMap<string, mixed>;
 
 class ExceptionHandler implements ExceptionHandleInterface {
 
   public function __construct(protected Emitter $emitter) {}
 
-  /**
-   * @see https://github.com/zendframework/zend-diactoros/blob/master/doc/book/custom-responses.md
-   */
-  public function render(ExceptionMap $em, \Exception $e): void {
-    $this->emitter->emit(
-      new JsonResponse(
-        $em->toArray(),
-        StatusCode::StatusInternalServerError,
-      ),
+  protected function render(
+    ExceptionImmMap $em,
+    \Exception $e
+  ): ResponseInterface {
+    return new JsonResponse(
+      $em->toArray(),
+      StatusCode::StatusInternalServerError,
     );
   }
 
-  public function handleException(\Exception $e): void {
-    call_user_func_array([$this, 'render'], [$this->toImmMap($e), $e]);
+  /**
+   * @see https://github.com/zendframework/zend-diactoros/blob/master/doc/book/custom-responses.md
+   */
+  protected function respond(ExceptionImmMap $em, \Exception $e): void {
+    $this->emitter->emit($this->render($em, $e));
   }
 
-  protected function toImmMap(\Exception $e): ExceptionMap {
+  public function handleException(\Exception $e): void {
+    call_user_func_array([$this, 'respond'], [$this->toImmMap($e), $e]);
+  }
+
+  protected function toImmMap(\Exception $e): ExceptionImmMap {
     return new ImmMap(
       [
         'message' => $e->getMessage(),

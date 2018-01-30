@@ -1,4 +1,4 @@
-<?hh 
+<?hh
 
 use Nazg\Foundation\Service;
 

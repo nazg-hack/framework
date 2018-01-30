@@ -1,4 +1,4 @@
-<?hh 
+<?hh
 
 namespace NazgTest\Middleware;
 
@@ -9,7 +9,7 @@ use Ytake\HHContainer\FactoryContainer;
 use Psr\Log\LoggerInterface;
 
 class LogServiceModuleTest extends TestCase {
-    
+
   public function testShouldBeImplLoggerInsntace(): void {
      $container = new FactoryContainer();
      $container->register(LogServiceModule::class);
