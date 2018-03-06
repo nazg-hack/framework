@@ -52,7 +52,7 @@ enum StatusCode : int {
   BadRequest = 400;
   Unavailable = 401;
   PaymentRequired = 402;
-  Frobidden = 403;
+  Forbidden = 403;
   NotFound = 404;
   MethodNotAllowed = 405;
   NotAcceptable = 406;
