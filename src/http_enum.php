@@ -80,7 +80,7 @@ enum StatusCode : int {
   UnavailableForLegalReasons = 451;
   StatusInternalServerError = 500;
   NotImplemented = 501;
-  BasGateway = 502;
+  BadGateway = 502;
   ServiceUnavailable = 503;
   GatewayTimeout = 504;
   VersionNotSupported = 505;
