@@ -34,6 +34,7 @@ class ApplicationTest extends TestCase {
     ]);
     $app = new Application(new \Nazg\Foundation\Dependency\Dependency());
     $app->setApplicationConfig($aggregator->getMergedConfig());
+    $app->setValidateAttribute(true);
     $app->run(
       ServerRequestFactory::fromGlobals([
         'REQUEST_URI' => '/validate/12',

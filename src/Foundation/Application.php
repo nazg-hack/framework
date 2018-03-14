@@ -19,6 +19,7 @@ namespace Nazg\Foundation;
 
 use Facebook\HackRouter\BaseRouter;
 use Nazg\Http\HttpMethod;
+use Nazg\Heredity\Heredity;
 use Nazg\Heredity\{MiddlewareStack, PsrContainerResolver};
 use Nazg\Response\Emitter;
 use Nazg\RequestHandler\FallbackHandler;
@@ -38,6 +39,8 @@ class Application {
   protected ?RequestHandlerInterface $requestHandler;
 
   protected ?BootstrapRegister $bootstrapRegister;
+
+  protected $flag = false;
 
   public function __construct(protected DependencyInterface $dependency) {}
 
@@ -143,6 +146,10 @@ class Application {
     }
   }
 
+  public function setValidateAttribute(bool $flag) {
+    $this->flag = $flag;
+  }
+
   protected function middlewareProcessor(
     ImmVector<\Nazg\Types\TMiddlewareClass> $middleware,
     ContainerInterface $container,
@@ -151,15 +158,16 @@ class Application {
       $this->im
         ->concat($this->middleware())
         ->concat($middleware)->toArray();
-    $dispatcher = new Dispatcher(
-      new MiddlewareStack(
-        $appMiddleware,
-        new PsrContainerResolver($container),
-      ),
-      $this->requestHandler ?: new FallbackHandler(),
+    $stack = new MiddlewareStack(
+      $appMiddleware,
+      new PsrContainerResolver($container),
     );
-    $dispatcher->setContainer($container);
-    return $dispatcher;
+    if ($this->flag) {
+      $dispatcher = new Dispatcher($stack, $this->requestHandler ?: new FallbackHandler());
+      $dispatcher->setContainer($container);
+      return $dispatcher;
+    }
+    return new Heredity($stack, $this->requestHandler ?: new FallbackHandler());
   }
 
   protected function send(ResponseInterface $response): void {
