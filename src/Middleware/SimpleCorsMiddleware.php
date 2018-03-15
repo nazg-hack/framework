@@ -25,8 +25,8 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
 type CorsSetting = shape(
-  'origin' => string,
-  'header' => string,
+  ?'origin' => string,
+  ?'header' => string,
   'methods' => Vector<HttpMethod>,
 );
 
