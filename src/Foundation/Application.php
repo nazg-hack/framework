@@ -40,7 +40,7 @@ class Application {
 
   protected ?BootstrapRegister $bootstrapRegister;
 
-  protected $flag = false;
+  protected bool $flag = false;
 
   public function __construct(protected DependencyInterface $dependency) {}
 
@@ -146,7 +146,7 @@ class Application {
     }
   }
 
-  public function setValidateAttribute(bool $flag) {
+  public function setValidateAttribute(bool $flag): void {
     $this->flag = $flag;
   }
 
