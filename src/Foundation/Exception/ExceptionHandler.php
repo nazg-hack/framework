@@ -59,7 +59,12 @@ class ExceptionHandler implements ExceptionHandleInterface {
         'line' => $e->getLine(),
         'trace' => map(
           $e->getTrace(),
-          $v ==> (new Map($v))->removeKey('args')->toArray(),
+          $v ==> {
+            if(is_array($v)) {
+              return (new Map($v))->removeKey('args')->toArray();
+            }
+            return [];
+          }
         ),
       ],
     );
