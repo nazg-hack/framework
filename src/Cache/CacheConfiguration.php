@@ -19,6 +19,10 @@ namespace Nazg\Cache;
 
 use Redis;
 use Memcached;
+use Nazg\Cache\Resolver\{
+  MemcachedResolver,
+  RedisResolver
+};
 
 type MemcachedServer = shape(
   'host' => string,
@@ -54,13 +58,8 @@ class CacheConfiguration {
 
   public function getMemcached(): ?Memcached {
     if(!is_null($this->memcachedConfig)) {
-      $config = $this->memcachedConfig;
-      $m = new Memcached(Shapes::idx($config, 'persistentId'));
-      $servers = Shapes::idx($config, 'servers');
-      if(!is_null($servers)) {
-        $m->addServers($servers->toArray());
-      }
-      return $m;
+      $resolver = new MemcachedResolver($this->memcachedConfig);
+      return $resolver->provide();
     }
     return null;
   }
@@ -74,46 +73,9 @@ class CacheConfiguration {
 
   public function getRedis(): ?Redis {
     if(!is_null($this->redisConfig)) {
-      $config = $this->redisConfig;
-      $redis = new Redis();
-      $r = (Redis $redis, RedisConfig $config) ==> {
-        if(!Shapes::idx($config, 'persistent', false)) {
-          $redis->connect(
-            $config['host'],
-            Shapes::idx($config, 'port', 6379),
-            Shapes::idx($config, 'readTimeout', 0)
-          );
-        }
-        $redis->pconnect(
-          $config['host'],
-          Shapes::idx($config, 'port', 6379),
-          Shapes::idx($config, 'readTimeout', 0)
-        );
-        return $redis;
-      };
-      $redis = call_user_func_array($r, [$redis, $config]);
-      $this->redisConnectOption($redis, $config);
-      return $redis;
+      $resolver = new RedisResolver($this->redisConfig);
+      return $resolver->provide();
     }
     return null;
-  }
-
-  protected function redisConnectOption(Redis $redis, RedisConfig $config): void {
-    $password = Shapes::idx($config, 'password', null);
-    if ($password) {
-      $redis->auth($password);
-    }
-    $database = Shapes::idx($config, 'database', null);
-    if ($database) {
-      $redis->select($database);
-    }
-    $prefix = Shapes::idx($config, 'prefix', null);
-    if ($prefix) {
-      $redis->setOption(Redis::OPT_PREFIX, $prefix);
-    }
-    $timeout = Shapes::idx($config, 'readTimeout', null);
-    if ($timeout) {
-      $redis->setOption(Redis::OPT_READ_TIMEOUT, $timeout);
-    }
   }
 }
