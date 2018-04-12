@@ -32,15 +32,15 @@
     "nazg/heredity": "^0.3.0",
     "nazg/hcache": "^0.1.0",
     "facebook/hack-router": "^0.13",
-    "zendframework/zend-diactoros": "^1.6.1",
+    "zendframework/zend-diactoros": "^1.7.0",
     "monolog/monolog": "^1.23.0",
     "libreworks/psr3-log-hhi": "^1.0.1",
     "ytake/psr-http-handlers-hhi": "^1.1.0",
     "ytake/psr-container-hhi": "^1.1.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "^5.1",
-    "91carriage/phpunit-hhi": "^5.1",
+    "phpunit/phpunit": "^5.7",
+    "91carriage/phpunit-hhi": "^5.7",
     "facebook/fbexpect": "^0.4.0",
     "hhvm/hhast": "^1.0.0"
   },

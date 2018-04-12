@@ -22,8 +22,12 @@ use Facebook\HackRouter\BaseRouter;
 use Facebook\HackRouter\HttpMethod as HackRouterHttpMethod;
 use Psr\Http\Server\MiddlewareInterface;
 
-type TResponder = ImmVector<classname<MiddlewareInterface>>;
 type ImmRouteMap = ImmMap<HttpMethod, ImmMap<string, TResponder>>;
+type MiddlewareVector = ImmVector<classname<MiddlewareInterface>>;
+type TResponder = shape(
+  'middleware' => MiddlewareVector,
+  ?'named' => string,
+);
 
 final class Router extends BaseRouter<TResponder> {
 
@@ -39,6 +43,33 @@ final class Router extends BaseRouter<TResponder> {
       $i->next();
     }
     return new ImmMap($map);
+  }
+
+  public function findRoute(string $named): ?string {
+    $collect = $this->collectRoutes();
+    if($collect->contains($named)) {
+      return $collect->get($named);
+    }
+    return null;
+  }
+  
+  <<__Memoize>>
+  protected function collectRoutes(): ImmMap<?string, ?string> {
+    $i = $this->routeMap->getIterator();
+    $named = [];
+    while ($i->valid()) {
+      $current = $i->current();
+      $keys = $current->keys();
+      $index = 0;
+      foreach($current as $method => $v) {
+        if(Shapes::keyExists($v, 'named')) {
+          $named[Shapes::idx($v, 'named')] = $keys[$index];
+        }
+        $index++;
+      }
+      $i->next();
+    }
+    return new ImmMap($named);
   }
 
   private function convertHttpMethod(
