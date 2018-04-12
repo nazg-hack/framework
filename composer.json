@@ -7,7 +7,10 @@
     "psr",
     "psr-7",
     "psr-11",
-    "psr-15"
+    "psr-15",
+    "cache",
+    "middleware",
+    "dependency injection"
   ],
   "license": "MIT",
   "authors": [
@@ -27,6 +30,7 @@
     "ytake/hh-container": "^0.5",
     "ytake/hh-config-aggregator": "^0.1.1",
     "nazg/heredity": "^0.3.0",
+    "nazg/hcache": "^0.1.0",
     "facebook/hack-router": "^0.13",
     "zendframework/zend-diactoros": "^1.6.1",
     "monolog/monolog": "^1.23.0",
