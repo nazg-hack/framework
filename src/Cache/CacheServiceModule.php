@@ -52,7 +52,7 @@ abstract class CacheServiceModule extends ServiceModule {
         if($manager instanceof CacheManager) {
           return $this->detectCacheProvider(
             $manager->createCache($this->defaultDriver),
-            $this->cacheConfigure()
+            $this->cacheConfigure($container)
           );
         }
         throw new \RuntimeException("Failed to resolve " . CacheProvider::class);
@@ -61,7 +61,9 @@ abstract class CacheServiceModule extends ServiceModule {
     );
   }
 
-  abstract protected function cacheConfigure(): CacheConfiguration;
+  abstract protected function cacheConfigure(
+    FactoryContainer $container
+  ): CacheConfiguration;
 
   protected function detectCacheProvider(
     ?CacheProvider $provider, 
