@@ -31,7 +31,7 @@ class ExceptionHandler implements ExceptionHandleInterface {
 
   protected function render(
     ExceptionImmMap $em,
-    \Exception $e
+    \Throwable $e
   ): ResponseInterface {
     return new JsonResponse(
       $em->toArray(),
@@ -42,15 +42,15 @@ class ExceptionHandler implements ExceptionHandleInterface {
   /**
    * @see https://github.com/zendframework/zend-diactoros/blob/master/doc/book/custom-responses.md
    */
-  protected function respond(ExceptionImmMap $em, \Exception $e): void {
+  protected function respond(ExceptionImmMap $em, \Throwable $e): void {
     $this->emitter->emit($this->render($em, $e));
   }
 
-  public function handleException(\Exception $e): void {
+  public function handleException(\Throwable $e): void {
     call_user_func_array([$this, 'respond'], [$this->toImmMap($e), $e]);
   }
 
-  protected function toImmMap(\Exception $e): ExceptionImmMap {
+  protected function toImmMap(\Throwable $e): ExceptionImmMap {
     return new ImmMap(
       [
         'message' => $e->getMessage(),
