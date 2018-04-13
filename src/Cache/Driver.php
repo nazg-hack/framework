@@ -15,12 +15,13 @@
  * Copyright (c) 2017-2018 Yuuki Takezawa
  *
  */
-namespace Nazg\Foundation;
+namespace Nazg\Cache;
 
-enum Service : string as string {
-  CACHE = 'cache';
-  CONFIG = 'app.config';
-  MODULES = 'module';
-  ROUTES = 'route';
-  MIDDLEWARES = 'middleware';
+enum Driver : string as string {
+  Apc = 'apc';
+  Void = 'void';
+  Map = 'map';
+  File = 'file';
+  Memcached = 'memcached';
+  Redis = 'redis';
 }

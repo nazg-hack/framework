@@ -35,7 +35,7 @@ use Ytake\HHContainer\FactoryContainer;
 
 abstract class CacheServiceModule extends ServiceModule {
 
-  protected string $defaultDriver = 'file';
+  protected Driver $defaultDriver = Driver::File;
 
   <<__Override>>
   public function provide(FactoryContainer $container): void {
@@ -68,7 +68,7 @@ abstract class CacheServiceModule extends ServiceModule {
     CacheConfiguration $cacheConfigure
   ): CacheProvider {
     invariant($provider instanceof CacheProvider, "provider type error");
-    if($this->defaultDriver === 'file') {
+    if($this->defaultDriver === Driver::File) {
       if($provider instanceof FileSystemCache) {
         $dir = $cacheConfigure->getFileSystemDir();
         if(!is_null($dir)) {
@@ -76,7 +76,7 @@ abstract class CacheServiceModule extends ServiceModule {
         }
       }
     }
-    if($this->defaultDriver === 'memcached') {
+    if($this->defaultDriver === Driver::Memcached) {
       if($provider instanceof MemcachedCache) {
         $m = $cacheConfigure->getMemcached();
         if(!is_null($m)) {
@@ -84,7 +84,7 @@ abstract class CacheServiceModule extends ServiceModule {
         }
       }
     }
-    if($this->defaultDriver === 'redis') {
+    if($this->defaultDriver === Driver::Redis) {
       if($provider instanceof RedisCache) {
         $r = $cacheConfigure->getRedis();
         if(!is_null($r)) {
