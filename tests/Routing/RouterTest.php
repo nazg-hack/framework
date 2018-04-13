@@ -7,16 +7,19 @@ use Nazg\Routing\Router;
 use Nazg\Foundation\Service;
 use Nazg\Http\HttpMethod;
 use Zend\Diactoros\ServerRequestFactory;
+use Psr\Http\Server\MiddlewareInterface;
 
 class RouterTest extends TestCase {
 
   public function testShouldBeMatchRoute(): void {
     $router = new Router(ImmMap{
       HttpMethod::GET => ImmMap {
-        '/' => ImmVector{
-          \NazgTest\Action\IndexAction::class
+        '/' => shape(
+            'middleware' => ImmVector{
+              \NazgTest\Action\IndexAction::class
+            },
+          )
         },
-      },
     });
     $match = $router->routePsr7Request(
       ServerRequestFactory::fromGlobals([
@@ -25,7 +28,7 @@ class RouterTest extends TestCase {
       ])
     );
     $this->assertInternalType('array', $match);
-    $this->assertContains(\NazgTest\Action\IndexAction::class, $match[0][0]);
+    $this->assertContains(\NazgTest\Action\IndexAction::class, $match[0]['middleware'][0]);
   }
 
   /**
@@ -34,7 +37,9 @@ class RouterTest extends TestCase {
   public function testShouldNotBeMatchRoute(): void {
     $router = new Router(ImmMap{
       HttpMethod::GET => ImmMap {
-        '/' => ImmVector{\NazgTest\Action\IndexAction::class},
+        '/' => shape(
+          'middleware' => ImmVector{\NazgTest\Action\IndexAction::class},
+        )
       },
     });
     $match = $router->routePsr7Request(
@@ -43,5 +48,56 @@ class RouterTest extends TestCase {
         'REQUEST_METHOD' => 'GET'
       ])
     );
+  }
+
+  public function testShouldFindRoute(): void {
+    $router = new Router(ImmMap{
+      HttpMethod::GET => ImmMap {
+        '/' => shape(
+          'middleware' => ImmVector{
+            \NazgTest\Action\IndexAction::class
+          },
+          'named' => 'home'
+        ),
+        '/testing' => shape(
+          'middleware' => ImmVector{
+            \NazgTest\Action\IndexAction::class
+          },
+          'named' => 'home.testing'
+        ),
+        '/noname' => shape(
+          'middleware' => ImmVector{
+            \NazgTest\Action\IndexAction::class
+          },
+        ),
+        '/testing/two' => shape(
+          'middleware' => ImmVector{
+            \NazgTest\Action\IndexAction::class
+          },
+          'named' => 'home.testing.two'
+        ),
+        '/noname/two' => shape(
+          'middleware' => ImmVector{
+            \NazgTest\Action\IndexAction::class
+          },
+        ),
+        '/noname/three' => shape(
+          'middleware' => ImmVector{
+            \NazgTest\Action\IndexAction::class
+          },
+        ),
+        '/testing/three' => shape(
+          'middleware' => ImmVector{
+            \NazgTest\Action\IndexAction::class
+          },
+          'named' => 'home.testing.three'
+        ),
+      },
+    });
+    $this->assertNull($router->findRoute('hello'));
+    $this->assertSame('/testing/two', $router->findRoute('home.testing.two'));
+    $this->assertSame('/testing', $router->findRoute('home.testing'));
+    $this->assertSame('/', $router->findRoute('home'));
+    $this->assertSame('/testing/three', $router->findRoute('home.testing.three'));
   }
 }
