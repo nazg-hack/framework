@@ -19,5 +19,5 @@ namespace Nazg\Exceptions;
 
 interface ExceptionHandleInterface {
 
-  public function handleException(\Exception $e): void;
+  public function handleException(\Throwable $e): void;
 }

@@ -62,7 +62,10 @@ class Application {
         $serverRequest = $serverRequest->withAttribute($key, $attribute);
       }
     }
-    $heredity = $this->middlewareProcessor($middleware, $container);
+    $heredity = $this->middlewareProcessor(
+      $middleware['middleware'], 
+      $container
+    );
     $this->send(
       $heredity->handle(
         $this->marshalAttributes($serverRequest, $attributes),
