@@ -79,7 +79,7 @@ class TestCacheServiceModule extends CacheServiceModule {
     $this->defaultDriver = $driver;
   }
 
-  protected function cacheConfigure(): CacheConfiguration {
+  protected function cacheConfigure(FactoryContainer $container): CacheConfiguration {
     return new CacheConfiguration(
       shape('servers' => 
         ImmVector {
