@@ -14,7 +14,7 @@ use Nazg\Heredity\PsrContainerResolver;
 use Nazg\Foundation\Middleware\Dispatcher;
 use NazgTest\StubRequestHandler;
 
-class LogExceptionMiddlewareTest extends TEstCase {
+class LogExceptionMiddlewareTest extends TestCase {
   /**
    * @expectedException \Exception
    */
