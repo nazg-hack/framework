@@ -32,7 +32,7 @@ class MemcachedResolver {
     $config = $this->config;
     $m = new Memcached(Shapes::idx($config, 'persistentId'));
     $servers = Shapes::idx($config, 'servers');
-    if(!is_null($servers)) {
+    if(!\is_null($servers)) {
       $m->addServers($servers->toArray());
     }
     return $m;
