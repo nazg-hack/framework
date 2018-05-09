@@ -25,14 +25,4 @@ class CacheConfigurationTest extends TestCase {
     }), null, null);
     $this->assertNotNull($cache->getMemcached());
   }
-
-  public function testShouldReturnRedis(): void {
-    $cache = new CacheConfiguration(null, null, shape(
-      'host' => '127.0.0.1',
-      'port' => 6379,
-      'prefix' => 'testing'
-    ));
-    $r = $cache->getRedis();
-    $this->assertInstanceOf(\Redis::class, $r);
-  }
 }

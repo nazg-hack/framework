@@ -47,20 +47,20 @@ class ExceptionHandler implements ExceptionHandleInterface {
   }
 
   public function handleException(\Throwable $e): void {
-    call_user_func_array([$this, 'respond'], [$this->toImmMap($e), $e]);
+    \call_user_func_array([$this, 'respond'], [$this->toImmMap($e), $e]);
   }
 
   protected function toImmMap(\Throwable $e): ExceptionImmMap {
     return new ImmMap(
       [
         'message' => $e->getMessage(),
-        'exception' => get_class($e),
+        'exception' => \get_class($e),
         'file' => $e->getFile(),
         'line' => $e->getLine(),
         'trace' => map(
           $e->getTrace(),
           $v ==> {
-            if(is_array($v)) {
+            if(\is_array($v)) {
               return (new Map($v))->removeKey('args')->toArray();
             }
             return [];

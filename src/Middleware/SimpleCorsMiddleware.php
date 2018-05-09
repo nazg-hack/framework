@@ -71,6 +71,6 @@ class SimpleCorsMiddleware implements MiddlewareInterface {
   }
 
   protected function implodeMethods(Vector<HttpMethod> $methods): string {
-    return implode(",", $methods);
+    return \implode(",", $methods);
   }
 }

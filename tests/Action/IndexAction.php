@@ -16,7 +16,7 @@ final class IndexAction implements MiddlewareInterface {
     $responder = new IndexResponder(
       shape(
       'language' => 'HHVM/Hack',
-      'version' => phpversion()
+      'version' => \phpversion()
     ));
     return $responder->response();
   }

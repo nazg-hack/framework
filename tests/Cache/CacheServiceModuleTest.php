@@ -62,14 +62,6 @@ class CacheServiceModuleTest extends TestCase {
       MemcachedCache::class,
       $container->get(CacheProvider::class)
     );
-    $container = new FactoryContainer();
-    $serviceModule = new TestCacheServiceModule();
-    $serviceModule->setDriver(Driver::Redis);
-    $serviceModule->provide($container);
-    $this->assertInstanceOf(
-      RedisCache::class,
-      $container->get(CacheProvider::class)
-    );
   }
 }
 

@@ -52,7 +52,7 @@ class Application {
     invariant(
       $router instanceof BaseRouter,
       "%s class must extend %s",
-      get_class($router),
+      \get_class($router),
       BaseRouter::class,
     );
     list($middleware, $attributes) =
@@ -127,8 +127,8 @@ class Application {
   }
 
   private function registerDependencies(mixed $config): void {
-    if (is_array($config)) {
-      if (array_key_exists(Service::MODULES, $config)) {
+    if (\is_array($config)) {
+      if (\array_key_exists(Service::MODULES, $config)) {
         if ($this->dependency instanceof \Nazg\Foundation\Dependency\Dependency) {
           $vModule = $config[Service::MODULES];
           if ($vModule instanceof ImmVector) {
@@ -140,8 +140,8 @@ class Application {
   }
 
   private function registerMiddlewares(mixed $config): void {
-    if (is_array($config)) {
-      if (array_key_exists(Service::MIDDLEWARES, $config)) {
+    if (\is_array($config)) {
+      if (\array_key_exists(Service::MIDDLEWARES, $config)) {
         if ($config[Service::MIDDLEWARES] instanceof ImmVector) {
           $this->im = $config[Service::MIDDLEWARES];
         }

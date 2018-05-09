@@ -46,26 +46,26 @@ class RedisResolver {
       );
       return $redis;
     };
-    $redis = call_user_func_array($r, [$redis, $config]);
+    $redis = \call_user_func_array($r, [$redis, $config]);
     $this->redisConnectOption($redis, $config);
     return $redis;
   }
   
   protected function redisConnectOption(Redis $redis, RedisConfig $config): void {
     $password = Shapes::idx($config, 'password', null);
-    if ($password) {
+    if (!\is_null($password)) {
       $redis->auth($password);
     }
     $database = Shapes::idx($config, 'database', null);
-    if ($database) {
+    if (!\is_null($database)) {
       $redis->select($database);
     }
     $prefix = Shapes::idx($config, 'prefix', null);
-    if ($prefix) {
+    if (!\is_null($prefix)) {
       $redis->setOption(Redis::OPT_PREFIX, $prefix);
     }
     $timeout = Shapes::idx($config, 'readTimeout', null);
-    if ($timeout) {
+    if (!\is_null($timeout)) {
       $redis->setOption(Redis::OPT_READ_TIMEOUT, $timeout);
     }
   }

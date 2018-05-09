@@ -40,8 +40,8 @@ class RouteServiceModule extends ServiceModule {
 
   protected function resolveRoutes(FactoryContainer $container): ImmRouteMap {
     $config = $container->get(Service::CONFIG);
-    if (is_array($config)) {
-      if (array_key_exists(Service::ROUTES, $config)) {
+    if (\is_array($config)) {
+      if (\array_key_exists(Service::ROUTES, $config)) {
         return $config[Service::ROUTES];
       }
     }

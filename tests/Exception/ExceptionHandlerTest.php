@@ -32,7 +32,7 @@ class ExceptionHandlerTest extends TestCase {
     $r = $emitter->getResponse();
     if($r instanceof ResponseInterface) {
       expect($r)->toBeInstanceOf(ResponseInterface::class);
-      $d = json_decode($r->getBody()->getContents(), true);
+      $d = \json_decode($r->getBody()->getContents(), true);
       expect($d['message'])->toBeSame('Exception for testing');
       expect($r->getStatusCode())->toBeSame(500);
       $this->assertArrayHasKey('exception', $d);
