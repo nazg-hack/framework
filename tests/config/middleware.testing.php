@@ -1,6 +1,6 @@
 <?hh
 
-use Nazg\Foundation\Service;
+use type Nazg\Foundation\Service;
 
 return [
   Service::MIDDLEWARES => ImmVector {

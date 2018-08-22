@@ -17,8 +17,8 @@
  */
 namespace Nazg\Foundation\Exception;
 
-use Nazg\Exceptions\ExceptionHandleInterface;
-use Nazg\Foundation\Bootstrap\BootstrapRegisterInterface;
+use type Nazg\Exceptions\ExceptionHandleInterface;
+use type Nazg\Foundation\Bootstrap\BootstrapRegisterInterface;
 
 class ExceptionRegister implements BootstrapRegisterInterface {
 

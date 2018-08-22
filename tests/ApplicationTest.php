@@ -2,14 +2,13 @@
 
 namespace NazgTest;
 
-use PHPUnit\Framework\Assert;
-use PHPUnit\Framework\TestCase;
-use Nazg\Foundation\Application;
-use Ytake\HHConfigAggreagator\ArrayProvider;
-use Ytake\HHConfigAggreagator\ConfigAggreagator;
-use Ytake\HHConfigAggreagator\PhpFileProvider;
-use Zend\Diactoros\ServerRequestFactory;
-use Psr\Http\Message\ResponseInterface;
+use type PHPUnit\Framework\TestCase;
+use type Nazg\Foundation\Application;
+use type Ytake\HHConfigAggreagator\ArrayProvider;
+use type Ytake\HHConfigAggreagator\ConfigAggreagator;
+use type Ytake\HHConfigAggreagator\PhpFileProvider;
+use type Zend\Diactoros\ServerRequestFactory;
+use type Psr\Http\Message\ResponseInterface;
 use function Facebook\FBExpect\expect;
 
 class ApplicationTest extends TestCase {

@@ -2,16 +2,16 @@
 
 namespace NazgTest\Action;
 
-use NazgTest\Responder\IndexResponder;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Server\MiddlewareInterface;
-use Psr\Http\Server\RequestHandlerInterface;
+use type NazgTest\Responder\IndexResponder;
+use type Psr\Http\Message\ResponseInterface;
+use type Psr\Http\Message\ServerRequestInterface;
+use type Psr\Http\Server\MiddlewareInterface;
+use type Psr\Http\Server\RequestHandlerInterface;
 
 final class IndexAction implements MiddlewareInterface {
   public function process(
-    ServerRequestInterface $request,
-    RequestHandlerInterface $handler,
+    ServerRequestInterface $_request,
+    RequestHandlerInterface $_handler,
   ): ResponseInterface {
     $responder = new IndexResponder(
       shape(

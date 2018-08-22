@@ -17,8 +17,7 @@
  */
 namespace Nazg\Foundation\Validation;
 
-use Psr\Http\Message\ServerRequestInterface;
-use Facebook\TypeAssert;
+use type Psr\Http\Message\ServerRequestInterface;
 
 enum Attribute : string as string {
   Named = 'RequestValidation';

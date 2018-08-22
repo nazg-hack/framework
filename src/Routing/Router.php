@@ -17,10 +17,10 @@
  */
 namespace Nazg\Routing;
 
-use Nazg\Http\HttpMethod;
-use Facebook\HackRouter\BaseRouter;
-use Facebook\HackRouter\HttpMethod as HackRouterHttpMethod;
-use Psr\Http\Server\MiddlewareInterface;
+use type Nazg\Http\HttpMethod;
+use type Facebook\HackRouter\BaseRouter;
+use type Facebook\HackRouter\HttpMethod as HackRouterHttpMethod;
+use type Psr\Http\Server\MiddlewareInterface;
 
 type ImmRouteMap = ImmMap<HttpMethod, ImmMap<string, TResponder>>;
 type MiddlewareVector = ImmVector<classname<MiddlewareInterface>>;
@@ -52,7 +52,7 @@ final class Router extends BaseRouter<TResponder> {
     }
     return null;
   }
-  
+
   <<__Memoize>>
   protected function collectRoutes(): ImmMap<?string, ?string> {
     $i = $this->routeMap->getIterator();

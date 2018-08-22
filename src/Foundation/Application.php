@@ -17,20 +17,18 @@
  */
 namespace Nazg\Foundation;
 
-use Facebook\HackRouter\BaseRouter;
-use Nazg\Http\HttpMethod;
-use Nazg\Heredity\Heredity;
-use Nazg\Heredity\{MiddlewareStack, PsrContainerResolver};
-use Nazg\Response\Emitter;
-use Nazg\RequestHandler\FallbackHandler;
-use Nazg\Foundation\Middleware\Dispatcher;
-use Nazg\Foundation\Bootstrap\BootstrapRegister;
-use Nazg\Foundation\Dependency\DependencyInterface;
-use Psr\Http\Server\RequestHandlerInterface;
-use Psr\Http\Server\MiddlewareInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Container\ContainerInterface;
+use type Facebook\HackRouter\BaseRouter;
+use type Nazg\Heredity\Heredity;
+use type Nazg\Heredity\{MiddlewareStack, PsrContainerResolver};
+use type Nazg\Response\Emitter;
+use type Nazg\RequestHandler\FallbackHandler;
+use type Nazg\Foundation\Middleware\Dispatcher;
+use type Nazg\Foundation\Bootstrap\BootstrapRegister;
+use type Nazg\Foundation\Dependency\DependencyInterface;
+use type Psr\Http\Server\RequestHandlerInterface;
+use type Psr\Http\Message\ServerRequestInterface;
+use type Psr\Http\Message\ResponseInterface;
+use type Psr\Container\ContainerInterface;
 
 class Application {
 
@@ -63,7 +61,7 @@ class Application {
       }
     }
     $heredity = $this->middlewareProcessor(
-      $middleware['middleware'], 
+      $middleware['middleware'],
       $container
     );
     $this->send(

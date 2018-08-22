@@ -17,11 +17,11 @@
  */
 namespace Nazg\Cache\Resolver;
 
-use Memcached;
-use Nazg\Cache\MemcachedConfig;
+use type Memcached;
+use type Nazg\Cache\MemcachedConfig;
 
 class MemcachedResolver {
-  
+
   const type T = Memcached;
 
   public function __construct(

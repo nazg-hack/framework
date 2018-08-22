@@ -2,12 +2,8 @@
 
 namespace NazgTest\Middleware;
 
-use Ytake\HHContainer\ServiceModule;
-use Ytake\HHContainer\FactoryContainer;
-use Psr\Log\LoggerInterface;
-use Monolog\Logger;
-use Monolog\Monolog;
-use Monolog\Handler\StreamHandler;
+use type Psr\Log\LoggerInterface;
+use namespace Monolog\Monolog;
 
 class OverrideLogServiceModule extends \Nazg\Log\LogServiceModule {
 

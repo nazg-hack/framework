@@ -6,6 +6,7 @@ env:
   matrix:
    - HHVM_VERSION=3.25.3
    - HHVM_VERSION=3.26.0
+   - HHVM_VERSION=3.27.0
    - HHVM_VERSION=latest
 install:
  - docker pull hhvm/hhvm:$HHVM_VERSION

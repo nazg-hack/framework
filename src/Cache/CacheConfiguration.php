@@ -17,9 +17,9 @@
  */
 namespace Nazg\Cache;
 
-use Redis;
-use Memcached;
-use Nazg\Cache\Resolver\{
+use type Redis;
+use type Memcached;
+use   type Nazg\Cache\Resolver\{
   MemcachedResolver,
   RedisResolver
 };

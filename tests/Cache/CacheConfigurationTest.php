@@ -2,8 +2,8 @@
 
 namespace NazgTest\Cache;
 
-use Nazg\Cache\CacheConfiguration;
-use PHPUnit\Framework\TestCase;
+use type Nazg\Cache\CacheConfiguration;
+use type PHPUnit\Framework\TestCase;
 
 class CacheConfigurationTest extends TestCase {
 

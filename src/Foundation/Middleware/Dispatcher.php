@@ -2,16 +2,15 @@
 
 namespace Nazg\Foundation\Middleware;
 
-use ReflectionMethod;
-use Nazg\Heredity\Heredity;
-use Nazg\Foundation\Validation\Attribute;
-use Nazg\Foundation\Validation\Validator;
-use Nazg\Foundation\Validation\ValidatorFactory;
-use Psr\Http\Server\MiddlewareInterface;
-use Psr\Http\Server\RequestHandlerInterface;
-use Psr\Container\ContainerInterface;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
+use type ReflectionMethod;
+use type Nazg\Heredity\Heredity;
+use type Nazg\Foundation\Validation\Attribute;
+use type Nazg\Foundation\Validation\Validator;
+use type Nazg\Foundation\Validation\ValidatorFactory;
+use type Psr\Http\Server\MiddlewareInterface;
+use type Psr\Container\ContainerInterface;
+use type Psr\Http\Message\ResponseInterface;
+use type Psr\Http\Message\ServerRequestInterface;
 
 enum InterceptorMethod : string {
   Process = 'process';

@@ -2,22 +2,21 @@
 
 namespace NazgTest\Exception;
 
-use PHPUnit\Framework\TestCase;
-use Ytake\HHContainer\ServiceModule;
-use Ytake\HHContainer\FactoryContainer;
-use Nazg\Response\Emitter;
-use Nazg\Exceptions\ExceptionHandleInterface;
-use Nazg\Foundation\Exception\ExceptionHandler;
-use Nazg\Foundation\Exception\ExceptionRegister;
-use Nazg\Foundation\Exception\ExceptionServiceModule;
+use type PHPUnit\Framework\TestCase;
+use type Ytake\HHContainer\FactoryContainer;
+use type Nazg\Response\Emitter;
+use type Nazg\Exceptions\ExceptionHandleInterface;
+use type Nazg\Foundation\Exception\ExceptionHandler;
+use type Nazg\Foundation\Exception\ExceptionRegister;
+use type Nazg\Foundation\Exception\ExceptionServiceModule;
 use function Facebook\FBExpect\expect;
-use Psr\Http\Message\ResponseInterface;
+use type Psr\Http\Message\ResponseInterface;
 
 class ExceptionHandlerTest extends TestCase {
 
   public function testShouldReturnExceptionHandlerInterface(): void {
      $container = new FactoryContainer();
-     $container->register(ExceptionServiceModule::class);
+     $container->registerModule(ExceptionServiceModule::class);
      $container->lockModule();
      $e = $container->get(ExceptionHandleInterface::class);
      expect($e)->toBeInstanceOf(ExceptionHandler::class);

@@ -17,11 +17,11 @@
  */
 namespace Nazg\Cache\Resolver;
 
-use Redis;
-use Nazg\Cache\RedisConfig;
+use type Redis;
+use type Nazg\Cache\RedisConfig;
 
 class RedisResolver {
-  
+
   const type T = Redis;
 
   public function __construct(
@@ -50,7 +50,7 @@ class RedisResolver {
     $this->redisConnectOption($redis, $config);
     return $redis;
   }
-  
+
   protected function redisConnectOption(Redis $redis, RedisConfig $config): void {
     $password = Shapes::idx($config, 'password', null);
     if (!\is_null($password)) {

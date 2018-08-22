@@ -17,7 +17,6 @@
  */
 namespace Nazg\Foundation\Bootstrap;
 
-use Nazg\Exceptions\ExceptionHandleInterface;
 
 interface BootstrapRegisterInterface {
 

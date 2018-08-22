@@ -2,11 +2,11 @@
 
 namespace Nazg\Foundation\Dependency;
 
-use Psr\Container\ContainerInterface;
-use Ytake\HHContainer\FactoryContainer;
-use Nazg\Foundation\Service;
-use Nazg\Foundation\Dependency\DependencyInterface;
-use Nazg\Routing\RouteServiceModule;
+use type Psr\Container\ContainerInterface;
+use type Ytake\HHContainer\FactoryContainer;
+use type Nazg\Foundation\Service;
+use type Nazg\Foundation\Dependency\DependencyInterface;
+use type Nazg\Routing\RouteServiceModule;
 
 class Dependency implements DependencyInterface {
 
@@ -23,19 +23,19 @@ class Dependency implements DependencyInterface {
     $this->container->set(
       Service::CONFIG,
       $container ==> $config,
-      \Ytake\HHContainer\Scope::SINGLETON,
+      \Ytake\HHContainer\Scope::Singleton,
     );
   }
 
   protected function registerServiceModule(): void {
     foreach ($this->modules->getIterator() as $i) {
-      $this->container->register($i);
+      $this->container->registerModule($i);
     }
     $this->container->lockModule();
   }
 
   public function register(): void {
-    $this->registerServiceModule();
+     $this->registerServiceModule();
   }
 
   public function appendModules(

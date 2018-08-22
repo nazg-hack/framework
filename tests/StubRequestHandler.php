@@ -2,15 +2,15 @@
 
 namespace NazgTest;
 
-use Psr\Http\Server\RequestHandlerInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\ResponseInterface;
-use Zend\Diactoros\Response\JsonResponse;
+use type Psr\Http\Server\RequestHandlerInterface;
+use type Psr\Http\Message\ServerRequestInterface;
+use type Psr\Http\Message\ResponseInterface;
+use type Zend\Diactoros\Response\JsonResponse;
 
 class StubRequestHandler implements RequestHandlerInterface {
 
   public function handle(
-    ServerRequestInterface $request
+    ServerRequestInterface $_request
   ): ResponseInterface {
     return new JsonResponse([]);
   }

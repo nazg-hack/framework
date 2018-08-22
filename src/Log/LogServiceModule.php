@@ -17,12 +17,11 @@
  */
 namespace Nazg\Log;
 
-use Ytake\HHContainer\ServiceModule;
-use Ytake\HHContainer\FactoryContainer;
-use Psr\Log\LoggerInterface;
-use Monolog\Logger;
-use Monolog\Monolog;
-use Monolog\Handler\StreamHandler;
+use type Ytake\HHContainer\ServiceModule;
+use type Ytake\HHContainer\FactoryContainer;
+use type Psr\Log\LoggerInterface;
+use type Monolog\Logger;
+use type Monolog\Handler\StreamHandler;
 
 class LogServiceModule extends ServiceModule {
   <<__Override>>
@@ -30,7 +29,7 @@ class LogServiceModule extends ServiceModule {
     $container->set(
       LoggerInterface::class,
       $container ==> $this->defaultLogger(),
-      \Ytake\HHContainer\Scope::SINGLETON,
+      \Ytake\HHContainer\Scope::Singleton,
     );
   }
 

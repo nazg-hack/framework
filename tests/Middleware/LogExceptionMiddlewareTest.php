@@ -2,17 +2,15 @@
 
 namespace NazgTest\Middleware;
 
-use Nazg\Log\LogServiceModule;
-use Nazg\Middleware\LogExceptionMiddleware;
-use PHPUnit\Framework\TestCase;
-use Ytake\HHContainer\ServiceModule;
-use Ytake\HHContainer\FactoryContainer;
-use Psr\Log\LoggerInterface;
-use Zend\Diactoros\ServerRequestFactory;
-use Nazg\Heredity\MiddlewareStack;
-use Nazg\Heredity\PsrContainerResolver;
-use Nazg\Foundation\Middleware\Dispatcher;
-use NazgTest\StubRequestHandler;
+use type Nazg\Middleware\LogExceptionMiddleware;
+use type PHPUnit\Framework\TestCase;
+use type Ytake\HHContainer\FactoryContainer;
+use type Psr\Log\LoggerInterface;
+use type Zend\Diactoros\ServerRequestFactory;
+use type Nazg\Heredity\MiddlewareStack;
+use type Nazg\Heredity\PsrContainerResolver;
+use type Nazg\Foundation\Middleware\Dispatcher;
+use type NazgTest\StubRequestHandler;
 
 class LogExceptionMiddlewareTest extends TestCase {
   /**
@@ -42,7 +40,7 @@ class LogExceptionMiddlewareTest extends TestCase {
 
   private function getDependencyContainer(): FactoryContainer {
     $container = new FactoryContainer();
-    $container->register(OverrideLogServiceModule::class);
+    $container->registerModule(OverrideLogServiceModule::class);
     $container->set(
       LogExceptionMiddleware::class,
       $container ==> new LogExceptionMiddleware($this->resolveLogger($container)),
