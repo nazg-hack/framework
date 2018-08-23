@@ -23,7 +23,7 @@ class Dependency implements DependencyInterface {
     $this->container->set(
       Service::CONFIG,
       $container ==> $config,
-      \Ytake\HHContainer\Scope::Singleton,
+      \Ytake\HHContainer\Scope::SINGLETON,
     );
   }
 

@@ -12,6 +12,9 @@ use type Psr\Container\ContainerInterface;
 use type Psr\Http\Message\ResponseInterface;
 use type Psr\Http\Message\ServerRequestInterface;
 
+use function is_array;
+use function array_key_exists;
+
 enum InterceptorMethod : string {
   Process = 'process';
 }
@@ -36,8 +39,8 @@ class Dispatcher extends Heredity {
   ): void {
     $rm = new ReflectionMethod($middleware, InterceptorMethod::Process);
     $attribute = $rm->getAttribute(Attribute::Named);
-    if (\is_array($attribute)) {
-      if (\array_key_exists($this->validatorIndex, $attribute)) {
+    if (is_array($attribute)) {
+      if (array_key_exists($this->validatorIndex, $attribute)) {
         $validator =
           $this->container?->get((string) $attribute[$this->validatorIndex]);
         if ($validator instanceof Validator) {

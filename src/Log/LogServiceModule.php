@@ -24,17 +24,20 @@ use type Monolog\Logger;
 use type Monolog\Handler\StreamHandler;
 
 class LogServiceModule extends ServiceModule {
+
+  protected string $logName = 'App.Log';
+
   <<__Override>>
   public function provide(FactoryContainer $container): void {
     $container->set(
       LoggerInterface::class,
       $container ==> $this->defaultLogger(),
-      \Ytake\HHContainer\Scope::Singleton,
+      \Ytake\HHContainer\Scope::SINGLETON,
     );
   }
 
   protected function defaultLogger(): LoggerInterface {
-    $monolog = new Logger("Nazg.Log");
+    $monolog = new Logger($this->logName);
     $monolog->pushHandler(new StreamHandler('php://stdout', Logger::WARNING));
     return $monolog;
   }

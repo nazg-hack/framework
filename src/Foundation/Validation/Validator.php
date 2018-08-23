@@ -18,6 +18,7 @@
 namespace Nazg\Foundation\Validation;
 
 use type Psr\Http\Message\ServerRequestInterface;
+use function is_null;
 
 enum Attribute : string as string {
   Named = 'RequestValidation';
@@ -41,7 +42,7 @@ abstract class Validator {
   }
 
   public function validate(): bool {
-    if (!\is_null($this->request)) {
+    if (!is_null($this->request)) {
       $this->assertStructure();
     }
     if ($this->errors()->count()) {

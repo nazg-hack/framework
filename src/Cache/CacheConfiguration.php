@@ -24,6 +24,8 @@ use   type Nazg\Cache\Resolver\{
   RedisResolver
 };
 
+use function is_null;
+
 type MemcachedServer = shape(
   'host' => string,
   'port' => int,
@@ -57,7 +59,7 @@ class CacheConfiguration {
   ) {}
 
   public function getMemcached(): ?Memcached {
-    if(!\is_null($this->memcachedConfig)) {
+    if(!is_null($this->memcachedConfig)) {
       $resolver = new MemcachedResolver($this->memcachedConfig);
       return $resolver->provide();
     }
@@ -65,14 +67,14 @@ class CacheConfiguration {
   }
 
   public function getFileSystemDir(): ?string {
-    if(!\is_null($this->filesystemConfig)) {
+    if(!is_null($this->filesystemConfig)) {
       return Shapes::idx($this->filesystemConfig, 'cacheStoreDir');
     }
     return null;
   }
 
   public function getRedis(): ?Redis {
-    if(!\is_null($this->redisConfig)) {
+    if(!is_null($this->redisConfig)) {
       $resolver = new RedisResolver($this->redisConfig);
       return $resolver->provide();
     }

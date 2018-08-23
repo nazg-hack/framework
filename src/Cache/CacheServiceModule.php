@@ -37,7 +37,7 @@ abstract class CacheServiceModule extends ServiceModule {
     $container->set(
       CacheManager::class,
       $container ==> new CacheManager(),
-      \Ytake\HHContainer\Scope::Singleton,
+      \Ytake\HHContainer\Scope::SINGLETON,
     );
 
     $container->set(
@@ -52,7 +52,7 @@ abstract class CacheServiceModule extends ServiceModule {
         }
         throw new \RuntimeException("Failed to resolve " . CacheProvider::class);
       },
-      \Ytake\HHContainer\Scope::Singleton,
+      \Ytake\HHContainer\Scope::SINGLETON,
     );
   }
 

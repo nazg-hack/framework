@@ -33,7 +33,7 @@ class RouteServiceModule extends ServiceModule {
       $container ==> new \Nazg\Routing\Router(
         $this->resolveRoutes($container),
       ),
-      \Ytake\HHContainer\Scope::Singleton,
+      \Ytake\HHContainer\Scope::SINGLETON,
     );
   }
 
