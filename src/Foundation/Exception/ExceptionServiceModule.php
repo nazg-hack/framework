@@ -17,10 +17,10 @@
  */
 namespace Nazg\Foundation\Exception;
 
-use Ytake\HHContainer\ServiceModule;
-use Ytake\HHContainer\FactoryContainer;
-use Nazg\Response\Emitter;
-use Nazg\Exceptions\ExceptionHandleInterface;
+use type Ytake\HHContainer\ServiceModule;
+use type Ytake\HHContainer\FactoryContainer;
+use type Nazg\Response\Emitter;
+use type Nazg\Exceptions\ExceptionHandleInterface;
 
 class ExceptionServiceModule extends ServiceModule {
   <<__Override>>

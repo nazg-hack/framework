@@ -2,8 +2,7 @@
 
 namespace NazgTest\Validation;
 
-use Nazg\Foundation\Validation\Validator;
-use Psr\Http\Message\ServerRequestInterface;
+use type Nazg\Foundation\Validation\Validator;
 
 final class MockValidateActionFaild extends Validator {
 

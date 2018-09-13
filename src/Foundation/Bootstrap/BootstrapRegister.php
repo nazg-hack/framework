@@ -17,7 +17,7 @@
  */
 namespace Nazg\Foundation\Bootstrap;
 
-use Psr\Container\ContainerInterface;
+use type Psr\Container\ContainerInterface;
 
 type Bootstrap = classname<BootstrapRegisterInterface>;
 

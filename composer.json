@@ -21,16 +21,16 @@
   ],
   "require": {
     "php": ">=7.0",
-    "hhvm": ">=3.25.0",
+    "hhvm": ">=3.26.0",
     "ext-asio": "*",
     "hhvm/hhvm-autoload": "^1.6",
-    "hhvm/type-assert": "^3.2.1",
+    "hhvm/type-assert": "^3.2.2",
     "hack-psr/psr7-http-message-hhi": "^1.0.0",
-    "ytake/hh-container": "^0.5.2",
-    "ytake/hh-config-aggregator": "^0.1.5",
-    "nazg/heredity": "^0.3.2",
-    "nazg/hcache": "^0.1.2",
-    "facebook/hack-router": "^0.13",
+    "ytake/hh-container": "^1.0.2",
+    "ytake/hh-config-aggregator": "^0.1.7",
+    "nazg/heredity": "^0.3.3",
+    "nazg/hcache": "^0.1.4",
+    "facebook/hack-router": "^0.14",
     "zendframework/zend-diactoros": "^1.7.0",
     "monolog/monolog": "^1.23.0",
     "libreworks/psr3-log-hhi": "^1.0.1",
@@ -40,8 +40,8 @@
   "require-dev": {
     "phpunit/phpunit": "^5.7",
     "91carriage/phpunit-hhi": "^5.7",
-    "facebook/fbexpect": "^0.4.0",
-    "hhvm/hhast": "^1.0.1"
+    "facebook/fbexpect": "^2.0.0",
+    "hhvm/hhast": "^1.0.1|>=3.26.0"
   },
   "autoload": {
     "psr-4": {

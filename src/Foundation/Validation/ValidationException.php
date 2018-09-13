@@ -17,7 +17,7 @@
  */
 namespace Nazg\Foundation\Validation;
 
-use Exception;
+use type Exception;
 
 class ValidationException extends Exception {
 

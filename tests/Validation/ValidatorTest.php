@@ -2,10 +2,10 @@
 
 namespace NazgTest\Validation;
 
-use Facebook\TypeAssert;
-use PHPUnit\Framework\TestCase;
-use Nazg\Foundation\Validation\Validator;
-use Zend\Diactoros\ServerRequestFactory;
+use namespace Facebook\TypeAssert;
+use type PHPUnit\Framework\TestCase;
+use type Nazg\Foundation\Validation\Validator;
+use type Zend\Diactoros\ServerRequestFactory;
 
 class ValidatorTest extends TestCase {
 

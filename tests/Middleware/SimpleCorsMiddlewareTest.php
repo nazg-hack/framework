@@ -2,16 +2,15 @@
 
 namespace NazgTest\Middleware;
 
-use Nazg\Http\HttpMethod;
-use Nazg\Middleware\SimpleCorsMiddleware;
-use Nazg\Middleware\AccessControl;
-use PHPUnit\Framework\TestCase;
-use Ytake\HHContainer\ServiceModule;
-use Ytake\HHContainer\FactoryContainer;
-use Zend\Diactoros\ServerRequestFactory;
-use Nazg\Heredity\MiddlewareStack;
-use Nazg\Heredity\PsrContainerResolver;
-use Nazg\Foundation\Middleware\Dispatcher;
+use type Nazg\Http\HttpMethod;
+use type Nazg\Middleware\SimpleCorsMiddleware;
+use type Nazg\Middleware\AccessControl;
+use type PHPUnit\Framework\TestCase;
+use type Ytake\HHContainer\FactoryContainer;
+use type Zend\Diactoros\ServerRequestFactory;
+use type Nazg\Heredity\MiddlewareStack;
+use type Nazg\Heredity\PsrContainerResolver;
+use type Nazg\Foundation\Middleware\Dispatcher;
 
 class SimpleCorsMiddlewareTest extends TestCase {
 

@@ -17,13 +17,13 @@
  */
 namespace Nazg\Foundation\Exception;
 
-use Nazg\Http\StatusCode;
-use Nazg\Response\Emitter;
-use Nazg\Types\ExceptionImmMap;
-use Nazg\Exceptions\ExceptionHandleInterface;
+use type Nazg\Http\StatusCode;
+use type Nazg\Response\Emitter;
+use type Nazg\Types\ExceptionImmMap;
+use type Nazg\Exceptions\ExceptionHandleInterface;
 use function HH\Lib\Vec\map;
-use Psr\Http\Message\ResponseInterface;
-use Zend\Diactoros\Response\JsonResponse;
+use type Psr\Http\Message\ResponseInterface;
+use type Zend\Diactoros\Response\JsonResponse;
 
 class ExceptionHandler implements ExceptionHandleInterface {
 
@@ -31,7 +31,7 @@ class ExceptionHandler implements ExceptionHandleInterface {
 
   protected function render(
     ExceptionImmMap $em,
-    \Throwable $e
+    \Throwable $_e
   ): ResponseInterface {
     return new JsonResponse(
       $em->toArray(),

@@ -17,7 +17,7 @@
  */
 namespace Nazg\Foundation\Validation;
 
-use Psr\Http\Message\ServerRequestInterface;
+use type Psr\Http\Message\ServerRequestInterface;
 
 class ValidatorFactory {
 

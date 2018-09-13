@@ -2,8 +2,8 @@
 
 namespace NazgTest;
 
-use Ytake\HHContainer\FactoryContainer;
-use Ytake\HHContainer\ServiceModule;
+use type Ytake\HHContainer\FactoryContainer;
+use type Ytake\HHContainer\ServiceModule;
 
 class TestingServiceModule extends ServiceModule {
   <<__Override>>

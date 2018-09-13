@@ -2,12 +2,10 @@
 
 namespace NazgTest\Routing;
 
-use PHPUnit\Framework\TestCase;
-use Nazg\Routing\Router;
-use Nazg\Foundation\Service;
-use Nazg\Http\HttpMethod;
-use Zend\Diactoros\ServerRequestFactory;
-use Psr\Http\Server\MiddlewareInterface;
+use type PHPUnit\Framework\TestCase;
+use type Nazg\Routing\Router;
+use type Nazg\Http\HttpMethod;
+use type Zend\Diactoros\ServerRequestFactory;
 
 class RouterTest extends TestCase {
 

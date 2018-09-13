@@ -17,7 +17,7 @@
  */
 namespace Nazg\Foundation\Dependency;
 
-use Psr\Container\ContainerInterface;
+use type Psr\Container\ContainerInterface;
 
 interface DependencyInterface {
 

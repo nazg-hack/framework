@@ -17,9 +17,9 @@
  */
 namespace Nazg\Response;
 
-use Psr\Http\Message\ResponseInterface;
-use Zend\Diactoros\Response\SapiEmitter;
-use Zend\Diactoros\Response\EmitterInterface;
+use type Psr\Http\Message\ResponseInterface;
+use type Zend\Diactoros\Response\SapiEmitter;
+use type Zend\Diactoros\Response\EmitterInterface;
 
 class Emitter {
 

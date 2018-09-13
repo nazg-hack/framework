@@ -17,21 +17,16 @@
  */
 namespace Nazg\Cache;
 
-use Memcached;
-use Redis;
-use Nazg\Cache\CacheConfiguration;
-use Nazg\HCache\CacheManager;
-use Nazg\HCache\CacheProvider;
-use Nazg\HCache\Driver\{
-    MapCache,
+use type Nazg\Cache\CacheConfiguration;
+use type Nazg\HCache\CacheManager;
+use type Nazg\HCache\CacheProvider;
+use     type Nazg\HCache\Driver\{
     FileSystemCache,
-    ApcCache,
     MemcachedCache,
     RedisCache,
-    VoidCache
 };
-use Ytake\HHContainer\ServiceModule;
-use Ytake\HHContainer\FactoryContainer;
+use type Ytake\HHContainer\ServiceModule;
+use type Ytake\HHContainer\FactoryContainer;
 
 abstract class CacheServiceModule extends ServiceModule {
 
@@ -66,7 +61,7 @@ abstract class CacheServiceModule extends ServiceModule {
   ): CacheConfiguration;
 
   protected function detectCacheProvider(
-    ?CacheProvider $provider, 
+    ?CacheProvider $provider,
     CacheConfiguration $cacheConfigure
   ): CacheProvider {
     invariant($provider instanceof CacheProvider, "provider type error");

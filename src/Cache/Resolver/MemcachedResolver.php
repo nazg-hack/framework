@@ -17,11 +17,13 @@
  */
 namespace Nazg\Cache\Resolver;
 
-use Memcached;
-use Nazg\Cache\MemcachedConfig;
+use type Memcached;
+use type Nazg\Cache\MemcachedConfig;
+
+use function is_null;
 
 class MemcachedResolver {
-  
+
   const type T = Memcached;
 
   public function __construct(
@@ -32,7 +34,7 @@ class MemcachedResolver {
     $config = $this->config;
     $m = new Memcached(Shapes::idx($config, 'persistentId'));
     $servers = Shapes::idx($config, 'servers');
-    if(!\is_null($servers)) {
+    if(!is_null($servers)) {
       $m->addServers($servers->toArray());
     }
     return $m;

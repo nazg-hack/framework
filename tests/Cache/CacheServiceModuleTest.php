@@ -2,24 +2,23 @@
 
 namespace NazgTest\Cache;
 
-use Ytake\HHContainer\FactoryContainer;
-use Nazg\Cache\Driver;
-use Nazg\Cache\CacheConfiguration;
-use Nazg\Cache\CacheServiceModule;
-use Nazg\HCache\CacheManager;
-use Nazg\HCache\CacheProvider;
-use Nazg\HCache\Driver\{
+use type Ytake\HHContainer\FactoryContainer;
+use type Nazg\Cache\Driver;
+use type Nazg\Cache\CacheConfiguration;
+use type Nazg\Cache\CacheServiceModule;
+use type Nazg\HCache\CacheManager;
+use type Nazg\HCache\CacheProvider;
+use     type Nazg\HCache\Driver\{
     MapCache,
     FileSystemCache,
     ApcCache,
     MemcachedCache,
-    RedisCache,
     VoidCache
 };
-use PHPUnit\Framework\TestCase;
+use type PHPUnit\Framework\TestCase;
 
 class CacheServiceModuleTest extends TestCase {
-  
+
   public function testShouldReturnCacheDrivers(): void {
     $container = new FactoryContainer();
     $serviceModule = new TestCacheServiceModule();
@@ -27,7 +26,7 @@ class CacheServiceModuleTest extends TestCase {
     $manager = $container->get(CacheManager::class);
     $this->assertInstanceOf(CacheManager::class, $manager);
     $this->assertInstanceOf(
-      FileSystemCache::class, 
+      FileSystemCache::class,
       $container->get(CacheProvider::class)
     );
     $container = new FactoryContainer();
@@ -35,7 +34,7 @@ class CacheServiceModuleTest extends TestCase {
     $serviceModule->setDriver(Driver::Void);
     $serviceModule->provide($container);
     $this->assertInstanceOf(
-      VoidCache::class, 
+      VoidCache::class,
       $container->get(CacheProvider::class)
     );
     $container = new FactoryContainer();
@@ -43,7 +42,7 @@ class CacheServiceModuleTest extends TestCase {
     $serviceModule->setDriver(Driver::Apc);
     $serviceModule->provide($container);
     $this->assertInstanceOf(
-      ApcCache::class, 
+      ApcCache::class,
       $container->get(CacheProvider::class)
     );
     $container = new FactoryContainer();
@@ -66,24 +65,25 @@ class CacheServiceModuleTest extends TestCase {
 }
 
 class TestCacheServiceModule extends CacheServiceModule {
-  
+
   public function setDriver(Driver $driver): void {
     $this->defaultDriver = $driver;
   }
 
-  protected function cacheConfigure(FactoryContainer $container): CacheConfiguration {
+  <<__Override>>
+  protected function cacheConfigure(FactoryContainer $_container): CacheConfiguration {
     return new CacheConfiguration(
-      shape('servers' => 
+      shape('servers' =>
         ImmVector {
           shape('host' => '127.0.0.1', 'port' => 11211)
         }
-      ), 
-      shape('cacheStoreDir' => __DIR__), 
+      ),
+      shape('cacheStoreDir' => __DIR__),
       shape(
         'host' => '127.0.0.1',
         'port' => 6379,
         'prefix' => 'testing'
       )
     );
-  } 
+  }
 }
