@@ -28,6 +28,8 @@ use     type Nazg\HCache\Driver\{
 use type Ytake\HHContainer\ServiceModule;
 use type Ytake\HHContainer\FactoryContainer;
 
+use function is_null;
+
 abstract class CacheServiceModule extends ServiceModule {
 
   protected Driver $defaultDriver = Driver::File;
@@ -68,7 +70,7 @@ abstract class CacheServiceModule extends ServiceModule {
     if($this->defaultDriver === Driver::File) {
       if($provider instanceof FileSystemCache) {
         $dir = $cacheConfigure->getFileSystemDir();
-        if(!\is_null($dir)) {
+        if(!is_null($dir)) {
           $provider->setDirectory($dir);
         }
       }
@@ -76,7 +78,7 @@ abstract class CacheServiceModule extends ServiceModule {
     if($this->defaultDriver === Driver::Memcached) {
       if($provider instanceof MemcachedCache) {
         $m = $cacheConfigure->getMemcached();
-        if(!\is_null($m)) {
+        if(!is_null($m)) {
           $provider->setMemcached($m);
         }
       }
@@ -84,7 +86,7 @@ abstract class CacheServiceModule extends ServiceModule {
     if($this->defaultDriver === Driver::Redis) {
       if($provider instanceof RedisCache) {
         $r = $cacheConfigure->getRedis();
-        if(!\is_null($r)) {
+        if(!is_null($r)) {
           $provider->setRedis($r);
         }
       }

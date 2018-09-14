@@ -21,9 +21,13 @@ use type Nazg\Http\StatusCode;
 use type Nazg\Response\Emitter;
 use type Nazg\Types\ExceptionImmMap;
 use type Nazg\Exceptions\ExceptionHandleInterface;
-use function HH\Lib\Vec\map;
 use type Psr\Http\Message\ResponseInterface;
 use type Zend\Diactoros\Response\JsonResponse;
+
+use function call_user_func_array;
+use function get_class;
+use function is_array;
+use function HH\Lib\Vec\map;
 
 class ExceptionHandler implements ExceptionHandleInterface {
 
@@ -47,20 +51,20 @@ class ExceptionHandler implements ExceptionHandleInterface {
   }
 
   public function handleException(\Throwable $e): void {
-    \call_user_func_array([$this, 'respond'], [$this->toImmMap($e), $e]);
+    call_user_func_array([$this, 'respond'], [$this->toImmMap($e), $e]);
   }
 
   protected function toImmMap(\Throwable $e): ExceptionImmMap {
     return new ImmMap(
       [
         'message' => $e->getMessage(),
-        'exception' => \get_class($e),
+        'exception' => get_class($e),
         'file' => $e->getFile(),
         'line' => $e->getLine(),
         'trace' => map(
           $e->getTrace(),
           $v ==> {
-            if(\is_array($v)) {
+            if(is_array($v)) {
               return (new Map($v))->removeKey('args')->toArray();
             }
             return [];
