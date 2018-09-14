@@ -27,6 +27,7 @@ use type Zend\Diactoros\Response\JsonResponse;
 use function call_user_func_array;
 use function get_class;
 use function is_array;
+use function HH\Lib\Vec\map;
 
 class ExceptionHandler implements ExceptionHandleInterface {
 
