@@ -1,5 +1,3 @@
-<?hh // strict
-
 /**
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -15,9 +13,20 @@
  * Copyright (c) 2017-2018 Yuuki Takezawa
  *
  */
-namespace Nazg\Exceptions;
+namespace Nazg\Foundation\Validation;
 
-interface ExceptionHandleInterface {
+use type Facebook\Experimental\Http\Message\ServerRequestInterface;
 
-  public function handleException(\Throwable $e): void;
+class ValidatorFactory {
+
+  public function __construct(
+    protected Validator $validatorName,
+    protected ServerRequestInterface $request,
+  ) {}
+
+  public function validator(): Validator {
+    $validator = $this->validatorName;
+    $validator->validateRequest($this->request);
+    return $validator;
+  }
 }

@@ -1,5 +1,3 @@
-<?hh // strict
-
 /**
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -15,12 +13,22 @@
  * Copyright (c) 2017-2018 Yuuki Takezawa
  *
  */
-namespace Nazg\Foundation;
+namespace Nazg\Foundation\Validation;
 
-enum Service : string as string {
-  CACHE = 'cache';
-  CONFIG = 'app.config';
-  MODULES = 'module';
-  ROUTES = 'route';
-  MIDDLEWARES = 'middleware';
+use type Exception;
+
+class ValidationException extends Exception {
+
+  protected int $status = 400;
+
+  protected Validator $validator;
+
+  public function __construct(Validator $validator) {
+    parent::__construct('The given data was invalid.');
+    $this->validator = $validator;
+  }
+
+  public function errors(): array<string> {
+    return $this->validator->errors()->toArray();
+  }
 }

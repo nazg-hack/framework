@@ -1,5 +1,3 @@
-<?hh // strict
-
 /**
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -15,22 +13,8 @@
  * Copyright (c) 2017-2018 Yuuki Takezawa
  *
  */
-namespace Nazg\Foundation\Validation;
+namespace Nazg\Types;
 
-use type Exception;
-
-class ValidationException extends Exception {
-
-  protected int $status = 400;
-
-  protected Validator $validator;
-
-  public function __construct(Validator $validator) {
-    parent::__construct('The given data was invalid.');
-    $this->validator = $validator;
-  }
-
-  public function errors(): array<string> {
-    return $this->validator->errors()->toArray();
-  }
-}
+type TMiddlewareClass = classname<\Nazg\Http\Server\MiddlewareInterface>;
+type TServiceModule = classname<\Nazg\Glue\ServiceModule>;
+type ExceptionImmMap = ImmMap<string, mixed>;

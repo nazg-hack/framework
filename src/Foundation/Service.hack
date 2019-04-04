@@ -1,5 +1,3 @@
-<?hh // strict
-
 /**
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -15,10 +13,12 @@
  * Copyright (c) 2017-2018 Yuuki Takezawa
  *
  */
-namespace Nazg\Foundation\Bootstrap;
+namespace Nazg\Foundation;
 
-
-interface BootstrapRegisterInterface {
-
-  public function register(): void;
+enum Service : string as string {
+  CACHE = 'cache';
+  CONFIG = 'app.config';
+  MODULES = 'module';
+  ROUTES = 'route';
+  MIDDLEWARES = 'middleware';
 }

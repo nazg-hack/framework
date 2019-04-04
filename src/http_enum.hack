@@ -1,5 +1,3 @@
-<?hh // strict
-
 /**
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -16,15 +14,6 @@
  *
  */
 namespace Nazg\Http;
-
-enum HttpMethod : string {
-  HEAD = 'HEAD';
-  GET = 'GET';
-  POST = 'POST';
-  PATCH = 'PATCH';
-  PUT = 'PUT';
-  DELETE = 'DELETE';
-}
 
 enum StatusCode : int {
   Continue = 100;

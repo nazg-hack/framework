@@ -11,7 +11,7 @@ Http Application / Microframework for HHVM/Hack
 [Skeleton](https://github.com/ytake/nazg-skeleton)
 
 ```bash
-$ hhvm -d xdebug.enable=0 -d hhvm.jit=0 -d hhvm.php7.all=1 -d hhvm.hack.lang.auto_typecheck=0 $(which composer) install
+$ hhvm $(which composer) install
 ```
 
 ## License

@@ -1,5 +1,3 @@
-<?hh // strict
-
 /**
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -17,7 +15,7 @@
  */
 namespace Nazg\Foundation\Validation;
 
-use type Psr\Http\Message\ServerRequestInterface;
+use type Facebook\Experimental\Http\Message\ServerRequestInterface;
 use function is_null;
 
 enum Attribute : string as string {
@@ -28,21 +26,23 @@ abstract class Validator {
 
   protected ?ServerRequestInterface $request;
 
-  protected Vector<string> $messages = Vector {};
+  protected vec<string> $messages = vec[];
 
-  protected Vector<string> $validateMethods = Vector {};
+  protected vec<string> $validateMethods = vec[];
 
   protected bool $shouldThrowException = false;
 
   // disabled type assert for request parameters
   protected bool $skipValidateStructure = true;
 
-  public function validateRequest(ServerRequestInterface $request): void {
+  public function validateRequest(
+    ServerRequestInterface $request
+  ): void {
     $this->request = $request;
   }
 
   public function validate(): bool {
-    if (!is_null($this->request)) {
+    if ($this->request is nonnull) {
       $this->assertStructure();
     }
     if ($this->errors()->count()) {

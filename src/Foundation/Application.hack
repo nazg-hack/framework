@@ -1,5 +1,3 @@
-<?hh // strict
-
 /**
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -12,7 +10,7 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  *
- * Copyright (c) 2017-2018 Yuuki Takezawa
+ * Copyright (c) 2017-2019 Yuuki Takezawa
  *
  */
 namespace Nazg\Foundation;
@@ -25,10 +23,10 @@ use type Nazg\RequestHandler\FallbackHandler;
 use type Nazg\Foundation\Middleware\Dispatcher;
 use type Nazg\Foundation\Bootstrap\BootstrapRegister;
 use type Nazg\Foundation\Dependency\DependencyInterface;
-use type Psr\Http\Server\RequestHandlerInterface;
-use type Psr\Http\Message\ServerRequestInterface;
-use type Psr\Http\Message\ResponseInterface;
-use type Psr\Container\ContainerInterface;
+use type Facebook\Experimental\Http\Message\ResponseInterface;
+use type Facebook\Experimental\Http\Message\ServerRequestInterface;
+use type Nazg\Http\Server\RequestHandlerInterface;
+use type Nazg\Glue\Container;
 
 use function get_class;
 use function is_array;
@@ -46,23 +44,16 @@ class Application {
 
   public function __construct(protected DependencyInterface $dependency) {}
 
-  public function run(ServerRequestInterface $serverRequest): void {
+  public function run(
+    ServerRequestInterface $serverRequest
+  ): void {
     $container = $this->getContainer();
     // register bootstrap for framework application
     $this->bootstrap($container);
     $router = $container->get(BaseRouter::class);
-    invariant(
-      $router instanceof BaseRouter,
-      "%s class must extend %s",
-      get_class($router),
-      BaseRouter::class,
-    );
-    list($middleware, $attributes) =
-      $router->routePsr7Request($serverRequest);
+    list($middleware, $attributes) = $router->routeRequest($serverRequest);
     if ($attributes->count()) {
-      foreach ($attributes as $key => $attribute) {
-        $serverRequest = $serverRequest->withAttribute($key, $attribute);
-      }
+      $serverRequest = $serverRequest->withServerParams(dict($attributes));
     }
     $heredity = $this->middlewareProcessor(
       $middleware['middleware'],
@@ -77,7 +68,7 @@ class Application {
 
   protected function marshalAttributes(
     ServerRequestInterface $request,
-    ImmMap<string, string> $attributes,
+    dict<string, string> $attributes,
   ): ServerRequestInterface {
     if ($attributes->count()) {
       foreach ($attributes as $key => $attribute) {
@@ -87,9 +78,8 @@ class Application {
     return $request;
   }
 
-  private function bootstrap(ContainerInterface $container): void {
-    $bootstrap =
-      $this->bootstrapRegister ?: new BootstrapRegister($container);
+  private function bootstrap(Container $container): void {
+    $bootstrap = $this->bootstrapRegister ?: new BootstrapRegister($container);
     $bootstrap->register();
   }
 
@@ -109,7 +99,7 @@ class Application {
     $this->dependency->register();
   }
 
-  public function getContainer(): ContainerInterface {
+  public function getContainer(): Container {
     return $this->dependency->getContainer();
   }
 
@@ -157,7 +147,7 @@ class Application {
 
   protected function middlewareProcessor(
     ImmVector<\Nazg\Types\TMiddlewareClass> $middleware,
-    ContainerInterface $container,
+    Container $container,
   ): RequestHandlerInterface {
     $appMiddleware =
       $this->im

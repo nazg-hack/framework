@@ -1,5 +1,3 @@
-<?hh
-
 /**
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -12,11 +10,10 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  *
- * Copyright (c) 2017-2018 Yuuki Takezawa
+ * Copyright (c) 2017-2019 Yuuki Takezawa
  *
  */
-namespace Nazg\Types;
+namespace Nazg\Exceptions;
 
-type TMiddlewareClass = classname<\Psr\Http\Server\MiddlewareInterface>;
-type TServiceModule = classname<\Ytake\HHContainer\ServiceModule>;
-type ExceptionImmMap = ImmMap<string, mixed>;
+final class NotFoundHttpException
+  extends \Facebook\HackRouter\NotFoundException {}
