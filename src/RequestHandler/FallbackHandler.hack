@@ -1,5 +1,3 @@
-<?hh // strict
-
 /**
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -15,28 +13,20 @@
  * Copyright (c) 2017-2018 Yuuki Takezawa
  *
  */
-namespace Nazg\Cache\Resolver;
+namespace Nazg\RequestHandler;
 
-use type Memcached;
-use type Nazg\Cache\MemcachedConfig;
+use type HH\Lib\Experimental\IO\WriteHandle;
+use type Facebook\Experimental\Http\Message\ResponseInterface;
+use type Facebook\Experimental\Http\Message\ServerRequestInterface;
+use type Nazg\Http\Server\RequestHandlerInterface;
+use type Ytake\Hungrr\Response\JsonResponse;
 
-use function is_null;
+class FallbackHandler implements RequestHandlerInterface {
 
-class MemcachedResolver {
-
-  const type T = Memcached;
-
-  public function __construct(
-    protected MemcachedConfig $config
-  ) {}
-
-  public function provide(): this::T {
-    $config = $this->config;
-    $m = new Memcached(Shapes::idx($config, 'persistentId'));
-    $servers = Shapes::idx($config, 'servers');
-    if(!is_null($servers)) {
-      $m->addServers($servers->toArray());
-    }
-    return $m;
+  public function handle(
+    WriteHandle $wirteHandle,
+    ServerRequestInterface $_
+  ): ResponseInterface {
+    return new JsonResponse($wirteHandle);
   }
 }

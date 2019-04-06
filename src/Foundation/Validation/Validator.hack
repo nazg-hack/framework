@@ -16,7 +16,6 @@
 namespace Nazg\Foundation\Validation;
 
 use type Facebook\Experimental\Http\Message\ServerRequestInterface;
-use function is_null;
 
 enum Attribute : string as string {
   Named = 'RequestValidation';

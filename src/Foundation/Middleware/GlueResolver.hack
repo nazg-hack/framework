@@ -1,5 +1,3 @@
-<?hh // strict
-
 /**
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -12,32 +10,31 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  *
- * Copyright (c) 2017-2018 Yuuki Takezawa
+ * Copyright (c) 2017-2019 Yuuki Takezawa
  *
  */
-namespace Nazg\Foundation\Bootstrap;
+ namespace Nazg\Foundation\Middleware;
 
+use namespace HH\Lib\Str;
+use type Nazg\Http\Server\MiddlewareInterface;
+use type Nazg\Heredity\Exception\MiddlewareResolvingException;
+use type Nazg\Heredity\Resolvable;
 use type Nazg\Glue\Container;
 
-type Bootstrap = classname<BootstrapRegisterInterface>;
-
-class BootstrapRegister implements BootstrapRegisterInterface {
-
-  protected ImmVector<Bootstrap>
-    $ibr = ImmVector {
-      \Nazg\Foundation\Exception\ExceptionRegister::class
-    };
+class GlueResolver implements Resolvable {
 
   public function __construct(
     protected Container $container
   ) {}
 
-  public function register(): void {
-    foreach ($this->ibr->getIterator() as $i) {
-      if ($this->container->has($i)) {
-        $instance = $this->container->get($i);
-        $instance->register();
-      }
+  public function resolve(
+    classname<MiddlewareInterface> $middleware
+  ): MiddlewareInterface {
+    if ($this->container->has($middleware)) {
+      return $this->container->get($middleware);
     }
+    throw new MiddlewareResolvingException(
+      Str\format('Identifier "%s" is not binding.', $middleware),
+    );
   }
 }

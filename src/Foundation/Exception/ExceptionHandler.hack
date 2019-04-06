@@ -1,5 +1,3 @@
-<?hh
-
 /**
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -17,29 +15,36 @@
  */
 namespace Nazg\Foundation\Exception;
 
-use type Nazg\Http\StatusCode;
 use type Nazg\Response\Emitter;
 use type Nazg\Types\ExceptionImmMap;
 use type Nazg\Exceptions\ExceptionHandleInterface;
-use type Psr\Http\Message\ResponseInterface;
-use type Zend\Diactoros\Response\JsonResponse;
+use type Nazg\HttpExecutor\Emitter\SapiEmitter;
+use type Facebook\Experimental\Http\Message\ResponseInterface;
+use type Ytake\Hungrr\StatusCode;
+use type Ytake\Hungrr\Response\JsonResponse;
+use namespace HH\Lib\Experimental\IO;
 
-use function call_user_func_array;
 use function get_class;
 use function is_array;
 use function HH\Lib\Vec\map;
+use function json_encode;
 
 class ExceptionHandler implements ExceptionHandleInterface {
 
-  public function __construct(protected Emitter $emitter) {}
+  public function __construct(
+    protected IO\ReadHandle $readHandle,
+    protected IO\WriteHandle $writeHandle,
+    protected SapiEmitter $emitter
+  ) {}
 
-  protected function render(
+  protected async function renderAsync(
     ExceptionImmMap $em,
     \Throwable $_e
-  ): ResponseInterface {
+  ): Awaitable<ResponseInterface> {
+    await $this->writeHandle->writeAsync(json_encode($em->toArray()));
     return new JsonResponse(
-      $em->toArray(),
-      StatusCode::StatusInternalServerError,
+      $this->writeHandle,
+      StatusCode::INTERNAL_SERVER_ERROR,
     );
   }
 
@@ -47,11 +52,14 @@ class ExceptionHandler implements ExceptionHandleInterface {
    * @see https://github.com/zendframework/zend-diactoros/blob/master/doc/book/custom-responses.md
    */
   protected function respond(ExceptionImmMap $em, \Throwable $e): void {
-    $this->emitter->emit($this->render($em, $e));
+    $this->emitter->emit(
+      $this->readHandle, 
+      \HH\Asio\join($this->renderAsync($em, $e))
+    );
   }
 
   public function handleException(\Throwable $e): void {
-    call_user_func_array([$this, 'respond'], [$this->toImmMap($e), $e]);
+    $this->respond($this->toImmMap($e), $e);
   }
 
   protected function toImmMap(\Throwable $e): ExceptionImmMap {

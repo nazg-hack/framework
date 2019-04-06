@@ -1,5 +1,3 @@
-<?hh // strict
-
 /**
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -17,32 +15,28 @@
  */
 namespace Nazg\Routing;
 
-use type Nazg\Http\HttpMethod;
+use namespace HH\Lib\Dict;
 use type Facebook\HackRouter\BaseRouter;
 use type Facebook\HackRouter\HttpMethod as HackRouterHttpMethod;
-use type Psr\Http\Server\MiddlewareInterface;
-
-type ImmRouteMap = ImmMap<HttpMethod, ImmMap<string, TResponder>>;
-type MiddlewareVector = ImmVector<classname<MiddlewareInterface>>;
-type TResponder = shape(
-  'middleware' => MiddlewareVector,
-  ?'named' => string,
-);
+use type Facebook\Experimental\Http\Message\HTTPMethod;
 
 final class Router extends BaseRouter<TResponder> {
 
-  public function __construct(private ImmRouteMap $routeMap) {}
+  public function __construct(
+    private dict<HTTPMethod, ImmMap<string, TResponder>> $routeMap
+  ) {}
 
   <<__Override>>
   protected function getRoutes(
   ): ImmMap<HackRouterHttpMethod, ImmMap<string, TResponder>> {
-    $i = $this->routeMap->getIterator();
-    $map = [];
-    while ($i->valid()) {
-      $map[$this->convertHttpMethod($i->key())] = $i->current();
-      $i->next();
-    }
-    return new ImmMap($map);
+    return new ImmMap($this->dictRoutes());
+  }
+
+  <<__Rx>>
+  protected function dictRoutes(): dict<HackRouterHttpMethod, ImmMap<string, TResponder>> {
+    return Dict\map_keys($this->routeMap, ($k) ==> {
+      return $this->convertHttpMethod($k);
+    });
   }
 
   public function findRoute(string $named): ?string {
@@ -55,7 +49,8 @@ final class Router extends BaseRouter<TResponder> {
 
   <<__Memoize>>
   protected function collectRoutes(): ImmMap<?string, ?string> {
-    $i = $this->routeMap->getIterator();
+    $map = new Map($this->routeMap);
+    $i = $map->getIterator();
     $named = [];
     while ($i->valid()) {
       $current = $i->current();
@@ -72,16 +67,12 @@ final class Router extends BaseRouter<TResponder> {
     return new ImmMap($named);
   }
 
+  <<__Memoize, __Rx>>
   private function convertHttpMethod(
-    HttpMethod $method,
+    HTTPMethod $method,
   ): HackRouterHttpMethod {
-    switch (HttpMethod::assert($method)) {
-      case HttpMethod::GET:
-        return HackRouterHttpMethod::GET;
-      case HttpMethod::HEAD:
-        return HackRouterHttpMethod::HEAD;
-      default:
-        return HackRouterHttpMethod::POST;
-    }
+    return HackRouterHttpMethod::assert(
+      HTTPMethod::assert($method)
+    );
   }
 }

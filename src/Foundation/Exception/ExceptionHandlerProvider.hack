@@ -1,5 +1,3 @@
-<?hh // strict
-
 /**
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -17,16 +15,23 @@
  */
 namespace Nazg\Foundation\Exception;
 
+use type Nazg\Glue\Container;
+use type Nazg\Glue\ProviderInterface;
 use type Nazg\Exceptions\ExceptionHandleInterface;
-use type Nazg\Foundation\Bootstrap\BootstrapRegisterInterface;
+use type Nazg\HttpExecutor\Emitter\SapiEmitter;
+use namespace HH\Lib\Experimental\IO;
 
-use function set_exception_handler;
+class ExceptionHandlerProvider implements ProviderInterface<ExceptionHandleInterface> {
 
-class ExceptionRegister implements BootstrapRegisterInterface {
+  public function __construct(
+    protected IO\ReadHandle $readHandle,
+    protected IO\WriteHandle $writeHandle,
+    protected SapiEmitter $emitter
+  ) {}
 
-  public function __construct(protected ExceptionHandleInterface $handler) {}
-
-  public function register(): void {
-    set_exception_handler([$this->handler, 'handleException']);
+  public function get(
+    Container $_
+  ): ExceptionHandleInterface {
+    return new ExceptionHandler($this->readHandle, $this->writeHandle, $this->emitter);
   }
 }

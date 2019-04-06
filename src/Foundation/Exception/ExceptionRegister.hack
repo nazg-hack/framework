@@ -1,5 +1,3 @@
-<?hh
-
 /**
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -15,20 +13,20 @@
  * Copyright (c) 2017-2018 Yuuki Takezawa
  *
  */
-namespace Nazg\RequestHandler;
+namespace Nazg\Foundation\Exception;
 
-use type HH\Lib\Experimental\IO\WriteHandle;
-use type Facebook\Experimental\Http\Message\ResponseInterface;
-use type Facebook\Experimental\Http\Message\ServerRequestInterface;
-use type Nazg\Http\Server\RequestHandlerInterface;
-use type Ytake\Hungrr\Response\JsonResponse;
+use type Nazg\Exceptions\ExceptionHandleInterface;
+use type Nazg\Foundation\Bootstrap\BootstrapRegisterInterface;
 
-class FallbackHandler implements RequestHandlerInterface {
+use function set_exception_handler;
 
-    public function handle(
-    WriteHandle $wirteHandle,
-    ServerRequestInterface $_
-  ): ResponseInterface {
-    return new JsonResponse($wirteHandle);
+class ExceptionRegister implements BootstrapRegisterInterface {
+
+  public function __construct(
+    protected ExceptionHandleInterface $handler
+  ) {}
+
+  public function register(): void {
+    set_exception_handler([$this->handler, 'handleException']);
   }
 }

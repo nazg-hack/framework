@@ -1,5 +1,3 @@
-<?hh // strict
-
 /**
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -15,15 +13,12 @@
  * Copyright (c) 2017-2018 Yuuki Takezawa
  *
  */
-namespace Nazg\Foundation\Dependency;
+namespace Nazg\Routing;
 
-use type Psr\Container\ContainerInterface;
+use type Nazg\Http\Server\MiddlewareInterface;
 
-interface DependencyInterface {
-
-  public function registerConfig(array<mixed, mixed> $config): void;
-
-  public function register(): void;
-
-  public function getContainer(): ContainerInterface;
-}
+type MiddlewareVector = vec<classname<MiddlewareInterface>>;
+type TResponder = shape(
+  'middleware' => MiddlewareVector,
+  ?'named' => string,
+);
