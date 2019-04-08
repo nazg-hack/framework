@@ -18,7 +18,7 @@ namespace Nazg\Foundation\Exception;
 use type Nazg\Response\Emitter;
 use type Nazg\Types\ExceptionImmMap;
 use type Nazg\Exceptions\ExceptionHandleInterface;
-use type Nazg\HttpExecutor\Emitter\SapiEmitter;
+use type Nazg\HttpExecutor\Emitter\EmitterInterface;
 use type Facebook\Experimental\Http\Message\ResponseInterface;
 use type Ytake\Hungrr\StatusCode;
 use type Ytake\Hungrr\Response\JsonResponse;
@@ -34,7 +34,7 @@ class ExceptionHandler implements ExceptionHandleInterface {
   public function __construct(
     protected IO\ReadHandle $readHandle,
     protected IO\WriteHandle $writeHandle,
-    protected SapiEmitter $emitter
+    protected EmitterInterface $emitter
   ) {}
 
   protected async function renderAsync(

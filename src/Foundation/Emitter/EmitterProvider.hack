@@ -13,25 +13,17 @@
  * Copyright (c) 2017-2018 Yuuki Takezawa
  *
  */
-namespace Nazg\Foundation\Exception;
+namespace Nazg\Foundation\Emitter;
 
 use type Nazg\Glue\Container;
 use type Nazg\Glue\ProviderInterface;
-use type Nazg\Exceptions\ExceptionHandleInterface;
-use type Nazg\HttpExecutor\Emitter\EmitterInterface;
-use namespace HH\Lib\Experimental\IO;
+use namespace Nazg\HttpExecutor\Emitter;
 
-class ExceptionHandlerProvider implements ProviderInterface<ExceptionHandleInterface> {
-
-  public function __construct(
-    protected IO\ReadHandle $readHandle,
-    protected IO\WriteHandle $writeHandle,
-    protected EmitterInterface $emitter
-  ) {}
+final class EmitterProvider implements ProviderInterface<Emitter\SapiEmitter> {
 
   public function get(
-    Container $_
-  ): ExceptionHandleInterface {
-    return new ExceptionHandler($this->readHandle, $this->writeHandle, $this->emitter);
+    \Nazg\Glue\Container $container
+  ): Emitter\SapiEmitter {
+    return new Emitter\SapiEmitter();
   }
 }

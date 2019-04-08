@@ -20,6 +20,7 @@ use type Nazg\Heredity\MiddlewareStack;
 use type Nazg\RequestHandler\FallbackHandler;
 use type Nazg\Foundation\Middleware\Dispatcher;
 use type Nazg\Foundation\Bootstrap\BootstrapRegister;
+use type Facebook\HackRouter\BaseRouter;
 use type Facebook\Experimental\Http\Message\ServerRequestInterface;
 use type Nazg\Http\Server\RequestHandlerInterface;
 use type Nazg\Glue\Container;
@@ -60,16 +61,14 @@ class Application {
   ): void {
     // register bootstrap for framework application
     $this->bootstrap($this->container);
-    /*
     $router = $this->container->get(BaseRouter::class);
     list($middleware, $attributes) = $router->routeRequest($serverRequest);
     if ($attributes->count()) {
       $serverRequest = $serverRequest->withServerParams(dict($attributes));
     }
-    */
+
     $heredity = $this->middlewareProcessor(
-      // $middleware['middleware'],
-      vec[],
+      $middleware['middleware'],
       $this->container
     );
     $executor = new RequestHandleExecutor(
