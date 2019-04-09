@@ -13,34 +13,30 @@
  * Copyright (c) 2017-2019 Yuuki Takezawa
  *
  */
- namespace Nazg\Foundation\Middleware;
+namespace Nazg\Foundation\Middleware;
 
 use type HH\Lib\Experimental\IO\WriteHandle;
-use type Nazg\Heredity\Heredity;
-use type Nazg\Glue\Container;
-use type Nazg\Http\Server\MiddlewareInterface;
 use type Facebook\Experimental\Http\Message\ResponseInterface;
 use type Facebook\Experimental\Http\Message\ServerRequestInterface;
+use type Nazg\Http\Server\MiddlewareInterface;
+use type Nazg\Http\Server\RequestHandlerInterface;
+use type Facebook\HackRouter\BaseRouter;
 
-enum InterceptorMethod : string {
-  Process = 'process';
-}
+class RouteDispatchMiddleware implements MiddlewareInterface {
 
-class Dispatcher extends Heredity {
+  public function __construct(
+    protected BaseRouter<\Nazg\Routing\TResponder> $router
+  ) {}
 
-  protected int $validatorIndex = 0;
-  protected ?Container $container;
-
-  <<__Override>>
-  protected function processor(
+  public function process(
     WriteHandle $writeHandle,
-    MiddlewareInterface $middleware,
-    ServerRequestInterface $request
+    ServerRequestInterface $request,
+    RequestHandlerInterface $handler,
   ): ResponseInterface {
-    return $middleware->process($writeHandle, $request, $this);
-  }
-
-  public function setContainer(Container $container): void {
-    $this->container = $container;
+    list($middleware, $attributes) = $this->router->routeRequest($request);
+    if ($attributes->count()) {
+      $request = $request->withServerParams(dict($attributes));
+    }
+    return $handler->handle($writeHandle, $request);
   }
 }

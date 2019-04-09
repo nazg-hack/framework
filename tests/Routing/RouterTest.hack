@@ -73,4 +73,15 @@ final class RouterTest extends HackTest {
     expect($result[0]['middleware'])->toBeSame(vec[]);
     expect(Shapes::keyExists($result[0], 'named'))->toNotBeNull();
   }
+
+  public function testShouldNotFoundRouteByRequest(): void {
+    list($read, $_) = IO\pipe_non_disposable();
+    $request = ServerRequestFactory::fromGlobals($read, dict[
+      'REQUEST_METHOD' => 'GET',
+      'REQUEST_URI' => '/testing'
+    ]);
+    $router = new Router(dict[]);
+    expect(() ==> $router->routeRequest($request))
+      ->toThrow(\Facebook\HackRouter\NotFoundException::class);
+  }
 }
