@@ -7,6 +7,7 @@ use type Nazg\Foundation\Exception\ExceptionHandlerProvider;
 use type Nazg\Exceptions\ExceptionHandleInterface;
 use type Nazg\Foundation\Emitter\EmitterProvider;
 use namespace Nazg\HttpExecutor\Emitter;
+use namespace Nazg\Foundation\Middleware;
 use namespace HH\Lib\Experimental\IO;
 
 class ApplicationProvider {
@@ -29,6 +30,9 @@ class ApplicationProvider {
       ->bind(BaseRouter::class)
       ->provider(new RouterProvider());
     
+    $this->container
+      ->bind(Middleware\RouteDispatchMiddleware::class)
+      ->provider(new Middleware\RouteDispatchMiddlewareProvider());
     // 
     $this->container 
       ->bind(Emitter\EmitterInterface::class)
@@ -40,7 +44,7 @@ class ApplicationProvider {
       ->provider(new ExceptionHandlerProvider(
         $this->readHandle,
         $this->writeHandle,
-        new Emitter\SapiEmitter())
+        $this->container->get(Emitter\EmitterInterface::class))
       );
   }
 }

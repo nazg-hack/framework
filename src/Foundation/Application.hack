@@ -24,10 +24,9 @@ use type Facebook\HackRouter\BaseRouter;
 use type Facebook\Experimental\Http\Message\ServerRequestInterface;
 use type Nazg\Http\Server\RequestHandlerInterface;
 use type Nazg\Glue\Container;
-
 use type Nazg\HttpExecutor\RequestHandleExecutor;
-use type Nazg\HttpExecutor\Emitter\SapiEmitter;
 
+use namespace Nazg\HttpExecutor\Emitter;
 use namespace HH\Lib\Experimental\IO;
 use namespace Nazg\Foundation\Middleware;
 use namespace HH\Lib\Vec;
@@ -35,7 +34,9 @@ use namespace HH\Lib\Vec;
 
 class Application {
 
-  protected vec<classname<\Nazg\Http\Server\MiddlewareInterface>> $middlewares = vec[];
+  protected vec<classname<\Nazg\Http\Server\MiddlewareInterface>> $middlewares = vec[
+    Middleware\RouteDispatchMiddleware::class,
+  ];
 
   protected ?RequestHandlerInterface $requestHandler;
 
@@ -66,33 +67,28 @@ class Application {
     if ($attributes->count()) {
       $serverRequest = $serverRequest->withServerParams(dict($attributes));
     }
-
-    $heredity = $this->middlewareProcessor(
-      $middleware['middleware'],
-      $this->container
-    );
-    $executor = new RequestHandleExecutor(
-      $this->readHandle,
-      $this->writeHandle,
-      $heredity,
-      new SapiEmitter(),
+    $this->executor(
+      $this->middlewareProcessor(
+        $middleware['middleware'],
+        $this->container
+      ),
+      $this->container->get(Emitter\EmitterInterface::class),
       $serverRequest
-    );
-    $executor->run();
+    )->run();
   }
 
-  protected function marshalAttributes(
-    ServerRequestInterface $request,
-    dict<string, string> $attributes,
-    ): ServerRequestInterface {
-    /*
-    if ($attributes->count()) {
-      foreach ($attributes as $key => $attribute) {
-        $request = $request->withAttribute($key, $attribute);
-      }
-    }
-    */
-    return $request;
+  protected function executor(
+    RequestHandlerInterface $handler,
+    Emitter\EmitterInterface $emitter,
+    ServerRequestInterface $serverRequest
+  ): RequestHandleExecutor {
+    return new RequestHandleExecutor(
+      $this->readHandle,
+      $this->writeHandle,
+      $handler,
+      $emitter,
+      $serverRequest
+    );
   }
 
   private function bootstrap(Container $container): void {
@@ -119,7 +115,7 @@ class Application {
    * }
    * </code>
    */
-  protected function middleware(): vec<classname<\Nazg\Http\Server\MiddlewareInterface>> {
+  protected function getAppMiddleware(): vec<classname<\Nazg\Http\Server\MiddlewareInterface>> {
     return vec[];
   }
 
@@ -134,7 +130,7 @@ class Application {
     // sync middleware
     $appMiddleware = Vec\concat(
       $this->middlewares,
-      $this->middleware(),
+      $this->getAppMiddleware(),
       $middleware
     );
     $stack = new MiddlewareStack(

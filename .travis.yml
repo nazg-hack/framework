@@ -8,6 +8,7 @@ env:
    - HHVM_VERSION=4.0.1
    - HHVM_VERSION=4.0.2
    - HHVM_VERSION=4.0.3
+   - HHVM_VERSION=4.1.0
    - HHVM_VERSION=latest
 install:
  - docker pull hhvm/hhvm:$HHVM_VERSION
