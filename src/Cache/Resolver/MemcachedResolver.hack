@@ -10,11 +10,31 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  *
- * Copyright (c) 2017-2019 Yuuki Takezawa
+ * Copyright (c) 2017-2018 Yuuki Takezawa
  *
  */
-namespace Nazg\Types;
+namespace Nazg\Cache\Resolver;
 
-type TMiddlewareClass = classname<\Nazg\Http\Server\MiddlewareInterface>;
-type TServiceModule = classname<\Nazg\Glue\ServiceModule>;
-type ExceptionImmMap = ImmMap<string, mixed>;
+use type Memcached;
+use type Nazg\Cache\MemcachedConfig;
+
+use function is_null;
+
+class MemcachedResolver {
+
+  const type T = Memcached;
+
+  public function __construct(
+    protected MemcachedConfig $config
+  ) {}
+
+  public function provide(): this::T {
+    $config = $this->config;
+    $m = new Memcached(Shapes::idx($config, 'persistentId'));
+    $servers = Shapes::idx($config, 'servers');
+    if($servers is nonnull) {
+      $m->addServers($servers->toArray());
+    }
+    return $m;
+  }
+}

@@ -10,7 +10,29 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  *
- * Copyright (c) 2017-2018 Yuuki Takezawa
+ * Copyright (c) 2017-2019 Yuuki Takezawa
  *
  */
-namespace Nazg\Http;
+namespace Nazg\Cache;
+
+type MemcachedServer = shape(
+  'host' => string,
+  'port' => int,
+  ?'weight' => int,
+);
+type FileSystemConfig = shape(
+  'cacheStoreDir' => string
+);
+type MemcachedConfig = shape(
+  'servers' => ImmVector<MemcachedServer>,
+  ?'persistentId' => string,
+);
+type RedisConfig = shape(
+  'host' => string,
+  ?'port' => int,
+  ?'password' => string,
+  ?'prefix' => string,
+  ?'readTimeout' => float,
+  ?'persistent' => bool,
+  ?'database' => int
+);

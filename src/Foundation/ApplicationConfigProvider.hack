@@ -6,7 +6,7 @@ use type Nazg\Glue\ProviderInterface;
 class ApplicationConfigProvider implements ProviderInterface<ApplicationConfig> {
 
   public function __construct(
-    private ApplicationConfig $config
+    protected ApplicationConfig $config
   ) {}
 
   public function get(

@@ -17,6 +17,7 @@ namespace Nazg\Logger;
 
 use type Nazg\Glue\Container;
 use type Nazg\Glue\ProviderInterface;
+use type Nazg\Foundation\ApplicationConfig;
 use type HackLogging\Logger;
 use type HackLogging\LogLevel;
 use type HackLogging\Handler\FilesystemHandler;
@@ -28,15 +29,13 @@ use function random_bytes;
 
 final class LoggerProvider implements ProviderInterface<Logger> {
 
-  public function __construct(
-    private string $filename = sys_get_temp_dir() . '/' . bin2hex(random_bytes(16))
-  ) {}
-
   public function get(
     Container $container
   ): Logger {
-    return new Logger('hack-logging', vec[
-      new FilesystemHandler(Filesystem\open_write_only_non_disposable($this->filename))
+    $config = $container->get(ApplicationConfig::class);
+    $logConfig = $config->getLogConfig();
+    return new Logger($logConfig['logname'], vec[
+      new FilesystemHandler(Filesystem\open_write_only_non_disposable($logConfig['logfile']))
     ]);
   }
 }
