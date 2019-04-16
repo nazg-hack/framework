@@ -22,18 +22,16 @@ use function is_null;
 
 class MemcachedResolver {
 
-  const type T = Memcached;
-
   public function __construct(
     protected MemcachedConfig $config
   ) {}
 
-  public function provide(): this::T {
+  public function provide():  Memcached {
     $config = $this->config;
     $m = new Memcached(Shapes::idx($config, 'persistentId'));
     $servers = Shapes::idx($config, 'servers');
     if($servers is nonnull) {
-      $m->addServers($servers->toArray());
+      $m->addServers($servers);
     }
     return $m;
   }

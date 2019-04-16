@@ -15,24 +15,20 @@
  */
 namespace Nazg\Cache;
 
-use type Redis;
-use type Memcached;
-use type Nazg\Cache\Resolver\{MemcachedResolver, RedisResolver};
-use function is_null;
+use type Nazg\Foundation\AggregateServiceProvider;
+use type Nazg\Glue\{Container, ProviderInterface, Scope};
+use type Nazg\HCache\CacheManager;
+use type Nazg\HCache\CacheProvider as HCacheProvider;
 
-class CacheConfig {
+class AggregateCacheServiceProvider extends AggregateServiceProvider {
 
-  public function __construct(
-    protected MemcachedConfig $memcachedConfig,
-    protected FileSystemConfig $filesystemConfig,
-  ) {}
-
-  public function getMemcached(): ?Memcached {
-    $resolver = new MemcachedResolver($this->memcachedConfig);
-    return $resolver->provide();
-  }
-
-  public function getFileSystemDir(): ?string {
-    return Shapes::idx($this->filesystemConfig, 'cacheStoreDir');
+  public function apply(): void {
+    $this->container
+      ->bind(CacheManager::class)
+      ->provider(new CacheManagerProvider())
+      ->in(Scope::SINGLETON);
+    $this->container
+      ->bind(HCacheProvider::class)
+      ->provider(new CacheProvider());
   }
 }

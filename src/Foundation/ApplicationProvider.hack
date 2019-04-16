@@ -12,14 +12,16 @@ use namespace Nazg\HttpExecutor\Emitter;
 use namespace Nazg\Foundation\Middleware;
 use namespace HH\Lib\Experimental\IO;
 
-class ApplicationProvider {
+class ApplicationProvider extends AggregateServiceProvider {
 
   public function __construct(
-    private Container $container,
+    protected Container $container,
     private ApplicationConfig $config,
     protected IO\ReadHandle $readHandle,
     protected IO\WriteHandle $writeHandle,
-  ) {}
+  ) {
+    parent::__construct($container);
+  }
 
   public function apply(): void {
     //

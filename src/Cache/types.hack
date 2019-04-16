@@ -24,15 +24,15 @@ type FileSystemConfig = shape(
   'cacheStoreDir' => string
 );
 type MemcachedConfig = shape(
-  'servers' => ImmVector<MemcachedServer>,
+  'servers' => vec<MemcachedServer>,
   ?'persistentId' => string,
 );
-type RedisConfig = shape(
-  'host' => string,
-  ?'port' => int,
-  ?'password' => string,
-  ?'prefix' => string,
-  ?'readTimeout' => float,
-  ?'persistent' => bool,
-  ?'database' => int
-);
+
+enum Driver : string as string {
+  Apc = 'apc';
+  Void = 'void';
+  Map = 'map';
+  File = 'file';
+  Memcached = 'memcached';
+  Redis = 'redis';
+}

@@ -15,24 +15,13 @@
  */
 namespace Nazg\Cache;
 
-use type Redis;
-use type Memcached;
-use type Nazg\Cache\Resolver\{MemcachedResolver, RedisResolver};
-use function is_null;
+use type Nazg\Glue\Container;
+use type Nazg\Glue\ProviderInterface;
+use type Nazg\HCache\CacheManager;
 
-class CacheConfig {
+final class CacheManagerProvider implements ProviderInterface<CacheManager> {
 
-  public function __construct(
-    protected MemcachedConfig $memcachedConfig,
-    protected FileSystemConfig $filesystemConfig,
-  ) {}
-
-  public function getMemcached(): ?Memcached {
-    $resolver = new MemcachedResolver($this->memcachedConfig);
-    return $resolver->provide();
-  }
-
-  public function getFileSystemDir(): ?string {
-    return Shapes::idx($this->filesystemConfig, 'cacheStoreDir');
+  public function get(Container $container): CacheManager {
+    return new CacheManager();
   }
 }

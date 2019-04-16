@@ -13,26 +13,8 @@
  * Copyright (c) 2017-2019 Yuuki Takezawa
  *
  */
-namespace Nazg\Cache;
+namespace Nazg\Cache\Exception;
 
-use type Redis;
-use type Memcached;
-use type Nazg\Cache\Resolver\{MemcachedResolver, RedisResolver};
-use function is_null;
+final class CacheDriverNotFoundException extends \LogicException {
 
-class CacheConfig {
-
-  public function __construct(
-    protected MemcachedConfig $memcachedConfig,
-    protected FileSystemConfig $filesystemConfig,
-  ) {}
-
-  public function getMemcached(): ?Memcached {
-    $resolver = new MemcachedResolver($this->memcachedConfig);
-    return $resolver->provide();
-  }
-
-  public function getFileSystemDir(): ?string {
-    return Shapes::idx($this->filesystemConfig, 'cacheStoreDir');
-  }
 }

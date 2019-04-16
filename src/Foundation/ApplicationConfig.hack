@@ -1,6 +1,7 @@
 namespace Nazg\Foundation;
 
 use type Facebook\Experimental\Http\Message\HTTPMethod;
+use namespace Nazg\Cache;
 use function sys_get_temp_dir;
 use function bin2hex;
 use function random_bytes;
@@ -10,7 +11,9 @@ use function random_bytes;
  *
  */
 <<__ConsistentConstruct>>
-class ApplicationConfig {
+class ApplicationConfig implements ConfigInterface {
+
+  use Cache\CacheConfigTrait;
 
   private dict<HTTPMethod, ImmMap<string, \Nazg\Routing\TResponder>> $routes = dict[];
 
@@ -18,7 +21,6 @@ class ApplicationConfig {
     'logfile' => '',
     'logname' => 'nazg'
   );
-  // sys_get_temp_dir() . '/' . bin2hex(random_bytes(16))
 
   public function setRoutes(
     dict<HTTPMethod, ImmMap<string, \Nazg\Routing\TResponder>> $routes

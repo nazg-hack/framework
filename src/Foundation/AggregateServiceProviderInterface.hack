@@ -13,26 +13,15 @@
  * Copyright (c) 2017-2019 Yuuki Takezawa
  *
  */
-namespace Nazg\Cache;
+namespace Nazg\Foundation;
 
-use type Redis;
-use type Memcached;
-use type Nazg\Cache\Resolver\{MemcachedResolver, RedisResolver};
-use function is_null;
+use type Nazg\Glue\Container;
 
-class CacheConfig {
+abstract class AggregateServiceProvider {
 
   public function __construct(
-    protected MemcachedConfig $memcachedConfig,
-    protected FileSystemConfig $filesystemConfig,
+    protected Container $container
   ) {}
 
-  public function getMemcached(): ?Memcached {
-    $resolver = new MemcachedResolver($this->memcachedConfig);
-    return $resolver->provide();
-  }
-
-  public function getFileSystemDir(): ?string {
-    return Shapes::idx($this->filesystemConfig, 'cacheStoreDir');
-  }
+  abstract public function apply(): void;
 }
