@@ -1,5 +1,3 @@
-<?hh // strict
-
 /**
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -15,29 +13,19 @@
  * Copyright (c) 2017-2018 Yuuki Takezawa
  *
  */
-namespace Nazg\Foundation\Bootstrap;
+namespace Nazg\Foundation\Middleware;
 
 use type Nazg\Glue\Container;
+use type Nazg\Glue\ProviderInterface;
+use type Facebook\HackRouter\BaseRouter;
+use namespace HH\Lib\Experimental\IO;
 
-type Bootstrap = classname<BootstrapRegisterInterface>;
+class RouteDispatchMiddlewareProvider 
+  implements ProviderInterface<RouteDispatchMiddleware> {
 
-class BootstrapRegister implements BootstrapRegisterInterface {
-
-  protected ImmVector<Bootstrap>
-    $ibr = ImmVector {
-      \Nazg\Foundation\Exception\ExceptionRegister::class
-    };
-
-  public function __construct(
-    protected Container $container
-  ) {}
-
-  public function register(): void {
-    foreach ($this->ibr->getIterator() as $i) {
-      if ($this->container->has($i)) {
-        $instance = $this->container->get($i);
-        $instance->register();
-      }
-    }
+  public function get(
+    Container $container
+  ): RouteDispatchMiddleware {
+    return new RouteDispatchMiddleware($container->get(BaseRouter::class));
   }
 }

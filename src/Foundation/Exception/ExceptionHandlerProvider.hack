@@ -1,5 +1,3 @@
-<?hh // strict
-
 /**
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -15,29 +13,25 @@
  * Copyright (c) 2017-2018 Yuuki Takezawa
  *
  */
-namespace Nazg\Foundation\Bootstrap;
+namespace Nazg\Foundation\Exception;
 
 use type Nazg\Glue\Container;
+use type Nazg\Glue\ProviderInterface;
+use type Nazg\Exceptions\ExceptionHandleInterface;
+use type Nazg\HttpExecutor\Emitter\EmitterInterface;
+use namespace HH\Lib\Experimental\IO;
 
-type Bootstrap = classname<BootstrapRegisterInterface>;
-
-class BootstrapRegister implements BootstrapRegisterInterface {
-
-  protected ImmVector<Bootstrap>
-    $ibr = ImmVector {
-      \Nazg\Foundation\Exception\ExceptionRegister::class
-    };
+class ExceptionHandlerProvider implements ProviderInterface<ExceptionHandleInterface> {
 
   public function __construct(
-    protected Container $container
+    protected IO\ReadHandle $readHandle,
+    protected IO\WriteHandle $writeHandle,
+    protected EmitterInterface $emitter
   ) {}
 
-  public function register(): void {
-    foreach ($this->ibr->getIterator() as $i) {
-      if ($this->container->has($i)) {
-        $instance = $this->container->get($i);
-        $instance->register();
-      }
-    }
+  public function get(
+    Container $_
+  ): ExceptionHandleInterface {
+    return new ExceptionHandler($this->readHandle, $this->writeHandle, $this->emitter);
   }
 }

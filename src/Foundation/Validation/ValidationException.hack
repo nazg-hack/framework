@@ -1,5 +1,3 @@
-<?hh // strict
-
 /**
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -15,29 +13,22 @@
  * Copyright (c) 2017-2018 Yuuki Takezawa
  *
  */
-namespace Nazg\Foundation\Bootstrap;
+namespace Nazg\Foundation\Validation;
 
-use type Nazg\Glue\Container;
+use type Exception;
 
-type Bootstrap = classname<BootstrapRegisterInterface>;
+class ValidationException extends Exception {
 
-class BootstrapRegister implements BootstrapRegisterInterface {
+  protected int $status = 400;
 
-  protected ImmVector<Bootstrap>
-    $ibr = ImmVector {
-      \Nazg\Foundation\Exception\ExceptionRegister::class
-    };
+  protected Validator $validator;
 
-  public function __construct(
-    protected Container $container
-  ) {}
+  public function __construct(Validator $validator) {
+    parent::__construct('The given data was invalid.');
+    $this->validator = $validator;
+  }
 
-  public function register(): void {
-    foreach ($this->ibr->getIterator() as $i) {
-      if ($this->container->has($i)) {
-        $instance = $this->container->get($i);
-        $instance->register();
-      }
-    }
+  public function errors(): array<string> {
+    return $this->validator->errors()->toArray();
   }
 }

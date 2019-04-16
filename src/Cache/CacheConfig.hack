@@ -1,5 +1,3 @@
-<?hh // strict
-
 /**
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -12,32 +10,29 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  *
- * Copyright (c) 2017-2018 Yuuki Takezawa
+ * Copyright (c) 2017-2019 Yuuki Takezawa
  *
  */
-namespace Nazg\Foundation\Bootstrap;
+namespace Nazg\Cache;
 
-use type Nazg\Glue\Container;
+use type Redis;
+use type Memcached;
+use type Nazg\Cache\Resolver\{MemcachedResolver, RedisResolver};
+use function is_null;
 
-type Bootstrap = classname<BootstrapRegisterInterface>;
-
-class BootstrapRegister implements BootstrapRegisterInterface {
-
-  protected ImmVector<Bootstrap>
-    $ibr = ImmVector {
-      \Nazg\Foundation\Exception\ExceptionRegister::class
-    };
+class CacheConfig {
 
   public function __construct(
-    protected Container $container
+    protected MemcachedConfig $memcachedConfig,
+    protected FileSystemConfig $filesystemConfig,
   ) {}
 
-  public function register(): void {
-    foreach ($this->ibr->getIterator() as $i) {
-      if ($this->container->has($i)) {
-        $instance = $this->container->get($i);
-        $instance->register();
-      }
-    }
+  public function getMemcached(): ?Memcached {
+    $resolver = new MemcachedResolver($this->memcachedConfig);
+    return $resolver->provide();
+  }
+
+  public function getFileSystemDir(): ?string {
+    return Shapes::idx($this->filesystemConfig, 'cacheStoreDir');
   }
 }

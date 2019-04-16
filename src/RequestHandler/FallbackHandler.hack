@@ -1,5 +1,3 @@
-<?hh // strict
-
 /**
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -15,29 +13,20 @@
  * Copyright (c) 2017-2018 Yuuki Takezawa
  *
  */
-namespace Nazg\Foundation\Bootstrap;
+namespace Nazg\RequestHandler;
 
-use type Nazg\Glue\Container;
+use type HH\Lib\Experimental\IO\WriteHandle;
+use type Facebook\Experimental\Http\Message\ResponseInterface;
+use type Facebook\Experimental\Http\Message\ServerRequestInterface;
+use type Nazg\Http\Server\RequestHandlerInterface;
+use type Ytake\Hungrr\Response\JsonResponse;
 
-type Bootstrap = classname<BootstrapRegisterInterface>;
+class FallbackHandler implements RequestHandlerInterface {
 
-class BootstrapRegister implements BootstrapRegisterInterface {
-
-  protected ImmVector<Bootstrap>
-    $ibr = ImmVector {
-      \Nazg\Foundation\Exception\ExceptionRegister::class
-    };
-
-  public function __construct(
-    protected Container $container
-  ) {}
-
-  public function register(): void {
-    foreach ($this->ibr->getIterator() as $i) {
-      if ($this->container->has($i)) {
-        $instance = $this->container->get($i);
-        $instance->register();
-      }
-    }
+  public function handle(
+    WriteHandle $wirteHandle,
+    ServerRequestInterface $_
+  ): ResponseInterface {
+    return new JsonResponse($wirteHandle);
   }
 }

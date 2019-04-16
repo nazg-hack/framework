@@ -1,5 +1,3 @@
-<?hh // strict
-
 /**
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -15,29 +13,26 @@
  * Copyright (c) 2017-2018 Yuuki Takezawa
  *
  */
-namespace Nazg\Foundation\Bootstrap;
+namespace Nazg\Cache\Resolver;
 
-use type Nazg\Glue\Container;
+use type Memcached;
+use type Nazg\Cache\MemcachedConfig;
 
-type Bootstrap = classname<BootstrapRegisterInterface>;
+use function is_null;
 
-class BootstrapRegister implements BootstrapRegisterInterface {
-
-  protected ImmVector<Bootstrap>
-    $ibr = ImmVector {
-      \Nazg\Foundation\Exception\ExceptionRegister::class
-    };
+class MemcachedResolver {
 
   public function __construct(
-    protected Container $container
+    protected MemcachedConfig $config
   ) {}
 
-  public function register(): void {
-    foreach ($this->ibr->getIterator() as $i) {
-      if ($this->container->has($i)) {
-        $instance = $this->container->get($i);
-        $instance->register();
-      }
+  public function provide():  Memcached {
+    $config = $this->config;
+    $m = new Memcached(Shapes::idx($config, 'persistentId'));
+    $servers = Shapes::idx($config, 'servers');
+    if($servers is nonnull) {
+      $m->addServers($servers);
     }
+    return $m;
   }
 }

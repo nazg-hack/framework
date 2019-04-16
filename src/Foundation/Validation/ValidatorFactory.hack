@@ -1,5 +1,3 @@
-<?hh // strict
-
 /**
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -15,29 +13,20 @@
  * Copyright (c) 2017-2018 Yuuki Takezawa
  *
  */
-namespace Nazg\Foundation\Bootstrap;
+namespace Nazg\Foundation\Validation;
 
-use type Nazg\Glue\Container;
+use type Facebook\Experimental\Http\Message\ServerRequestInterface;
 
-type Bootstrap = classname<BootstrapRegisterInterface>;
-
-class BootstrapRegister implements BootstrapRegisterInterface {
-
-  protected ImmVector<Bootstrap>
-    $ibr = ImmVector {
-      \Nazg\Foundation\Exception\ExceptionRegister::class
-    };
+class ValidatorFactory {
 
   public function __construct(
-    protected Container $container
+    protected Validator $validatorName,
+    protected ServerRequestInterface $request,
   ) {}
 
-  public function register(): void {
-    foreach ($this->ibr->getIterator() as $i) {
-      if ($this->container->has($i)) {
-        $instance = $this->container->get($i);
-        $instance->register();
-      }
-    }
+  public function validator(): Validator {
+    $validator = $this->validatorName;
+    $validator->validateRequest($this->request);
+    return $validator;
   }
 }
