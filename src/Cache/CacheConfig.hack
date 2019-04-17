@@ -15,10 +15,8 @@
  */
 namespace Nazg\Cache;
 
-use type Redis;
 use type Memcached;
-use type Nazg\Cache\Resolver\{MemcachedResolver, RedisResolver};
-use function is_null;
+use type Nazg\Cache\Resolver\MemcachedResolver;
 
 class CacheConfig {
 

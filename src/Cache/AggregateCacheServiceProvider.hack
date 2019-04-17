@@ -16,19 +16,20 @@
 namespace Nazg\Cache;
 
 use type Nazg\Foundation\AggregateServiceProvider;
-use type Nazg\Glue\{Container, ProviderInterface, Scope};
+use type Nazg\Glue\Scope;
 use type Nazg\HCache\CacheManager;
-use type Nazg\HCache\CacheProvider as HCacheProvider;
 
-class AggregateCacheServiceProvider extends AggregateServiceProvider {
+final class AggregateCacheServiceProvider extends AggregateServiceProvider {
 
+  <<__Override>>
   public function apply(): void {
     $this->container
       ->bind(CacheManager::class)
       ->provider(new CacheManagerProvider())
       ->in(Scope::SINGLETON);
     $this->container
-      ->bind(HCacheProvider::class)
-      ->provider(new CacheProvider());
+      ->bind(\Nazg\HCache\CacheProvider::class)
+      ->provider(new CacheProvider())
+      ->in(Scope::SINGLETON);
   }
 }

@@ -1,6 +1,5 @@
 use type Facebook\HackTest\HackTest;
 use type Nazg\Glue\Container;
-use type Nazg\Routing\Router;
 use type Ytake\Hungrr\ServerRequestFactory;
 use type Facebook\Experimental\Http\Message\HTTPMethod;
 use namespace HH\Lib\Experimental\IO;
@@ -54,7 +53,7 @@ final class ApplicationTest extends HackTest {
       'REQUEST_METHOD' => 'GET',
       'REQUEST_URI' => '/'
     ]));
-    $buffer = ob_get_contents(); 
+    $buffer = ob_get_contents();
     ob_clean();
     expect($buffer)->toBeSame('{}');
   }

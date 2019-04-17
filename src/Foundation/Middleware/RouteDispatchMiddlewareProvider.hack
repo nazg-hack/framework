@@ -18,9 +18,8 @@ namespace Nazg\Foundation\Middleware;
 use type Nazg\Glue\Container;
 use type Nazg\Glue\ProviderInterface;
 use type Facebook\HackRouter\BaseRouter;
-use namespace HH\Lib\Experimental\IO;
 
-class RouteDispatchMiddlewareProvider 
+final class RouteDispatchMiddlewareProvider
   implements ProviderInterface<RouteDispatchMiddleware> {
 
   public function get(

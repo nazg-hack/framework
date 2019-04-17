@@ -30,7 +30,7 @@
     "nazg/http-executor": "^0.3.0",
     "facebook/hack-router": "^0.18.4",
     "facebook/hack-http-request-response-interfaces": "^0.2",
-    "hack-logging/hack-logging": "^0.1.0"
+    "hack-logging/hack-logging": "^0.1.1"
   },
   "require-dev": {
     "hhvm/hacktest": "^1.4",

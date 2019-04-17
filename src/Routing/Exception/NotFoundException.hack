@@ -13,25 +13,16 @@
  * Copyright (c) 2017-2018 Yuuki Takezawa
  *
  */
-namespace Nazg\Cache\Resolver;
+namespace Nazg\Routing\Exception;
 
-use type Memcached;
-use type Nazg\Cache\MemcachedConfig;
+use type Exception;
 
-
-class MemcachedResolver {
+final class NotFoundException extends Exception {
 
   public function __construct(
-    protected MemcachedConfig $config
-  ) {}
-
-  public function provide():  Memcached {
-    $config = $this->config;
-    $m = new Memcached(Shapes::idx($config, 'persistentId'));
-    $servers = Shapes::idx($config, 'servers');
-    if($servers is nonnull) {
-      $m->addServers($servers);
-    }
-    return $m;
+    string $message = 'Not Found',
+    ?Exception $previous = null
+  ) {
+    parent::__construct($message, 404, $previous);
   }
 }

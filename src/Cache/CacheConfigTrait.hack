@@ -15,11 +15,11 @@
  */
 namespace Nazg\Cache;
 
-use Nazg\Foundation\ConfigInterface;
+use type Nazg\Foundation\ConfigInterface;
 
 trait CacheConfigTrait {
   require implements ConfigInterface;
-  
+
   protected Driver $cacheDriver = Driver::File;
 
   private FileSystemConfig $FileSystemConfig = shape(
