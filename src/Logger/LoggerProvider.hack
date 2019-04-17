@@ -19,13 +19,9 @@ use type Nazg\Glue\Container;
 use type Nazg\Glue\ProviderInterface;
 use type Nazg\Foundation\ApplicationConfig;
 use type HackLogging\Logger;
-use type HackLogging\LogLevel;
 use type HackLogging\Handler\FilesystemHandler;
 use namespace HH\Lib\Experimental\Filesystem;
 
-use function sys_get_temp_dir;
-use function bin2hex;
-use function random_bytes;
 
 final class LoggerProvider implements ProviderInterface<Logger> {
 

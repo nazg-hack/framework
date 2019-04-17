@@ -21,7 +21,7 @@ use type Nazg\HCache\CacheManager;
 
 final class CacheManagerProvider implements ProviderInterface<CacheManager> {
 
-  public function get(Container $container): CacheManager {
+  public function get(Container $_container): CacheManager {
     return new CacheManager();
   }
 }

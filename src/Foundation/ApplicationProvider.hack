@@ -1,6 +1,6 @@
 namespace Nazg\Foundation;
 
-use type Nazg\Glue\{Container, ProviderInterface, Scope};
+use type Nazg\Glue\{Container, Scope};
 use type Nazg\Routing\RouterProvider;
 use type Facebook\HackRouter\BaseRouter;
 use type Nazg\Foundation\Exception\ExceptionHandlerProvider;
@@ -23,6 +23,7 @@ class ApplicationProvider extends AggregateServiceProvider {
     parent::__construct($container);
   }
 
+  <<__Override>>
   public function apply(): void {
     //
     $this->container
@@ -37,15 +38,15 @@ class ApplicationProvider extends AggregateServiceProvider {
       ->bind(Logger::class)
       ->provider(new Logger\LoggerProvider())
       ->in(Scope::SINGLETON);
-    // 
+    //
     $this->container
       ->bind(Middleware\RouteDispatchMiddleware::class)
       ->provider(new Middleware\RouteDispatchMiddlewareProvider());
-    // 
-    $this->container 
+    //
+    $this->container
       ->bind(Emitter\EmitterInterface::class)
       ->provider(new EmitterProvider());
-    // 
+    //
     $this->container
       ->bind(ExceptionHandleInterface::class)
       ->provider(new ExceptionHandlerProvider(

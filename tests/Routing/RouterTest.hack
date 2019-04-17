@@ -1,7 +1,7 @@
 use type Facebook\HackTest\HackTest;
 use type Nazg\Routing\Router;
+use type Nazg\Routing\Exception\NotFoundException;
 use type Ytake\Hungrr\ServerRequestFactory;
-use type Facebook\HackRouter\HttpMethod as HackRouterHttpMethod;
 use type Facebook\Experimental\Http\Message\HTTPMethod;
 use type Facebook\HackRouter\BaseRouter;
 
@@ -23,14 +23,15 @@ final class RouterTest extends HackTest {
     expect($router)->toBeInstanceOf(BaseRouter::class);
   }
 
-  public function testShouldReturnNullRoute(): void {
+  public function testShouldThrowRouteNotFoundException(): void {
     $router = new Router(dict[HTTPMethod::GET => ImmMap{
       '/' => shape(
         'middleware' => vec[],
         'named' => 'testing',
       ),
     }]);
-    expect($router->findRoute('noname'))->toBeNull();
+    expect(() ==> $router->findRoute('noname'))
+      ->toThrow(NotFoundException::class);
   }
 
   public function testShouldFindRoute(): void {
@@ -50,7 +51,7 @@ final class RouterTest extends HackTest {
         'named' => 'testing',
       ),
     }]);
-    $result = $router->routeMethodAndPath(HackRouterHttpMethod::GET, '/');
+    $result = $router->routeMethodAndPath(\Facebook\HackRouter\HttpMethod::GET, '/');
     expect($result)->toNotBeEmpty();
     expect($result[0]['middleware'])->toBeSame(vec[]);
     expect(Shapes::keyExists($result[0], 'named'))->toNotBeNull();

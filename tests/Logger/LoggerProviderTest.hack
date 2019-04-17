@@ -1,5 +1,5 @@
 use type Nazg\Logger\LoggerProvider;
-use type Nazg\Glue\{Container, ProviderInterface, Scope};
+use type Nazg\Glue\Container;
 use type Nazg\Foundation\ApplicationConfig;
 use type HackLogging\Logger;
 use type Facebook\HackTest\HackTest;

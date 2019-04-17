@@ -18,15 +18,14 @@ namespace Nazg\Cache;
 use type Nazg\Glue\Container;
 use type Nazg\Glue\ProviderInterface;
 use type Nazg\HCache\CacheManager;
-use type Nazg\HCache\CacheProvider as HCacheProvider;
 use type Nazg\HCache\Driver\{FileSystemCache, MemcachedCache};
 use type Nazg\Foundation\ApplicationConfig;
 
-class CacheProvider implements ProviderInterface<HCacheProvider> {
+class CacheProvider implements ProviderInterface<\Nazg\HCache\CacheProvider> {
 
   protected Driver $defaultDriver = Driver::File;
 
-  public function get(Container $container): HCacheProvider {
+  public function get(Container $container): \Nazg\HCache\CacheProvider {
     $manager = $container->get(CacheManager::class);
     $config = $container->get(ApplicationConfig::class);
     $this->defaultDriver = $config->getCacheDriver();
@@ -35,8 +34,10 @@ class CacheProvider implements ProviderInterface<HCacheProvider> {
       $this->cacheConfig($config)
     );
   }
-  
-  protected function cacheConfig(ApplicationConfig $config): CacheConfig {
+
+  protected function cacheConfig(
+    ApplicationConfig $config
+  ): CacheConfig {
     return new CacheConfig(
       $config->getMemcachedCacheConfig(),
       $config->getFilesystemCacheConfig()
@@ -44,16 +45,15 @@ class CacheProvider implements ProviderInterface<HCacheProvider> {
   }
 
   protected function detectCacheProvider(
-    HCacheProvider $provider,
+    \Nazg\HCache\CacheProvider $provider,
     CacheConfig $cacheConfigure
-  ): HCacheProvider {
+  ): \Nazg\HCache\CacheProvider {
     if($this->defaultDriver === Driver::File) {
       if($provider is FileSystemCache) {
         $dir = $cacheConfigure->getFileSystemDir();
         if($dir is nonnull) {
           $provider->setDirectory($dir);
         }
-        return $provider;
       }
     }
     if($this->defaultDriver === Driver::Memcached) {
@@ -62,9 +62,8 @@ class CacheProvider implements ProviderInterface<HCacheProvider> {
         if($m is nonnull) {
           $provider->setMemcached($m);
         }
-        return $provider;
       }
     }
-    throw new Exception\CacheDriverNotFoundException();
+    return $provider;
   }
 }

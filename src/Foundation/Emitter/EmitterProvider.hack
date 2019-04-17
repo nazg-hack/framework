@@ -15,14 +15,13 @@
  */
 namespace Nazg\Foundation\Emitter;
 
-use type Nazg\Glue\Container;
 use type Nazg\Glue\ProviderInterface;
 use namespace Nazg\HttpExecutor\Emitter;
 
 final class EmitterProvider implements ProviderInterface<Emitter\SapiEmitter> {
 
   public function get(
-    \Nazg\Glue\Container $container
+    \Nazg\Glue\Container $_container
   ): Emitter\SapiEmitter {
     return new Emitter\SapiEmitter();
   }

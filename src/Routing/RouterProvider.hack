@@ -2,9 +2,7 @@ namespace Nazg\Routing;
 
 use type Nazg\Glue\Container;
 use type Nazg\Glue\ProviderInterface;
-use type Nazg\Foundation\Service;
 use type Nazg\Foundation\ApplicationConfig;
-use type Nazg\Exceptions\NotFoundHttpException;
 use type Facebook\HackRouter\BaseRouter;
 use type Facebook\Experimental\Http\Message\HTTPMethod;
 

@@ -17,7 +17,6 @@ namespace Nazg\Routing;
 
 use namespace HH\Lib\Dict;
 use type Facebook\HackRouter\BaseRouter;
-use type Facebook\HackRouter\HttpMethod as HackRouterHttpMethod;
 use type Facebook\Experimental\Http\Message\HTTPMethod;
 
 final class Router extends BaseRouter<TResponder> {
@@ -28,27 +27,27 @@ final class Router extends BaseRouter<TResponder> {
 
   <<__Override>>
   protected function getRoutes(
-  ): ImmMap<HackRouterHttpMethod, ImmMap<string, TResponder>> {
+  ): ImmMap<\Facebook\HackRouter\HttpMethod, ImmMap<string, TResponder>> {
     return new ImmMap($this->dictRoutes());
   }
 
   <<__Rx>>
-  protected function dictRoutes(): dict<HackRouterHttpMethod, ImmMap<string, TResponder>> {
+  protected function dictRoutes(): dict<\Facebook\HackRouter\HttpMethod, ImmMap<string, TResponder>> {
     return Dict\map_keys($this->routeMap, ($k) ==> {
       return $this->convertHttpMethod($k);
     });
   }
 
-  public function findRoute(string $named): ?string {
+  public function findRoute(string $named): string {
     $collect = $this->collectRoutes();
     if($collect->contains($named)) {
-      return $collect->get($named);
+      return $collect->at($named);
     }
-    return null;
+    throw new Exception\NotFoundException();
   }
 
   <<__Memoize>>
-  protected function collectRoutes(): ImmMap<?string, ?string> {
+  protected function collectRoutes(): ImmMap<string, string> {
     $map = new Map($this->routeMap);
     $i = $map->getIterator();
     $named = [];
@@ -58,7 +57,7 @@ final class Router extends BaseRouter<TResponder> {
       $index = 0;
       foreach($current as $method => $v) {
         if(Shapes::keyExists($v, 'named')) {
-          $named[Shapes::idx($v, 'named')] = $keys[$index];
+          $named[Shapes::idx($v, 'named', '')] = $keys[$index];
         }
         $index++;
       }
@@ -70,8 +69,8 @@ final class Router extends BaseRouter<TResponder> {
   <<__Memoize, __Rx>>
   private function convertHttpMethod(
     HTTPMethod $method,
-  ): HackRouterHttpMethod {
-    return HackRouterHttpMethod::assert(
+  ): \Facebook\HackRouter\HttpMethod {
+    return \Facebook\HackRouter\HttpMethod::assert(
       HTTPMethod::assert($method)
     );
   }

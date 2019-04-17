@@ -10,28 +10,20 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  *
- * Copyright (c) 2017-2018 Yuuki Takezawa
+ * Copyright (c) 2017-2019 Yuuki Takezawa
  *
  */
-namespace Nazg\Cache\Resolver;
+namespace Nazg\Foundation\Middleware;
 
-use type Memcached;
-use type Nazg\Cache\MemcachedConfig;
+use type HackLogging\Logger;
+use type Nazg\Glue\Container;
+use type Nazg\Glue\ProviderInterface;
 
+final class LogExceptionMiddlewareProvider implements ProviderInterface<LogExceptionMiddleware> {
 
-class MemcachedResolver {
-
-  public function __construct(
-    protected MemcachedConfig $config
-  ) {}
-
-  public function provide():  Memcached {
-    $config = $this->config;
-    $m = new Memcached(Shapes::idx($config, 'persistentId'));
-    $servers = Shapes::idx($config, 'servers');
-    if($servers is nonnull) {
-      $m->addServers($servers);
-    }
-    return $m;
+  public function get(
+    Container $container
+  ): LogExceptionMiddleware {
+    return new LogExceptionMiddleware($container->get(Logger::class));
   }
 }

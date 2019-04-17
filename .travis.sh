@@ -12,4 +12,4 @@ php --version
 composer install
 hh_client
 
-hhvm ./vendor/bin/hacktest tests/
+hhvm ./vendor/bin/hacktest.hack tests/

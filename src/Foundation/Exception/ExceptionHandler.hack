@@ -15,7 +15,6 @@
  */
 namespace Nazg\Foundation\Exception;
 
-use type Nazg\Response\Emitter;
 use type Nazg\Types\ExceptionImmMap;
 use type Nazg\Exceptions\ExceptionHandleInterface;
 use type Nazg\HttpExecutor\Emitter\EmitterInterface;
@@ -53,7 +52,7 @@ class ExceptionHandler implements ExceptionHandleInterface {
    */
   protected function respond(ExceptionImmMap $em, \Throwable $e): void {
     $this->emitter->emit(
-      $this->readHandle, 
+      $this->readHandle,
       \HH\Asio\join($this->renderAsync($em, $e))
     );
   }
