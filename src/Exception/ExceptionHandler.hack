@@ -13,10 +13,9 @@
  * Copyright (c) 2017-2018 Yuuki Takezawa
  *
  */
-namespace Nazg\Foundation\Exception;
+namespace Nazg\Exception;
 
 use type Nazg\Types\ExceptionImmMap;
-use type Nazg\Exceptions\ExceptionHandleInterface;
 use type Nazg\HttpExecutor\Emitter\EmitterInterface;
 use type Facebook\Experimental\Http\Message\ResponseInterface;
 use type Ytake\Hungrr\StatusCode;

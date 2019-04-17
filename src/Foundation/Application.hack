@@ -31,11 +31,15 @@ use namespace HH\Lib\Experimental\IO;
 use namespace Nazg\Foundation\Middleware;
 use namespace HH\Lib\Vec;
 
-
+<<__ConsistentConstruct>>
 class Application {
 
   protected vec<classname<\Nazg\Http\Server\MiddlewareInterface>> $middlewares = vec[
     Middleware\RouteDispatchMiddleware::class,
+  ];
+  
+  protected vec<classname<\Nazg\Foundation\ConsistentServiceProvider>> $appProviders = vec[
+    \Nazg\Cache\AggregateCacheServiceProvider::class,
   ];
 
   protected ?RequestHandlerInterface $requestHandler;
@@ -55,6 +59,12 @@ class Application {
     $provider->apply();
     \HH\Asio\join($this->container->lockAsync());
     return $this;
+  }
+
+  protected function registerDependency(): void {
+    foreach($this->appProviders as $provider) {
+      (new $provider($this->container))->apply();
+    }
   }
 
   public function run(

@@ -15,11 +15,11 @@
  */
 namespace Nazg\Cache;
 
-use type Nazg\Foundation\AggregateServiceProvider;
+use type Nazg\Foundation\ConsistentServiceProvider;
 use type Nazg\Glue\Scope;
 use type Nazg\HCache\CacheManager;
 
-final class AggregateCacheServiceProvider extends AggregateServiceProvider {
+final class AggregateCacheServiceProvider extends ConsistentServiceProvider {
 
   <<__Override>>
   public function apply(): void {

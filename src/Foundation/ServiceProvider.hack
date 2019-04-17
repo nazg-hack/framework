@@ -17,7 +17,7 @@ namespace Nazg\Foundation;
 
 use type Nazg\Glue\Container;
 
-abstract class AggregateServiceProvider {
+abstract class ServiceProvider {
 
   public function __construct(
     protected Container $container

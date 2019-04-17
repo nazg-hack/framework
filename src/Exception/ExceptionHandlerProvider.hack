@@ -13,11 +13,10 @@
  * Copyright (c) 2017-2018 Yuuki Takezawa
  *
  */
-namespace Nazg\Foundation\Exception;
+namespace Nazg\Exception;
 
 use type Nazg\Glue\Container;
 use type Nazg\Glue\ProviderInterface;
-use type Nazg\Exceptions\ExceptionHandleInterface;
 use type Nazg\HttpExecutor\Emitter\EmitterInterface;
 use namespace HH\Lib\Experimental\IO;
 

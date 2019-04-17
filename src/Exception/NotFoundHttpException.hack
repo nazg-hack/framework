@@ -10,23 +10,10 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  *
- * Copyright (c) 2017-2018 Yuuki Takezawa
+ * Copyright (c) 2017-2019 Yuuki Takezawa
  *
  */
-namespace Nazg\Foundation\Exception;
+namespace Nazg\Exception;
 
-use type Nazg\Exceptions\ExceptionHandleInterface;
-use type Nazg\Foundation\Bootstrap\BootstrapRegisterInterface;
-
-use function set_exception_handler;
-
-class ExceptionRegister implements BootstrapRegisterInterface {
-
-  public function __construct(
-    protected ExceptionHandleInterface $handler
-  ) {}
-
-  public function register(): void {
-    set_exception_handler([$this->handler, 'handleException']);
-  }
-}
+final class NotFoundHttpException
+  extends \Facebook\HackRouter\NotFoundException {}
