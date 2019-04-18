@@ -17,10 +17,6 @@ namespace Nazg\Validation;
 
 use type Facebook\Experimental\Http\Message\ServerRequestInterface;
 
-enum Attribute : string as string {
-  Named = 'RequestValidation';
-}
-
 abstract class Validator {
 
   protected ?ServerRequestInterface $request;

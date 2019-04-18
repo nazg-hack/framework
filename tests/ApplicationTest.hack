@@ -1,5 +1,5 @@
 use type Facebook\HackTest\HackTest;
-use type Nazg\Glue\Container;
+use type Nazg\Glue\{Container, ProviderInterface};
 use type Ytake\Hungrr\ServerRequestFactory;
 use type Facebook\Experimental\Http\Message\HTTPMethod;
 use namespace HH\Lib\Experimental\IO;

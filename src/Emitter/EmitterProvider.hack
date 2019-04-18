@@ -13,18 +13,16 @@
  * Copyright (c) 2017-2018 Yuuki Takezawa
  *
  */
-namespace Nazg\Foundation\Middleware;
+namespace Nazg\Emitter;
 
-use type Nazg\Glue\Container;
 use type Nazg\Glue\ProviderInterface;
-use type Facebook\HackRouter\BaseRouter;
+use namespace Nazg\HttpExecutor\Emitter;
 
-final class RouteDispatchMiddlewareProvider
-  implements ProviderInterface<RouteDispatchMiddleware> {
+final class EmitterProvider implements ProviderInterface<Emitter\SapiEmitter> {
 
   public function get(
-    Container $container
-  ): RouteDispatchMiddleware {
-    return new RouteDispatchMiddleware($container->get(BaseRouter::class));
+    \Nazg\Glue\Container $_container
+  ): Emitter\SapiEmitter {
+    return new Emitter\SapiEmitter();
   }
 }

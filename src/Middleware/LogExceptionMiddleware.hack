@@ -13,7 +13,7 @@
  * Copyright (c) 2017-2019 Yuuki Takezawa
  *
  */
-namespace Nazg\Foundation\Middleware;
+namespace Nazg\Middleware;
 
 use type HackLogging\Logger;
 use type HackLogging\LogLevel;

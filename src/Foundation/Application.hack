@@ -18,7 +18,6 @@ namespace Nazg\Foundation;
 use type Nazg\Heredity\Heredity;
 use type Nazg\Heredity\MiddlewareStack;
 use type Nazg\RequestHandler\FallbackHandler;
-use type Nazg\Foundation\Middleware\Dispatcher;
 use type Nazg\Foundation\Bootstrap\BootstrapRegister;
 use type Facebook\HackRouter\BaseRouter;
 use type Facebook\Experimental\Http\Message\ServerRequestInterface;
@@ -28,7 +27,7 @@ use type Nazg\HttpExecutor\RequestHandleExecutor;
 
 use namespace Nazg\HttpExecutor\Emitter;
 use namespace HH\Lib\Experimental\IO;
-use namespace Nazg\Foundation\Middleware;
+use namespace Nazg\Middleware;
 use namespace HH\Lib\Vec;
 
 <<__ConsistentConstruct>>
@@ -57,12 +56,14 @@ class Application {
   public function build(ApplicationConfig $config): this {
     $provider = new ApplicationProvider($this->container, $config, $this->readHandle, $this->writeHandle);
     $provider->apply();
+    $this->registerDependency();
     \HH\Asio\join($this->container->lockAsync());
     return $this;
   }
 
   protected function registerDependency(): void {
-    foreach($this->appProviders as $provider) {
+    $provdiers = $this->container->get(ApplicationConfig::class)->getServiceProviders();
+    foreach(Vec\concat($this->appProviders, $provdiers) as $provider) {
       (new $provider($this->container))->apply();
     }
   }
@@ -148,7 +149,7 @@ class Application {
       new Middleware\GlueResolver($container),
     );
     if ($this->flag) {
-      $dispatcher = new Dispatcher($stack, $this->requestHandler ?: new FallbackHandler());
+      $dispatcher = new Middleware\Dispatcher($stack, $this->requestHandler ?: new FallbackHandler());
       $dispatcher->setContainer($container);
       return $dispatcher;
     }

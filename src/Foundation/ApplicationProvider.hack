@@ -18,12 +18,12 @@ namespace Nazg\Foundation;
 use type Nazg\Glue\{Container, Scope};
 use type Nazg\Routing\RouterProvider;
 use type Facebook\HackRouter\BaseRouter;
-use type Nazg\Foundation\Emitter\EmitterProvider;
+use type Nazg\Emitter\EmitterProvider;
 use type HackLogging\Logger;
 use namespace Nazg\Logger;
 use namespace Nazg\Exception;
 use namespace Nazg\HttpExecutor\Emitter;
-use namespace Nazg\Foundation\Middleware;
+use namespace Nazg\Middleware;
 use namespace HH\Lib\Experimental\IO;
 
 final class ApplicationProvider extends ServiceProvider {

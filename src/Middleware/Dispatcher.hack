@@ -13,7 +13,7 @@
  * Copyright (c) 2017-2019 Yuuki Takezawa
  *
  */
- namespace Nazg\Foundation\Middleware;
+ namespace Nazg\Middleware;
 
 use type HH\Lib\Experimental\IO\WriteHandle;
 use type Nazg\Heredity\Heredity;
@@ -21,14 +21,11 @@ use type Nazg\Glue\Container;
 use type Nazg\Http\Server\MiddlewareInterface;
 use type Facebook\Experimental\Http\Message\ResponseInterface;
 use type Facebook\Experimental\Http\Message\ServerRequestInterface;
-
-enum InterceptorMethod : string {
-  Process = 'process';
-}
+use namespace Nazg\Validation;
 
 class Dispatcher extends Heredity {
 
-  protected int $validatorIndex = 0;
+  const string InterceptorMethod = 'process';
   protected ?Container $container;
 
   <<__Override>>
@@ -37,7 +34,24 @@ class Dispatcher extends Heredity {
     MiddlewareInterface $middleware,
     ServerRequestInterface $request
   ): ResponseInterface {
+    $this->validateInterceptor($middleware, $request);
     return $middleware->process($writeHandle, $request, $this);
+  }
+
+  protected function validateInterceptor(
+    MiddlewareInterface $middleware,
+    ServerRequestInterface $request,
+  ): void {
+    $container = $this->container;
+    if ($container is nonnull) {
+      $rm = new \ReflectionMethod($middleware, self::InterceptorMethod);
+      $attribute = $rm->getAttributeClass(Validation\RequestValidation::class);
+      if ($attribute is nonnull) {
+        $container->get($attribute->validationClass)
+        |> new Validation\ValidatorFactory($$, $request)
+        |> $$->validator()->validate();
+      }
+    }
   }
 
   public function setContainer(Container $container): void {

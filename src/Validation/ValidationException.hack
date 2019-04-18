@@ -23,12 +23,14 @@ class ValidationException extends Exception {
 
   protected Validator $validator;
 
-  public function __construct(Validator $validator) {
+  public function __construct(
+    Validator $validator
+  ) {
     parent::__construct('The given data was invalid.');
     $this->validator = $validator;
   }
 
-  public function errors(): array<string> {
-    return $this->validator->errors()->toArray();
+  public function errors(): vec<string> {
+    return vec($this->validator->errors());
   }
 }
