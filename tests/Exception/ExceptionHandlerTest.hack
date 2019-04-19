@@ -1,0 +1,40 @@
+use type Nazg\Glue\{Container, Scope};
+use type Nazg\Foundation\ApplicationConfig;
+use type Facebook\HackTest\HackTest;
+use function Facebook\FBExpect\expect;
+use type Nazg\Exception\ExceptionHandleInterface;
+use type Nazg\Exception\ExceptionHandler;
+use type Nazg\Exception\ExceptionRegister;
+use type Nazg\Exception\ExceptionHandlerProvider;
+use namespace HH\Lib\Experimental\IO;
+use namespace Nazg\HttpExecutor\Emitter;
+
+final class ExceptionHandlerTest extends HackTest {
+
+  public function testShouldReturnExceptionHandlerInterface(): void {
+    $container = new Container();
+    list($read, $write) = IO\pipe_non_disposable();
+    $container->bind(ExceptionHandleInterface::class)
+      ->provider(new ExceptionHandlerProvider($read, $write, new Emitter\SapiEmitter()));
+    \HH\Asio\join($container->lockAsync());
+     $e = $container->get(ExceptionHandleInterface::class);
+     expect($e)->toBeInstanceOf(ExceptionHandler::class);
+  }
+
+  public function testFunctionalExceptionRegister(): void {
+    list($read, $write) = IO\pipe_non_disposable();
+    $e = new ExceptionHandler($read, $write, new Emitter\SapiEmitter());
+    $register = new ExceptionRegister($e);
+    $register->register();
+    ob_start();
+    $e->handleException(new \Exception('Exception for testing'));
+    $buffer = ob_get_contents();
+    ob_clean();
+    $d = \json_decode($buffer, true);
+    expect($d['message'])->toBeSame('Exception for testing');
+    expect($d)->toContainKey('exception');
+    expect($d)->toContainKey('file');
+    expect($d)->toContainKey('line');
+    expect($d)->toContainKey('trace');
+  }
+}
