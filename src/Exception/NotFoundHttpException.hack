@@ -13,17 +13,7 @@
  * Copyright (c) 2017-2019 Yuuki Takezawa
  *
  */
-namespace Nazg\Foundation\Middleware;
+namespace Nazg\Exception;
 
-use type HackLogging\Logger;
-use type Nazg\Glue\Container;
-use type Nazg\Glue\ProviderInterface;
-
-final class LogExceptionMiddlewareProvider implements ProviderInterface<LogExceptionMiddleware> {
-
-  public function get(
-    Container $container
-  ): LogExceptionMiddleware {
-    return new LogExceptionMiddleware($container->get(Logger::class));
-  }
-}
+final class NotFoundHttpException
+  extends \Facebook\HackRouter\NotFoundException {}

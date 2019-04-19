@@ -6,7 +6,7 @@ use type Ytake\Hungrr\ServerRequestFactory;
 use type Nazg\RequestHandler\FallbackHandler;
 use type Nazg\Foundation\ApplicationConfig;
 use namespace Nazg\Logger;
-use namespace Nazg\Foundation\Middleware;
+use namespace Nazg\Middleware;
 use namespace HH\Lib\Experimental\IO;
 use function Facebook\FBExpect\expect;
 

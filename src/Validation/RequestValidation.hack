@@ -13,28 +13,11 @@
  * Copyright (c) 2017-2019 Yuuki Takezawa
  *
  */
- namespace Nazg\Foundation\Middleware;
+namespace Nazg\Validation;
 
-use namespace HH\Lib\Str;
-use type Nazg\Http\Server\MiddlewareInterface;
-use type Nazg\Heredity\Exception\MiddlewareResolvingException;
-use type Nazg\Heredity\Resolvable;
-use type Nazg\Glue\Container;
-
-class GlueResolver implements Resolvable {
+final class RequestValidation implements \HH\MethodAttribute {
 
   public function __construct(
-    protected Container $container
+    public classname<Validator> $validationClass,
   ) {}
-
-  public function resolve(
-    classname<MiddlewareInterface> $middleware
-  ): MiddlewareInterface {
-    if ($this->container->has($middleware)) {
-      return $this->container->get($middleware);
-    }
-    throw new MiddlewareResolvingException(
-      Str\format('Identifier "%s" is not binding.', $middleware),
-    );
-  }
 }

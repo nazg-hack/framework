@@ -13,10 +13,9 @@
  * Copyright (c) 2017-2018 Yuuki Takezawa
  *
  */
-namespace Nazg\Foundation\Exception;
+namespace Nazg\Exception;
 
 use type Nazg\Types\ExceptionImmMap;
-use type Nazg\Exceptions\ExceptionHandleInterface;
 use type Nazg\HttpExecutor\Emitter\EmitterInterface;
 use type Facebook\Experimental\Http\Message\ResponseInterface;
 use type Ytake\Hungrr\StatusCode;
@@ -37,20 +36,20 @@ class ExceptionHandler implements ExceptionHandleInterface {
   ) {}
 
   protected async function renderAsync(
-    ExceptionImmMap $em,
+    dict<string, mixed> $em,
     \Throwable $_e
   ): Awaitable<ResponseInterface> {
-    await $this->writeHandle->writeAsync(json_encode($em->toArray()));
+    await $this->writeHandle->writeAsync(json_encode($em));
     return new JsonResponse(
       $this->writeHandle,
       StatusCode::INTERNAL_SERVER_ERROR,
     );
   }
 
-  /**
-   * @see https://github.com/zendframework/zend-diactoros/blob/master/doc/book/custom-responses.md
-   */
-  protected function respond(ExceptionImmMap $em, \Throwable $e): void {
+  protected function respond(
+    dict<string, mixed> $em,
+    \Throwable $e
+  ): void {
     $this->emitter->emit(
       $this->readHandle,
       \HH\Asio\join($this->renderAsync($em, $e))
@@ -58,26 +57,24 @@ class ExceptionHandler implements ExceptionHandleInterface {
   }
 
   public function handleException(\Throwable $e): void {
-    $this->respond($this->toImmMap($e), $e);
+    $this->respond($this->dictErrors($e), $e);
   }
 
-  protected function toImmMap(\Throwable $e): ExceptionImmMap {
-    return new ImmMap(
-      [
-        'message' => $e->getMessage(),
-        'exception' => get_class($e),
-        'file' => $e->getFile(),
-        'line' => $e->getLine(),
-        'trace' => map(
-          $e->getTrace(),
-          $v ==> {
-            if(is_array($v)) {
-              return (new Map($v))->removeKey('args')->toArray();
-            }
-            return [];
+  protected function dictErrors(\Throwable $e): dict<string, mixed> {
+    return dict[
+      'message' => $e->getMessage(),
+      'exception' => get_class($e),
+      'file' => $e->getFile(),
+      'line' => $e->getLine(),
+      'trace' => map(
+        $e->getTrace(),
+        $v ==> {
+          if(is_array($v)) {
+            return (new Map($v))->removeKey('args')->toArray();
           }
-        ),
-      ],
-    );
+          return [];
+        }
+      ),
+    ];
   }
 }

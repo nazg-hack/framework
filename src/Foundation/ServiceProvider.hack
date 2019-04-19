@@ -10,21 +10,18 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  *
- * Copyright (c) 2017-2018 Yuuki Takezawa
+ * Copyright (c) 2017-2019 Yuuki Takezawa
  *
  */
-namespace Nazg\Foundation\Middleware;
+namespace Nazg\Foundation;
 
 use type Nazg\Glue\Container;
-use type Nazg\Glue\ProviderInterface;
-use type Facebook\HackRouter\BaseRouter;
 
-final class RouteDispatchMiddlewareProvider
-  implements ProviderInterface<RouteDispatchMiddleware> {
+abstract class ServiceProvider {
 
-  public function get(
-    Container $container
-  ): RouteDispatchMiddleware {
-    return new RouteDispatchMiddleware($container->get(BaseRouter::class));
-  }
+  public function __construct(
+    protected Container $container
+  ) {}
+
+  abstract public function apply(): void;
 }

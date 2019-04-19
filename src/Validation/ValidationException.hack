@@ -13,25 +13,24 @@
  * Copyright (c) 2017-2018 Yuuki Takezawa
  *
  */
-namespace Nazg\Foundation\Exception;
+namespace Nazg\Validation;
 
-use type Nazg\Glue\Container;
-use type Nazg\Glue\ProviderInterface;
-use type Nazg\Exceptions\ExceptionHandleInterface;
-use type Nazg\HttpExecutor\Emitter\EmitterInterface;
-use namespace HH\Lib\Experimental\IO;
+use type Exception;
 
-class ExceptionHandlerProvider implements ProviderInterface<ExceptionHandleInterface> {
+class ValidationException extends Exception {
+
+  protected int $status = 400;
+
+  protected Validator $validator;
 
   public function __construct(
-    protected IO\ReadHandle $readHandle,
-    protected IO\WriteHandle $writeHandle,
-    protected EmitterInterface $emitter
-  ) {}
+    Validator $validator
+  ) {
+    parent::__construct('The given data was invalid.');
+    $this->validator = $validator;
+  }
 
-  public function get(
-    Container $_
-  ): ExceptionHandleInterface {
-    return new ExceptionHandler($this->readHandle, $this->writeHandle, $this->emitter);
+  public function errors(): vec<string> {
+    return vec($this->validator->errors());
   }
 }

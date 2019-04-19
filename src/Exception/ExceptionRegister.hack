@@ -13,12 +13,19 @@
  * Copyright (c) 2017-2018 Yuuki Takezawa
  *
  */
-namespace Nazg\Foundation;
+namespace Nazg\Exception;
 
-enum Service : string as string {
-  CACHE = 'cache';
-  CONFIG = 'app.config';
-  MODULES = 'module';
-  ROUTES = 'route';
-  MIDDLEWARES = 'middleware';
+use type Nazg\Foundation\Bootstrap\BootstrapRegisterInterface;
+
+use function set_exception_handler;
+
+class ExceptionRegister implements BootstrapRegisterInterface {
+
+  public function __construct(
+    protected ExceptionHandleInterface $handler
+  ) {}
+
+  public function register(): void {
+    set_exception_handler([$this->handler, 'handleException']);
+  }
 }

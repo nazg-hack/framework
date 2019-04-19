@@ -13,7 +13,7 @@
  * Copyright (c) 2017-2019 Yuuki Takezawa
  *
  */
-namespace Nazg\Foundation\Middleware;
+namespace Nazg\Middleware;
 
 use type HH\Lib\Experimental\IO\WriteHandle;
 use type Facebook\Experimental\Http\Message\ResponseInterface;

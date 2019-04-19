@@ -1,18 +1,32 @@
+/**
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ *
+ * This software consists of voluntary contributions made by many individuals
+ * and is licensed under the MIT license.
+ *
+ * Copyright (c) 2017-2019 Yuuki Takezawa
+ *
+ */
 namespace Nazg\Foundation;
 
 use type Nazg\Glue\{Container, Scope};
 use type Nazg\Routing\RouterProvider;
 use type Facebook\HackRouter\BaseRouter;
-use type Nazg\Foundation\Exception\ExceptionHandlerProvider;
-use type Nazg\Exceptions\ExceptionHandleInterface;
-use type Nazg\Foundation\Emitter\EmitterProvider;
+use type Nazg\Emitter\EmitterProvider;
 use type HackLogging\Logger;
 use namespace Nazg\Logger;
+use namespace Nazg\Exception;
 use namespace Nazg\HttpExecutor\Emitter;
-use namespace Nazg\Foundation\Middleware;
+use namespace Nazg\Middleware;
 use namespace HH\Lib\Experimental\IO;
 
-class ApplicationProvider extends AggregateServiceProvider {
+final class ApplicationProvider extends ServiceProvider {
 
   public function __construct(
     protected Container $container,
@@ -48,8 +62,8 @@ class ApplicationProvider extends AggregateServiceProvider {
       ->provider(new EmitterProvider());
     //
     $this->container
-      ->bind(ExceptionHandleInterface::class)
-      ->provider(new ExceptionHandlerProvider(
+      ->bind(Exception\ExceptionHandleInterface::class)
+      ->provider(new Exception\ExceptionHandlerProvider(
         $this->readHandle,
         $this->writeHandle,
         $this->container->get(Emitter\EmitterInterface::class))

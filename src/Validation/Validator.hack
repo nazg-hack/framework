@@ -13,13 +13,9 @@
  * Copyright (c) 2017-2018 Yuuki Takezawa
  *
  */
-namespace Nazg\Foundation\Validation;
+namespace Nazg\Validation;
 
 use type Facebook\Experimental\Http\Message\ServerRequestInterface;
-
-enum Attribute : string as string {
-  Named = 'RequestValidation';
-}
 
 abstract class Validator {
 

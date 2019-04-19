@@ -13,20 +13,16 @@
  * Copyright (c) 2017-2018 Yuuki Takezawa
  *
  */
-namespace Nazg\Foundation\Validation;
+namespace Nazg\Emitter;
 
-use type Facebook\Experimental\Http\Message\ServerRequestInterface;
+use type Nazg\Glue\ProviderInterface;
+use namespace Nazg\HttpExecutor\Emitter;
 
-class ValidatorFactory {
+final class EmitterProvider implements ProviderInterface<Emitter\SapiEmitter> {
 
-  public function __construct(
-    protected Validator $validatorName,
-    protected ServerRequestInterface $request,
-  ) {}
-
-  public function validator(): Validator {
-    $validator = $this->validatorName;
-    $validator->validateRequest($this->request);
-    return $validator;
+  public function get(
+    \Nazg\Glue\Container $_container
+  ): Emitter\SapiEmitter {
+    return new Emitter\SapiEmitter();
   }
 }

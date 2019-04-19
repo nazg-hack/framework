@@ -13,15 +13,9 @@
  * Copyright (c) 2017-2019 Yuuki Takezawa
  *
  */
-namespace Nazg\Foundation;
+namespace Nazg\Exception;
 
-use type Nazg\Glue\Container;
+interface ExceptionHandleInterface {
 
-abstract class AggregateServiceProvider {
-
-  public function __construct(
-    protected Container $container
-  ) {}
-
-  abstract public function apply(): void;
+  public function handleException(\Throwable $e): void;
 }

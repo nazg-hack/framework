@@ -10,10 +10,23 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  *
- * Copyright (c) 2017-2019 Yuuki Takezawa
+ * Copyright (c) 2017-2018 Yuuki Takezawa
  *
  */
-namespace Nazg\Exceptions;
+namespace Nazg\Validation;
 
-final class NotFoundHttpException
-  extends \Facebook\HackRouter\NotFoundException {}
+use type Facebook\Experimental\Http\Message\ServerRequestInterface;
+
+class ValidatorFactory {
+
+  public function __construct(
+    protected Validator $validatorName,
+    protected ServerRequestInterface $request,
+  ) {}
+
+  public function validator(): Validator {
+    $validator = $this->validatorName;
+    $validator->validateRequest($this->request);
+    return $validator;
+  }
+}

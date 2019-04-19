@@ -13,22 +13,18 @@
  * Copyright (c) 2017-2018 Yuuki Takezawa
  *
  */
-namespace Nazg\Foundation\Validation;
+namespace Nazg\Middleware;
 
-use type Exception;
+use type Nazg\Glue\Container;
+use type Nazg\Glue\ProviderInterface;
+use type Facebook\HackRouter\BaseRouter;
 
-class ValidationException extends Exception {
+final class RouteDispatchMiddlewareProvider
+  implements ProviderInterface<RouteDispatchMiddleware> {
 
-  protected int $status = 400;
-
-  protected Validator $validator;
-
-  public function __construct(Validator $validator) {
-    parent::__construct('The given data was invalid.');
-    $this->validator = $validator;
-  }
-
-  public function errors(): array<string> {
-    return $this->validator->errors()->toArray();
+  public function get(
+    Container $container
+  ): RouteDispatchMiddleware {
+    return new RouteDispatchMiddleware($container->get(BaseRouter::class));
   }
 }

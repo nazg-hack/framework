@@ -10,23 +10,20 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  *
- * Copyright (c) 2017-2018 Yuuki Takezawa
+ * Copyright (c) 2017-2019 Yuuki Takezawa
  *
  */
-namespace Nazg\Foundation\Exception;
+namespace Nazg\Middleware;
 
-use type Nazg\Exceptions\ExceptionHandleInterface;
-use type Nazg\Foundation\Bootstrap\BootstrapRegisterInterface;
+use type HackLogging\Logger;
+use type Nazg\Glue\Container;
+use type Nazg\Glue\ProviderInterface;
 
-use function set_exception_handler;
+final class LogExceptionMiddlewareProvider implements ProviderInterface<LogExceptionMiddleware> {
 
-class ExceptionRegister implements BootstrapRegisterInterface {
-
-  public function __construct(
-    protected ExceptionHandleInterface $handler
-  ) {}
-
-  public function register(): void {
-    set_exception_handler([$this->handler, 'handleException']);
+  public function get(
+    Container $container
+  ): LogExceptionMiddleware {
+    return new LogExceptionMiddleware($container->get(Logger::class));
   }
 }
