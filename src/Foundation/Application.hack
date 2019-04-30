@@ -36,7 +36,7 @@ class Application {
   protected vec<classname<\Nazg\Http\Server\MiddlewareInterface>> $middlewares = vec[
     Middleware\RouteDispatchMiddleware::class,
   ];
-  
+
   protected vec<classname<\Nazg\Foundation\ConsistentServiceProvider>> $appProviders = vec[
     \Nazg\Cache\AggregateCacheServiceProvider::class,
   ];
@@ -45,7 +45,7 @@ class Application {
 
   protected ?BootstrapRegister $bootstrapRegister;
 
-  protected bool $flag = false;
+  protected bool $attributeValidation = false;
 
   public function __construct(
     private Container $container,
@@ -54,7 +54,12 @@ class Application {
   ) {}
 
   public function build(ApplicationConfig $config): this {
-    $provider = new ApplicationProvider($this->container, $config, $this->readHandle, $this->writeHandle);
+    $provider = new ApplicationProvider(
+      $this->container,
+      $config,
+      $this->readHandle,
+      $this->writeHandle
+    );
     $provider->apply();
     $this->registerDependency();
     \HH\Asio\join($this->container->lockAsync());
@@ -130,8 +135,8 @@ class Application {
     return vec[];
   }
 
-  public function setValidateAttribute(bool $flag): void {
-    $this->flag = $flag;
+  public function setValidateAttribute(bool $attributeValidation): void {
+    $this->attributeValidation = $attributeValidation;
   }
 
   protected function middlewareProcessor(
@@ -148,7 +153,7 @@ class Application {
       new Vector($appMiddleware),
       new Middleware\GlueResolver($container),
     );
-    if ($this->flag) {
+    if ($this->attributeValidation) {
       $dispatcher = new Middleware\Dispatcher($stack, $this->requestHandler ?: new FallbackHandler());
       $dispatcher->setContainer($container);
       return $dispatcher;

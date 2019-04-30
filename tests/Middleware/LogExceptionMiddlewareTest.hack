@@ -1,5 +1,5 @@
 use type HackLogging\Logger;
-use type Nazg\Glue\{Container, Scope};
+use type Nazg\Glue\{Container, Scope, DependencyFactory};
 use type Nazg\Heredity\MiddlewareStack;
 use type Facebook\HackTest\HackTest;
 use type Ytake\Hungrr\ServerRequestFactory;
@@ -13,7 +13,7 @@ use function Facebook\FBExpect\expect;
 final class LogExceptionMiddlewareTest extends HackTest {
 
   private function getDependency(): Container {
-    $container = new Container();
+    $container = new Container(new DependencyFactory());
     $container->bind(Logger::class)
       ->provider(new Logger\LoggerProvider())
       ->in(Scope::SINGLETON);

@@ -15,8 +15,6 @@
  */
 namespace Nazg\Foundation;
 
-use type Nazg\Glue\Container;
-use type Nazg\Glue\ProviderInterface;
 use type Nazg\Http\Server\MiddlewareInterface;
 use type Facebook\Experimental\Http\Message\HTTPMethod;
 use namespace Nazg\Cache;

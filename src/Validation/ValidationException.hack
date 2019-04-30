@@ -24,13 +24,15 @@ class ValidationException extends Exception {
   protected Validator $validator;
 
   public function __construct(
-    Validator $validator
+    Validator $validator,
+    int $code = 0,
+    protected ?Exception $previous = null,
   ) {
-    parent::__construct('The given data was invalid.');
+    parent::__construct('The given data was invalid.', $code, $previous);
     $this->validator = $validator;
   }
 
   public function errors(): vec<string> {
-    return vec($this->validator->errors());
+    return $this->validator->errors();
   }
 }
