@@ -15,16 +15,15 @@
  */
 namespace Nazg\Exception;
 
-use type Nazg\Types\ExceptionImmMap;
+use type Nazg\Http\VndErrorResponse;
 use type Nazg\HttpExecutor\Emitter\EmitterInterface;
 use type Facebook\Experimental\Http\Message\ResponseInterface;
+use type Facebook\Experimental\Http\Message\UriInterface;
 use type Ytake\Hungrr\StatusCode;
-use type Ytake\Hungrr\Response\JsonResponse;
+use namespace HH\Lib\{Dict, C};
 use namespace HH\Lib\Experimental\IO;
-
 use function get_class;
 use function is_array;
-use function HH\Lib\Vec\map;
 use function json_encode;
 
 class ExceptionHandler implements ExceptionHandleInterface {
@@ -36,19 +35,19 @@ class ExceptionHandler implements ExceptionHandleInterface {
   ) {}
 
   protected async function renderAsync(
-    dict<string, mixed> $em,
-    \Throwable $_e
+    dict<arraykey, mixed> $em,
+    \Exception $e
   ): Awaitable<ResponseInterface> {
     await $this->writeHandle->writeAsync(json_encode($em));
-    return new JsonResponse(
+    return new VndErrorResponse(
       $this->writeHandle,
-      StatusCode::INTERNAL_SERVER_ERROR,
+      $this->resolveStatusCode($e->getCode())
     );
   }
 
   protected function respond(
-    dict<string, mixed> $em,
-    \Throwable $e
+    dict<arraykey, mixed> $em,
+    \Exception $e
   ): void {
     $this->emitter->emit(
       $this->readHandle,
@@ -56,25 +55,47 @@ class ExceptionHandler implements ExceptionHandleInterface {
     );
   }
 
-  public function handleException(\Throwable $e): void {
-    $this->respond($this->dictErrors($e), $e);
+  public function handleException(\Exception $e): void {
+    $this->respond($this->resolveError($e), $e);
   }
 
-  protected function dictErrors(\Throwable $e): dict<string, mixed> {
+  protected function resolveError(\Exception $e): dict<arraykey, mixed> {
+    $shape = shape();
+    $factory = new VndErrorFactory($e);
+    if($e is AbstractVndErrorException) {
+      $shape['logref'] = $e->getLogRef();
+      $path = $e->getPath();
+      if($path is UriInterface) {
+        $shape['path'] = $path->toString();
+      }
+    }
+    return $factory->invoke($this->dictErrors($e), $shape)->toDict();
+  }
+
+  protected function dictErrors(\Exception $e): dict<arraykey, mixed> {
     return dict[
-      'message' => $e->getMessage(),
       'exception' => get_class($e),
       'file' => $e->getFile(),
       'line' => $e->getLine(),
-      'trace' => map(
-        $e->getTrace(),
-        $v ==> {
-          if(is_array($v)) {
-            return (new Map($v))->removeKey('args')->toArray();
+      'trace' => Dict\map($e->getTrace(), ($v) ==> {
+        if(is_array($v)) {
+          if(C\contains_key($v, 'args')) {
+            return Dict\filter_with_key($v, ($k, $_) ==> $k !== 'args');
           }
-          return [];
         }
-      ),
+        return $v;
+      }),
     ];
+  }
+
+  protected function resolveStatusCode(
+    mixed $exceptionCode
+  ): StatusCode {
+    $exceptionCode as int;
+    try {
+      return StatusCode::assert($exceptionCode);
+    } catch(\UnexpectedValueException $e) {
+      return StatusCode::INTERNAL_SERVER_ERROR;
+    }
   }
 }

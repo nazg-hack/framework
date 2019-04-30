@@ -1,24 +1,23 @@
 use type Facebook\HackTest\HackTest;
-use type Nazg\Glue\{Container, ProviderInterface};
+use type Nazg\Glue\{Container, DependencyFactory};
 use type Ytake\Hungrr\ServerRequestFactory;
 use type Facebook\Experimental\Http\Message\HTTPMethod;
 use namespace HH\Lib\Experimental\IO;
 use namespace Nazg\Foundation;
-
 use function Facebook\FBExpect\expect;
 
 final class ApplicationTest extends HackTest {
 
   public function testShouldReturnApplicationInstance(): void {
     list($read, $write) = IO\pipe_non_disposable();
-    $container = new Container();
+    $container = new Container(new DependencyFactory());
     $app = new Foundation\Application($container, $read, $write);
     expect($app)->toBeInstanceOf(Foundation\Application::class);
   }
 
   public function testShouldApplyApplication(): void {
     list($read, $write) = IO\pipe_non_disposable();
-    $container = new Container();
+    $container = new Container(new DependencyFactory());
     $app = new Foundation\Application($container, $read, $write);
     $app->build(new Foundation\ApplicationConfig());
     expect($app)->toBeInstanceOf(Foundation\Application::class);
@@ -26,7 +25,7 @@ final class ApplicationTest extends HackTest {
 
   public function testApplicationRunThrowException(): void {
     list($read, $write) = IO\pipe_non_disposable();
-    $container = new Container();
+    $container = new Container(new DependencyFactory());
     $app = new Foundation\Application($container, $read, $write);
     $app->build(new Foundation\ApplicationConfig());
     expect(() ==> $app->run(ServerRequestFactory::fromGlobals($read)))
@@ -37,7 +36,7 @@ final class ApplicationTest extends HackTest {
     list($read, $write) = IO\pipe_non_disposable();
     await $write->writeAsync(json_encode(dict[]));
     await $write->closeAsync();
-    $container = new Container();
+    $container = new Container(new DependencyFactory());
     $app = new Foundation\Application($container, $read, $write);
     $config = new Foundation\ApplicationConfig();
     $config->setRoutes(

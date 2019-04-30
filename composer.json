@@ -22,8 +22,8 @@
     "hhvm/hhvm-autoload": "^2.0.0",
     "hack-psr/psr7-http-message-hhi": "^1.0.0",
     "ytake/hungrr": "^0.3.0",
-    "ytake/hh-config-aggregator": "^0.4.0",
-    "nazg/glue": "^1.0.0",
+    "ytake/hhypermedia": "^0.3.0",
+    "nazg/glue": "^1.1.2",
     "nazg/heredity": "^1.3.1",
     "nazg/hcache": "^0.2.1",
     "nazg/http-server-request-handler": "^0.3.0",
@@ -33,8 +33,8 @@
     "hack-logging/hack-logging": "^0.1.1"
   },
   "require-dev": {
-    "hhvm/hacktest": "^1.4",
-    "facebook/fbexpect": "^2.5.2",
+    "hhvm/hacktest": "^1.5",
+    "facebook/fbexpect": "^2.5.6",
     "hhvm/hhast": "^4.0.0"
   },
   "autoload": {

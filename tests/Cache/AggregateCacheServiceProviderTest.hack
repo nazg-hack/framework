@@ -1,5 +1,5 @@
 use type Nazg\Cache\{AggregateCacheServiceProvider, Driver};
-use type Nazg\Glue\{Container, Scope};
+use type Nazg\Glue\{Container, Scope, DependencyFactory};
 use type Nazg\Foundation\ApplicationConfig;
 use type Facebook\HackTest\HackTest;
 use function Facebook\FBExpect\expect;
@@ -9,7 +9,7 @@ use type Nazg\HCache\Driver\{FileSystemCache, MapCache};
 final class AggregateCacheServiceProviderTest extends HackTest {
 
   public function testShouldReturnExpectInstance(): void {
-    $container = new Container();
+    $container = new Container(new DependencyFactory());
     $container->bind(ApplicationConfig::class)
       ->to(ApplicationConfig::class);
     $cache = new AggregateCacheServiceProvider($container);
@@ -21,7 +21,7 @@ final class AggregateCacheServiceProviderTest extends HackTest {
   }
 
   public function testShouldReturnFileSystemCache(): void {
-    $container = new Container();
+    $container = new Container(new DependencyFactory());
     $container->bind(ApplicationConfig::class)
       ->to(ApplicationConfig::class)
       ->in(Scope::SINGLETON);
@@ -33,7 +33,7 @@ final class AggregateCacheServiceProviderTest extends HackTest {
   }
 
   public function testShouldReturn(): void {
-    $container = new Container();
+    $container = new Container(new DependencyFactory());
     $container->bind(ApplicationConfig::class)
       ->to(AggregateCacheTestConfig::class)
       ->in(Scope::SINGLETON);

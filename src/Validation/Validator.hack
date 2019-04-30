@@ -15,6 +15,7 @@
  */
 namespace Nazg\Validation;
 
+use type Facebook\TypeAssert\IncorrectTypeException;
 use type Facebook\Experimental\Http\Message\ServerRequestInterface;
 
 abstract class Validator {
@@ -38,9 +39,13 @@ abstract class Validator {
 
   public function validate(): bool {
     if ($this->request is nonnull) {
-      $this->assertStructure();
+      try {
+        $this->assertStructure();
+      } catch(IncorrectTypeException $e) {
+        throw new ValidationException($this);
+      }
     }
-    if ($this->errors()->count()) {
+    if ($this->errors()) {
       if ($this->shouldThrowException) {
         throw new ValidationException($this);
       }
@@ -50,8 +55,8 @@ abstract class Validator {
   }
 
   <<__Memoize>>
-  public function errors(): ImmVector<string> {
-    return $this->assertValidateResult()->immutable();
+  public function errors(): vec<string> {
+    return $this->assertValidateResult();
   }
 
   protected function assertStructure(): void {
@@ -60,5 +65,5 @@ abstract class Validator {
     }
   }
 
-  abstract protected function assertValidateResult(): Vector<string>;
+  abstract protected function assertValidateResult(): vec<string>;
 }

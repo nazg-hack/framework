@@ -13,11 +13,28 @@
  * Copyright (c) 2017-2019 Yuuki Takezawa
  *
  */
-namespace Nazg\Exception;
+namespace Nazg\Http;
 
+use type Ytake\Hungrr\Response\JsonResponse;
 use type Ytake\Hungrr\StatusCode;
+use type Ytake\Hungrr\Response\InjectContentTypeTrait;
+use namespace HH\Lib\Experimental\IO;
 
-final class NotFoundHttpException extends AbstractVndErrorException {
+final class VndErrorResponse extends JsonResponse {
 
-    private int $logRefCode = StatusCode::NOT_FOUND;
+  use InjectContentTypeTrait;
+
+  public function __construct(
+    private IO\WriteHandle $body,
+    StatusCode $status = StatusCode::INTERNAL_SERVER_ERROR,
+    dict<string, vec<string>> $headers = dict[],
+    protected int $encodingOptions = self::DEFAULT_JSON_FLAGS
+  ) {
+    parent::__construct(
+      $body,
+      $status,
+      /* HH_FIXME[3004] */
+      $this->injectContentType('application/vnd.error+json', $headers),
+    );
+  }
 }

@@ -1,5 +1,5 @@
 use type Nazg\Logger\LoggerProvider;
-use type Nazg\Glue\Container;
+use type Nazg\Glue\{Container, DependencyFactory};
 use type Nazg\Foundation\ApplicationConfig;
 use type HackLogging\Logger;
 use type Facebook\HackTest\HackTest;
@@ -10,7 +10,7 @@ final class LoggerProviderTest extends HackTest {
 
   public function testShouldThrowFileOpenException(): void {
     $logger = new LoggerProvider();
-    $container = new Container();
+    $container = new Container(new DependencyFactory());
     $container->bind(ApplicationConfig::class)
       ->to(ApplicationConfig::class);
     expect(() ==> $logger->get($container))
@@ -19,7 +19,7 @@ final class LoggerProviderTest extends HackTest {
 
   public function testShouldReturnLoggerInstance(): void {
     $logger = new LoggerProvider();
-    $container = new Container();
+    $container = new Container(new DependencyFactory());
     $container->bind(ApplicationConfig::class)
       ->to(LoggerProviderTestConfig::class);
     expect($logger->get($container))
