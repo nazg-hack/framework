@@ -13,9 +13,23 @@
  * Copyright (c) 2017-2019 Yuuki Takezawa
  *
  */
-namespace Nazg\Foundation;
+namespace Nazg\Foundation\Command;
 
-<<__ConsistentConstruct>>
-abstract class ConsistentServiceProvider extends ServiceProvider {
+use type Nazg\Foundation\Application;
+use type Facebook\CLILib\CLIBase;
 
+abstract class CliApplication extends CLIBase {
+
+  private static ?Application $app;
+
+  final public static function setApplication(
+    Application $app
+  ): void {
+    self::$app = $app;
+  }
+
+  public function getApplication(): Application {
+    invariant(self::$app is Application, 'Could not resolve Application instance');
+    return self::$app;
+  }
 }

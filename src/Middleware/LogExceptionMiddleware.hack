@@ -24,6 +24,7 @@ use type Nazg\Http\Server\MiddlewareInterface;
 use type Nazg\Http\Server\RequestHandlerInterface;
 
 class LogExceptionMiddleware implements MiddlewareInterface {
+
   public function __construct(
     protected Logger $log
   ) {}

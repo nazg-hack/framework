@@ -27,7 +27,7 @@ final class ExceptionHandlerTest extends HackTest {
     $register = new ExceptionRegister($e);
     $register->register();
     ob_start();
-    $e->handleException(new \Exception('Exception for testing'));
+    $e->handle(new \Exception('Exception for testing'));
     $buffer = ob_get_contents();
     ob_clean();
     $d = \json_decode($buffer, true);
@@ -44,7 +44,7 @@ final class ExceptionHandlerTest extends HackTest {
     $register = new ExceptionRegister($e);
     $register->register();
     ob_start();
-    $e->handleException(new NotFoundHttpException('Exception for testing'));
+    $e->handle(new NotFoundHttpException('Exception for testing'));
     $buffer = ob_get_contents();
     ob_clean();
     $d = \json_decode($buffer, true);

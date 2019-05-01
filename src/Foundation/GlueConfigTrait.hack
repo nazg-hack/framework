@@ -13,8 +13,23 @@
  * Copyright (c) 2017-2019 Yuuki Takezawa
  *
  */
-namespace Nazg\Types;
+namespace Nazg\Foundation;
 
-type TMiddlewareClass = classname<\Nazg\Http\Server\MiddlewareInterface>;
-type TServiceModule = classname<\Nazg\Glue\ServiceModule>;
-type ExceptionImmMap = ImmMap<string, mixed>;
+trait GlueConfigTrait {
+  require implements ConfigInterface;
+
+  protected bool $enableContainerCache = false;
+  protected string $containerCacheKeyname = 'nazg.framework.glue';
+
+  public function isContainerCache(): bool {
+    return $this->enableContainerCache;
+  }
+
+  public function setContainerCacheKeyname(string $keyname): void {
+    $this->containerCacheKeyname = $keyname;
+  }
+
+  public function getContainerCacheKeyname(): string {
+    return $this->containerCacheKeyname;
+  }
+}

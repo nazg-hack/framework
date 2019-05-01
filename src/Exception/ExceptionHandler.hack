@@ -55,7 +55,7 @@ class ExceptionHandler implements ExceptionHandleInterface {
     );
   }
 
-  public function handleException(\Exception $e): void {
+  public function handle(\Exception $e): void {
     $this->respond($this->resolveError($e), $e);
   }
 
