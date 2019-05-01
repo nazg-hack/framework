@@ -19,5 +19,5 @@ use type Ytake\Hungrr\StatusCode;
 
 final class NotFoundHttpException extends AbstractVndErrorException {
 
-    private int $logRefCode = StatusCode::NOT_FOUND;
+  private int $logRefCode = StatusCode::NOT_FOUND;
 }

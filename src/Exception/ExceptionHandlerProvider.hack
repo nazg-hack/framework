@@ -29,8 +29,12 @@ class ExceptionHandlerProvider implements ProviderInterface<ExceptionHandleInter
   ) {}
 
   public function get(
-    Container $_
+    Container $_container
   ): ExceptionHandleInterface {
-    return new ExceptionHandler($this->readHandle, $this->writeHandle, $this->emitter);
+    return new ExceptionHandler(
+      $this->readHandle,
+      $this->writeHandle,
+      $this->emitter
+    );
   }
 }

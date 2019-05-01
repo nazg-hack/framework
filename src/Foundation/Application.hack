@@ -160,4 +160,8 @@ class Application {
     }
     return new Heredity($stack, $this->requestHandler ?: new FallbackHandler());
   }
+
+  public function getContainer(): Container {
+    return $this->container;
+  }
 }

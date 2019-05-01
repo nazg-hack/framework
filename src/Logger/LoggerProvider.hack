@@ -22,7 +22,6 @@ use type HackLogging\Logger;
 use type HackLogging\Handler\FilesystemHandler;
 use namespace HH\Lib\Experimental\Filesystem;
 
-
 final class LoggerProvider implements ProviderInterface<Logger> {
 
   public function get(

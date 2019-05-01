@@ -16,16 +16,16 @@
 namespace Nazg\Validation;
 
 use type Exception;
+use type Ytake\Hungrr\StatusCode;
+use type Nazg\Exception\AbstractVndErrorException;
 
-class ValidationException extends Exception {
+class ValidationException extends AbstractVndErrorException {
 
-  protected int $status = 400;
-
-  protected Validator $validator;
+  private int $logRefCode = StatusCode::BAD_REQUEST;
 
   public function __construct(
-    Validator $validator,
-    int $code = 0,
+    protected Validator $validator,
+    int $code = StatusCode::BAD_REQUEST,
     protected ?Exception $previous = null,
   ) {
     parent::__construct('The given data was invalid.', $code, $previous);

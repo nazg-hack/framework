@@ -25,7 +25,8 @@ use namespace Nazg\Cache;
 <<__ConsistentConstruct>>
 class ApplicationConfig implements ConfigInterface {
 
-  use Cache\CacheConfigTrait;
+  use Cache\CacheConfigTrait,
+      GlueConfigTrait;
 
   protected dict<HTTPMethod, ImmMap<string, \Nazg\Routing\TResponder>> $routes = dict[];
   protected shape('logfile' => string, 'logname' => string) $logfile = shape(
