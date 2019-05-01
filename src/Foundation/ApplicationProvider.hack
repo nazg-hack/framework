@@ -41,6 +41,21 @@ final class ApplicationProvider extends ServiceProvider {
   public function apply(): void {
     //
     $this->container
+      ->bind(Emitter\EmitterInterface::class)
+      ->provider(new EmitterProvider());
+    //
+    $this->container
+      ->bind(Exception\ExceptionHandleInterface::class)
+      ->provider(new Exception\ExceptionHandlerProvider(
+        $this->readHandle,
+        $this->writeHandle,
+        $this->container->get(Emitter\EmitterInterface::class))
+      );
+    $this->container
+      ->bind(Exception\ExceptionRegister::class)
+      ->provider(new Exception\ExceptionRegisterProvider());
+    //
+    $this->container
       ->bind(ApplicationConfig::class)
       ->provider(new ApplicationConfigProvider($this->config))
       ->in(Scope::SINGLETON);
@@ -52,21 +67,5 @@ final class ApplicationProvider extends ServiceProvider {
       ->bind(Logger::class)
       ->provider(new Logger\LoggerProvider())
       ->in(Scope::SINGLETON);
-    //
-    $this->container
-      ->bind(Middleware\RouteDispatchMiddleware::class)
-      ->provider(new Middleware\RouteDispatchMiddlewareProvider());
-    //
-    $this->container
-      ->bind(Emitter\EmitterInterface::class)
-      ->provider(new EmitterProvider());
-    //
-    $this->container
-      ->bind(Exception\ExceptionHandleInterface::class)
-      ->provider(new Exception\ExceptionHandlerProvider(
-        $this->readHandle,
-        $this->writeHandle,
-        $this->container->get(Emitter\EmitterInterface::class))
-      );
   }
 }

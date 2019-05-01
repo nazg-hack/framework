@@ -15,17 +15,16 @@
  */
 namespace Nazg\Exception;
 
-use type Nazg\Foundation\Bootstrap\BootstrapRegisterInterface;
+use type Nazg\Glue\Container;
+use type Nazg\Glue\ProviderInterface;
 
-use function set_exception_handler;
+class ExceptionRegisterProvider implements ProviderInterface<ExceptionRegister> {
 
-class ExceptionRegister implements BootstrapRegisterInterface {
-
-  public function __construct(
-    protected ExceptionHandleInterface $handler
-  ) {}
-
-  public function register(): void {
-    set_exception_handler([$this->handler, 'handle']);
+  public function get(
+    Container $container
+  ): ExceptionRegister {
+    return new ExceptionRegister(
+      $container->get(ExceptionHandleInterface::class)
+    );
   }
 }

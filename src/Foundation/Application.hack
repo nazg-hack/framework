@@ -34,7 +34,7 @@ use namespace HH\Lib\Vec;
 class Application {
 
   protected vec<classname<\Nazg\Http\Server\MiddlewareInterface>> $middlewares = vec[
-    Middleware\RouteDispatchMiddleware::class,
+    // Middleware\RouteDispatchMiddleware::class,
   ];
 
   protected vec<classname<\Nazg\Foundation\ConsistentServiceProvider>> $appProviders = vec[
@@ -67,8 +67,8 @@ class Application {
   }
 
   protected function registerDependency(): void {
-    $provdiers = $this->container->get(ApplicationConfig::class)->getServiceProviders();
-    foreach(Vec\concat($this->appProviders, $provdiers) as $provider) {
+    $providers = $this->container->get(ApplicationConfig::class)->getServiceProviders();
+    foreach(Vec\concat($this->appProviders, $providers) as $provider) {
       (new $provider($this->container))->apply();
     }
   }
