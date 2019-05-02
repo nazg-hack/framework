@@ -64,13 +64,13 @@ class ApplicationConfig implements ConfigInterface {
     return $this->providers;
   }
 
-  public function setMiddlewares(
+  public function setApplicationGlobalMiddlewares(
     vec<classname<AsyncMiddlewareInterface>> $middlewares
   ): void {
     $this->middlewares = $middlewares;
   }
 
-  public function getMiddlewares(): vec<classname<AsyncMiddlewareInterface>> {
+  public function getApplicationGlobalMiddlewares(): vec<classname<AsyncMiddlewareInterface>> {
     return $this->middlewares;
   }
 }
