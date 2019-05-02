@@ -1,17 +1,17 @@
 use type HH\Lib\Experimental\IO\WriteHandle;
 use type Facebook\Experimental\Http\Message\ResponseInterface;
 use type Facebook\Experimental\Http\Message\ServerRequestInterface;
-use type Nazg\Http\Server\MiddlewareInterface;
-use type Nazg\Http\Server\RequestHandlerInterface;
+use type Nazg\Http\Server\AsyncMiddlewareInterface;
+use type Nazg\Http\Server\AsyncRequestHandlerInterface;
 
-final class FakeThrowExceptionMiddleware implements MiddlewareInterface {
+final class FakeThrowExceptionMiddleware implements AsyncMiddlewareInterface {
 
-  public function process(
+  public async function processAsync(
     WriteHandle $writeHandle,
     ServerRequestInterface $request,
-    RequestHandlerInterface $handler,
-  ): ResponseInterface {
+    AsyncRequestHandlerInterface $handler,
+  ): Awaitable<ResponseInterface> {
     throw new \Exception("error");
-    return $handler->handle($writeHandle, $request);
+    return $handler->handleAsync($writeHandle, $request);
   }
 }

@@ -15,15 +15,15 @@
  */
 namespace Nazg\Foundation;
 
-use type Nazg\Heredity\Heredity;
-use type Nazg\Heredity\MiddlewareStack;
-use type Nazg\RequestHandler\FallbackHandler;
+use type Nazg\Heredity\AsyncHeredity;
+use type Nazg\Heredity\AsyncMiddlewareStack;
+use type Nazg\RequestHandler\AsyncFallbackHandler;
 use type Nazg\Foundation\Bootstrap\BootstrapRegister;
 use type Facebook\HackRouter\BaseRouter;
 use type Facebook\Experimental\Http\Message\ServerRequestInterface;
-use type Nazg\Http\Server\RequestHandlerInterface;
+use type Nazg\Http\Server\AsyncRequestHandlerInterface;
 use type Nazg\Glue\Container;
-use type Nazg\HttpExecutor\RequestHandleExecutor;
+use type Nazg\HttpExecutor\AsyncRequestHandleExecutor;
 
 use namespace Nazg\HttpExecutor\Emitter;
 use namespace HH\Lib\Experimental\IO;
@@ -33,15 +33,15 @@ use namespace HH\Lib\Vec;
 <<__ConsistentConstruct>>
 class Application {
 
-  protected vec<classname<\Nazg\Http\Server\MiddlewareInterface>> $middlewares = vec[
-    // Middleware\RouteDispatchMiddleware::class,
+  protected vec<classname<\Nazg\Http\Server\AsyncMiddlewareInterface>> $middlewares = vec[
+
   ];
 
   protected vec<classname<\Nazg\Foundation\ConsistentServiceProvider>> $appProviders = vec[
     \Nazg\Cache\AggregateCacheServiceProvider::class,
   ];
 
-  protected ?RequestHandlerInterface $requestHandler;
+  protected ?AsyncRequestHandlerInterface $requestHandler;
 
   protected ?BootstrapRegister $bootstrapRegister;
 
@@ -73,9 +73,9 @@ class Application {
     }
   }
 
-  public function run(
+  public async function runAsync(
     ServerRequestInterface $serverRequest
-  ): void {
+  ): Awaitable<void> {
     // register bootstrap for framework application
     $this->bootstrap($this->container);
     $router = $this->container->get(BaseRouter::class);
@@ -83,22 +83,22 @@ class Application {
     if ($attributes->count()) {
       $serverRequest = $serverRequest->withServerParams(dict($attributes));
     }
-    $this->executor(
+    await $this->executor(
       $this->middlewareProcessor(
         $middleware['middleware'],
         $this->container
       ),
       $this->container->get(Emitter\EmitterInterface::class),
       $serverRequest
-    )->run();
+    )->runAsync();
   }
 
   protected function executor(
-    RequestHandlerInterface $handler,
+    AsyncRequestHandlerInterface $handler,
     Emitter\EmitterInterface $emitter,
     ServerRequestInterface $serverRequest
-  ): RequestHandleExecutor {
-    return new RequestHandleExecutor(
+  ): AsyncRequestHandleExecutor {
+    return new AsyncRequestHandleExecutor(
       $this->readHandle,
       $this->writeHandle,
       $handler,
@@ -116,7 +116,9 @@ class Application {
     $this->bootstrapRegister = $br;
   }
 
-  public function setRequestHandler(RequestHandlerInterface $handler): void {
+  public function setRequestHandler(
+    AsyncRequestHandlerInterface $handler
+  ): void {
     $this->requestHandler = $handler;
   }
 
@@ -131,7 +133,7 @@ class Application {
    * }
    * </code>
    */
-  protected function getAppMiddleware(): vec<classname<\Nazg\Http\Server\MiddlewareInterface>> {
+  protected function getAppMiddleware(): vec<classname<\Nazg\Http\Server\AsyncMiddlewareInterface>> {
     return vec[];
   }
 
@@ -140,28 +142,32 @@ class Application {
   }
 
   protected function middlewareProcessor(
-    vec<classname<\Nazg\Http\Server\MiddlewareInterface>> $middleware,
+    vec<classname<\Nazg\Http\Server\AsyncMiddlewareInterface>> $middleware,
     Container $container,
-  ): RequestHandlerInterface {
+  ): AsyncRequestHandlerInterface {
     // sync middleware
     $appMiddleware = Vec\concat(
       $this->middlewares,
       $this->getAppMiddleware(),
       $middleware
     );
-    $stack = new MiddlewareStack(
-      new Vector($appMiddleware),
+    $stack = new AsyncMiddlewareStack(
+      $appMiddleware,
       new Middleware\GlueResolver($container),
     );
     if ($this->attributeValidation) {
-      $dispatcher = new Middleware\Dispatcher($stack, $this->requestHandler ?: new FallbackHandler());
+      $dispatcher = new Middleware\Dispatcher($stack, $this->getRequestHandler());
       $dispatcher->setContainer($container);
       return $dispatcher;
     }
-    return new Heredity($stack, $this->requestHandler ?: new FallbackHandler());
+    return new AsyncHeredity($stack, $this->getRequestHandler());
   }
 
   public function getContainer(): Container {
     return $this->container;
+  }
+
+  public function getRequestHandler(): AsyncRequestHandlerInterface {
+    return $this->requestHandler ?: new AsyncFallbackHandler();
   }
 }

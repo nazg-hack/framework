@@ -10,33 +10,27 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  *
- * Copyright (c) 2017-2019 Yuuki Takezawa
+ * Copyright (c) 2017-2018 Yuuki Takezawa
  *
  */
-namespace Nazg\Middleware;
+namespace Nazg\RequestHandler;
 
 use type HH\Lib\Experimental\IO\WriteHandle;
 use type Facebook\Experimental\Http\Message\ResponseInterface;
 use type Facebook\Experimental\Http\Message\ServerRequestInterface;
-use type Nazg\Http\Server\MiddlewareInterface;
-use type Nazg\Http\Server\RequestHandlerInterface;
-use type Facebook\HackRouter\BaseRouter;
+use type Nazg\Http\Server\AsyncRequestHandlerInterface;
+use type Ytake\Hungrr\StatusCode;
+use type Ytake\Hungrr\Response\JsonResponse;
 
-class RouteDispatchMiddleware implements MiddlewareInterface {
+class AsyncFallbackHandler implements AsyncRequestHandlerInterface {
 
-  public function __construct(
-    protected BaseRouter<\Nazg\Routing\TResponder> $router
-  ) {}
-
-  public function process(
-    WriteHandle $writeHandle,
-    ServerRequestInterface $request,
-    RequestHandlerInterface $handler,
-  ): ResponseInterface {
-    list($middleware, $attributes) = $this->router->routeRequest($request);
-    if ($attributes->count()) {
-      $request = $request->withServerParams(dict($attributes));
-    }
-    return $handler->handle($writeHandle, $request);
+  public async function handleAsync(
+    WriteHandle $wirteHandle,
+    ServerRequestInterface $_
+  ): Awaitable<ResponseInterface> {
+    return new JsonResponse(
+      $wirteHandle,
+      StatusCode::NOT_FOUND
+    );
   }
 }

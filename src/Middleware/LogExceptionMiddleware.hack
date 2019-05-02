@@ -20,33 +20,31 @@ use type HackLogging\LogLevel;
 use type HH\Lib\Experimental\IO\WriteHandle;
 use type Facebook\Experimental\Http\Message\ResponseInterface;
 use type Facebook\Experimental\Http\Message\ServerRequestInterface;
-use type Nazg\Http\Server\MiddlewareInterface;
-use type Nazg\Http\Server\RequestHandlerInterface;
+use type Nazg\Http\Server\AsyncMiddlewareInterface;
+use type Nazg\Http\Server\AsyncRequestHandlerInterface;
 
-class LogExceptionMiddleware implements MiddlewareInterface {
+class LogExceptionMiddleware implements AsyncMiddlewareInterface {
 
   public function __construct(
     protected Logger $log
   ) {}
 
-  public function process(
+  public async function processAsync(
     WriteHandle $writeHandle,
     ServerRequestInterface $request,
-    RequestHandlerInterface $handler,
-  ): ResponseInterface {
+    AsyncRequestHandlerInterface $handler,
+  ): Awaitable<ResponseInterface> {
     try {
-      return $handler->handle($writeHandle, $request);
+      return await $handler->handleAsync($writeHandle, $request);
     } catch (\Exception $e) {
-      \HH\Asio\join(
-        $this->log->writeAsync(
-          LogLevel::DEBUG,
-          $e->getMessage(),
-          dict[
-            'file' => $e->getFile(),
-            'line' => $e->getLine(),
-            'trace' => $e->getTraceAsString(),
-          ],
-        )
+      await $this->log->writeAsync(
+        LogLevel::DEBUG,
+        $e->getMessage(),
+        dict[
+          'file' => $e->getFile(),
+          'line' => $e->getLine(),
+          'trace' => $e->getTraceAsString(),
+        ],
       );
       throw $e;
     }

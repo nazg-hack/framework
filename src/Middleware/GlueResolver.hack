@@ -16,20 +16,20 @@
  namespace Nazg\Middleware;
 
 use namespace HH\Lib\Str;
-use type Nazg\Http\Server\MiddlewareInterface;
+use type Nazg\Http\Server\AsyncMiddlewareInterface;
 use type Nazg\Heredity\Exception\MiddlewareResolvingException;
 use type Nazg\Heredity\Resolvable;
 use type Nazg\Glue\Container;
 
-class GlueResolver implements Resolvable {
+class GlueResolver implements Resolvable<AsyncMiddlewareInterface> {
 
   public function __construct(
     protected Container $container
   ) {}
 
   public function resolve(
-    classname<MiddlewareInterface> $middleware
-  ): MiddlewareInterface {
+    classname<AsyncMiddlewareInterface> $middleware
+  ): AsyncMiddlewareInterface {
     if ($this->container->has($middleware)) {
       return $this->container->get($middleware);
     }

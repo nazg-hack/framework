@@ -24,7 +24,7 @@
     "ytake/hungrr": "^0.3.0",
     "ytake/hhypermedia": "^0.3.0",
     "nazg/glue": "^1.1.2",
-    "nazg/heredity": "^1.3.1",
+    "nazg/heredity": "^1.4.0",
     "nazg/hcache": "^0.2.1",
     "nazg/http-server-request-handler": "^0.3.0",
     "nazg/http-executor": "^0.3.0",
