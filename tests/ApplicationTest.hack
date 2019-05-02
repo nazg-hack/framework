@@ -28,7 +28,7 @@ final class ApplicationTest extends HackTest {
     $container = new Container(new DependencyFactory());
     $app = new Foundation\Application($container, $read, $write);
     $app->build(new Foundation\ApplicationConfig());
-    expect(() ==> $app->run(ServerRequestFactory::fromGlobals($read)))
+    expect(async () ==> await $app->runAsync(ServerRequestFactory::fromGlobals($read)))
       ->toThrow(\Facebook\HackRouter\NotFoundException::class);
   }
 
@@ -48,7 +48,7 @@ final class ApplicationTest extends HackTest {
     }]);
     $app->build($config);
     ob_start();
-    $app->run(ServerRequestFactory::fromGlobals($read, dict[
+    await $app->runAsync(ServerRequestFactory::fromGlobals($read, dict[
       'REQUEST_METHOD' => 'GET',
       'REQUEST_URI' => '/'
     ]));

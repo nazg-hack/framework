@@ -1,9 +1,9 @@
 use type HackLogging\Logger;
 use type Nazg\Glue\{Container, Scope, DependencyFactory};
-use type Nazg\Heredity\MiddlewareStack;
+use type Nazg\Heredity\AsyncMiddlewareStack;
 use type Facebook\HackTest\HackTest;
 use type Ytake\Hungrr\ServerRequestFactory;
-use type Nazg\RequestHandler\FallbackHandler;
+use type Nazg\RequestHandler\AsyncFallbackHandler;
 use type Nazg\Foundation\ApplicationConfig;
 use namespace Nazg\Logger;
 use namespace Nazg\Middleware;
@@ -32,17 +32,17 @@ final class LogExceptionMiddlewareTest extends HackTest {
     $filename = __DIR__ . '/../storages/testing.log';
     list($read, $write) = IO\pipe_non_disposable();
     $heredity = new Middleware\Dispatcher(
-      new MiddlewareStack(
-        Vector{
+      new AsyncMiddlewareStack(
+        vec[
           Middleware\LogExceptionMiddleware::class,
           FakeThrowExceptionMiddleware::class
-        },
+        ],
         new Middleware\GlueResolver($this->getDependency())
       ),
-      new FallbackHandler(),
+      new AsyncFallbackHandler(),
     );
-    expect(() ==> {
-      $heredity->handle(
+    expect(async () ==> {
+      await $heredity->handleAsync(
         $write,
         ServerRequestFactory::fromGlobals($read)
       );

@@ -1,5 +1,3 @@
-<?hh // strict
-
 /**
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -19,24 +17,20 @@ namespace Nazg\Foundation\Bootstrap;
 
 use type Nazg\Glue\Container;
 
-type Bootstrap = classname<BootstrapRegisterInterface>;
-
 class BootstrapRegister implements BootstrapRegisterInterface {
 
-  protected ImmVector<Bootstrap>
-    $ibr = ImmVector {
-      \Nazg\Exception\ExceptionRegister::class
-    };
+  protected vec<classname<BootstrapRegisterInterface>>
+    $vecBootstrapper = vec[\Nazg\Exception\ExceptionRegister::class];
 
   public function __construct(
     protected Container $container
   ) {}
 
   public function register(): void {
-    foreach ($this->ibr->getIterator() as $i) {
+    foreach ($this->vecBootstrapper as $i) {
       if ($this->container->has($i)) {
-        $instance = $this->container->get($i);
-        $instance->register();
+        $this->container->get($i)
+        |> $$->register();
       }
     }
   }

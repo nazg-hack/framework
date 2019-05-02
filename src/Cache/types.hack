@@ -34,5 +34,4 @@ enum Driver : string as string {
   Map = 'map';
   File = 'file';
   Memcached = 'memcached';
-  Redis = 'redis';
 }

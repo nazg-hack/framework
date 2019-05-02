@@ -16,30 +16,30 @@
  namespace Nazg\Middleware;
 
 use type HH\Lib\Experimental\IO\WriteHandle;
-use type Nazg\Heredity\Heredity;
+use type Nazg\Heredity\AsyncHeredity;
 use type Nazg\Glue\Container;
-use type Nazg\Http\Server\MiddlewareInterface;
+use type Nazg\Http\Server\AsyncMiddlewareInterface;
 use type Facebook\Experimental\Http\Message\ResponseInterface;
 use type Facebook\Experimental\Http\Message\ServerRequestInterface;
 use namespace Nazg\Validation;
 
-class Dispatcher extends Heredity {
+class Dispatcher extends AsyncHeredity {
 
   const string InterceptorMethod = 'process';
   protected ?Container $container;
 
   <<__Override>>
-  protected function processor(
+  protected async function processorAsync(
     WriteHandle $writeHandle,
-    MiddlewareInterface $middleware,
+    AsyncMiddlewareInterface $middleware,
     ServerRequestInterface $request
-  ): ResponseInterface {
+  ): Awaitable<ResponseInterface> {
     $this->validateInterceptor($middleware, $request);
-    return $middleware->process($writeHandle, $request, $this);
+    return await $middleware->processAsync($writeHandle, $request, $this);
   }
 
   protected function validateInterceptor(
-    MiddlewareInterface $middleware,
+    AsyncMiddlewareInterface $middleware,
     ServerRequestInterface $request,
   ): void {
     $container = $this->container;
