@@ -40,7 +40,7 @@ trait CacheConfigTrait {
     $this->memcachedConfig = $memcachedConfig;
   }
 
-  private function setFilesystemCacheConfig(
+  public function setFilesystemCacheConfig(
     FileSystemConfig $FileSystemConfig
   ): void {
     $this->FileSystemConfig = $FileSystemConfig;
