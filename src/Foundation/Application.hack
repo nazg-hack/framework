@@ -61,13 +61,17 @@ class Application {
       $this->writeHandle
     );
     $provider->apply();
-    $this->registerDependency();
+    $this->middlewares = Vec\concat(
+      $this->middlewares,
+      $config->getApplicationGlobalMiddlewares()
+    );
+    $this->registerDependency($config);
     \HH\Asio\join($this->container->lockAsync());
     return $this;
   }
 
-  protected function registerDependency(): void {
-    $providers = $this->container->get(ApplicationConfig::class)->getServiceProviders();
+  protected function registerDependency(ApplicationConfig $config): void {
+    $providers = $config->getServiceProviders();
     foreach(Vec\concat($this->appProviders, $providers) as $provider) {
       (new $provider($this->container))->apply();
     }
