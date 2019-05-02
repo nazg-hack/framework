@@ -15,9 +15,9 @@
  */
 namespace Nazg\Routing;
 
-use type Nazg\Http\Server\MiddlewareInterface;
+use type Nazg\Http\Server\AsyncMiddlewareInterface;
 
-type MiddlewareVector = vec<classname<MiddlewareInterface>>;
+type MiddlewareVector = vec<classname<AsyncMiddlewareInterface>>;
 type TResponder = shape(
   'middleware' => MiddlewareVector,
   ?'named' => string,
