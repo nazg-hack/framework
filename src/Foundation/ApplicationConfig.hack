@@ -15,7 +15,7 @@
  */
 namespace Nazg\Foundation;
 
-use type Nazg\Http\Server\MiddlewareInterface;
+use type Nazg\Http\Server\AsyncMiddlewareInterface;
 use type Facebook\Experimental\Http\Message\HTTPMethod;
 use namespace Nazg\Cache;
 
@@ -34,7 +34,7 @@ class ApplicationConfig implements ConfigInterface {
     'logname' => 'nazg'
   );
   protected vec<classname<ConsistentServiceProvider>> $providers = vec[];
-  protected vec<classname<MiddlewareInterface>> $middlewares = vec[];
+  protected vec<classname<AsyncMiddlewareInterface>> $middlewares = vec[];
 
   public function setRoutes(
     dict<HTTPMethod, ImmMap<string, \Nazg\Routing\TResponder>> $routes
@@ -65,12 +65,12 @@ class ApplicationConfig implements ConfigInterface {
   }
 
   public function setMiddlewares(
-    vec<classname<MiddlewareInterface>> $middlewares
+    vec<classname<AsyncMiddlewareInterface>> $middlewares
   ): void {
     $this->middlewares = $middlewares;
   }
 
-  public function getMiddlewares(): vec<classname<MiddlewareInterface>> {
+  public function getMiddlewares(): vec<classname<AsyncMiddlewareInterface>> {
     return $this->middlewares;
   }
 }
