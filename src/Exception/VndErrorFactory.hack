@@ -21,6 +21,7 @@ use type Ytake\Hhypermedia\Error\MessageResource;
 use type Ytake\Hhypermedia\ResourceObject;
 use type Ytake\Hhypermedia\Serializer\VndErrorSerializer;
 use type Ytake\Hhypermedia\ErrorAttributes;
+use type Ytake\Hhypermedia\Visitor\JsonSerializationVisitor;
 
 final class VndErrorFactory {
 
@@ -46,6 +47,9 @@ final class VndErrorFactory {
         $resourceObject,
         $errorAttributes,
         $optionalAttributes
+      ),
+      new JsonSerializationVisitor(
+        \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES| \JSON_PRESERVE_ZERO_FRACTION
       )
     );
   }

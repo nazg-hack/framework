@@ -25,7 +25,7 @@ final class VndErrorResponseTest extends HackTest {
     list($read, $write) = IO\pipe_non_disposable();
     await $write->writeAsync(\json_encode(dict[
       'testing' => dict[
-        'HHVM' => 'Hack'
+        'HHVM' => 'Hack',
       ]
     ]));
     $r = new VndErrorResponse($write, StatusCode::FORBIDDEN);
