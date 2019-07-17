@@ -16,8 +16,8 @@
     }
   ],
   "require": {
-    "hhvm": "^4.0",
-    "hhvm/hsl": "^4.0",
+    "hhvm": "^4.4",
+    "hhvm/hsl": "^4.",
     "hhvm/hsl-experimental": "^4.0",
     "hhvm/hhvm-autoload": "^2.0.0",
     "facebook/hh-clilib": "^2.0.0",
@@ -29,13 +29,13 @@
     "nazg/hcache": "^0.2.1",
     "nazg/http-server-request-handler": "^0.3.0",
     "nazg/http-executor": "^0.3.0",
-    "facebook/hack-router": "^0.18.4",
+    "facebook/hack-router": "^0.18.4 | ^0.19",
     "facebook/hack-http-request-response-interfaces": "^0.2",
     "hack-logging/hack-logging": "^0.1.1"
   },
   "require-dev": {
     "hhvm/hacktest": "^1.5",
-    "facebook/fbexpect": "^2.5.6",
+    "facebook/fbexpect": "^2.5",
     "hhvm/hhast": "^4.0.0"
   },
   "autoload": {
