@@ -1,4 +1,7 @@
 composer.phar
 composer.lock
-phpunit.xml
 vendor/
+docker/
+docker-compose.yml
+.vscode
+*.hhast.parser-cache

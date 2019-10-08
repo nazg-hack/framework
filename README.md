@@ -11,7 +11,7 @@ Http Application / Microframework for HHVM/Hack
 [Skeleton](https://github.com/ytake/nazg-skeleton)
 
 ```bash
-$ hhvm $(which composer) install
+$ composer install
 ```
 
 ## License
