@@ -7,7 +7,7 @@ use function Facebook\FBExpect\expect;
 final class VndErrorResponseTest extends HackTest {
 
   public async function testShouldBe(): Awaitable<void> {
-    list($read, $write) = IO\pipe_non_disposable();
+    list($read, $write) = IO\pipe_nd();
     $r = new VndErrorResponse($write);
     await $write->writeAsync(\json_encode(dict[]));
     expect($r->getStatusCode())->toBeSame(500);
@@ -16,13 +16,13 @@ final class VndErrorResponseTest extends HackTest {
     expect($r->getHeaders())->toBeSame(dict[
       'content-type' => vec['application/vnd.error+json'],
     ]);
-    await $r->getBody()->closeAsync();
+    await $r->getBody()->flushAsync();
     $re = await $read->readAsync();
     expect($re)->toBeSame('{}');
   }
 
   public async function testShouldReturnJsonBody(): Awaitable<void> {
-    list($read, $write) = IO\pipe_non_disposable();
+    list($read, $write) = IO\pipe_nd();
     await $write->writeAsync(\json_encode(dict[
       'testing' => dict[
         'HHVM' => 'Hack',
@@ -35,7 +35,7 @@ final class VndErrorResponseTest extends HackTest {
     expect($r->getHeaders())->toBeSame(dict[
       'content-type' => vec['application/vnd.error+json'],
     ]);
-    await $r->getBody()->closeAsync();
+    await $r->getBody()->flushAsync();
     $re = await $read->readAsync();
     expect($re)->toBeSame('{"testing":{"HHVM":"Hack"}}');
   }

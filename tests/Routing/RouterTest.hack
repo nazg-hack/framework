@@ -58,7 +58,7 @@ final class RouterTest extends HackTest {
   }
 
   public function testShouldDetectRouteByRequest(): void {
-    list($read, $_) = IO\pipe_non_disposable();
+    list($read, $_) = IO\pipe_nd();
     $request = ServerRequestFactory::fromGlobals($read, dict[
       'REQUEST_METHOD' => 'GET',
       'REQUEST_URI' => '/testing?param=testing'
@@ -76,7 +76,7 @@ final class RouterTest extends HackTest {
   }
 
   public function testShouldNotFoundRouteByRequest(): void {
-    list($read, $_) = IO\pipe_non_disposable();
+    list($read, $_) = IO\pipe_nd();
     $request = ServerRequestFactory::fromGlobals($read, dict[
       'REQUEST_METHOD' => 'GET',
       'REQUEST_URI' => '/testing'

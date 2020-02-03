@@ -3,7 +3,7 @@ use type Nazg\Glue\{Container, DependencyFactory};
 use type Nazg\Foundation\ApplicationConfig;
 use type HackLogging\Logger;
 use type Facebook\HackTest\HackTest;
-use namespace HH\Lib\Experimental\Filesystem;
+use namespace HH\Lib\Experimental\File;
 use function Facebook\FBExpect\expect;
 
 final class LoggerProviderTest extends HackTest {
@@ -14,7 +14,7 @@ final class LoggerProviderTest extends HackTest {
     $container->bind(ApplicationConfig::class)
       ->to(ApplicationConfig::class);
     expect(() ==> $logger->get($container))
-      ->toThrow(Filesystem\FileOpenException::class);
+      ->toThrow(File\AlreadyLockedException::class);
   }
 
   public function testShouldReturnLoggerInstance(): void {

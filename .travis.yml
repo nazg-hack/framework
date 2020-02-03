@@ -4,14 +4,13 @@ services:
 - docker
 env:
   matrix:
-  - HHVM_VERSION=4.20.0
-  - HHVM_VERSION=4.21.0
-  - HHVM_VERSION=4.22.0
-  - HHVM_VERSION=4.23.0
-  - HHVM_VERSION=4.24.0
-  - HHVM_VERSION=4.25.0
-  - HHVM_VERSION=4.26.0
-  - HHVM_VERSION=latest
+    - HHVM_VERSION=4.35.0
+    - HHVM_VERSION=4.36.0
+    - HHVM_VERSION=4.38.0
+    - HHVM_VERSION=4.39.0
+    - HHVM_VERSION=4.40.0
+    - HHVM_VERSION=4.41.0
+    - HHVM_VERSION=latest
 install:
 - docker pull hhvm/hhvm:$HHVM_VERSION
 script:
