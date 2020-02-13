@@ -10,6 +10,7 @@ final class VndErrorResponseTest extends HackTest {
     list($read, $write) = IO\pipe_nd();
     $r = new VndErrorResponse($write);
     await $write->writeAsync(\json_encode(dict[]));
+    await $write->closeAsync();
     expect($r->getStatusCode())->toBeSame(500);
     expect($r->getProtocolVersion())->toBeSame('1.1');
     expect($r->getReasonPhrase())->toBeSame('Internal Server Error');
@@ -28,6 +29,7 @@ final class VndErrorResponseTest extends HackTest {
         'HHVM' => 'Hack',
       ]
     ]));
+    await $write->closeAsync();
     $r = new VndErrorResponse($write, StatusCode::FORBIDDEN);
     expect($r->getStatusCode())->toBeSame(403);
     expect($r->getProtocolVersion())->toBeSame('1.1');
