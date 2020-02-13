@@ -15,7 +15,7 @@ env:
     - HHVM_VERSION=4.44.0
     - HHVM_VERSION=latest
 install:
-- docker pull hhvm/hhvm:$HHVM_VERSION
+- docker pull hhvm/hhvm-proxygen:$HHVM_VERSION
 script:
 - docker run --rm -w /var/source -v $(pwd):/var/source hhvm/hhvm:$HHVM_VERSION ./.travis.sh
 notifications:
