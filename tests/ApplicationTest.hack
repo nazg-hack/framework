@@ -9,14 +9,14 @@ use function Facebook\FBExpect\expect;
 final class ApplicationTest extends HackTest {
 
   public function testShouldReturnApplicationInstance(): void {
-    list($read, $write) = IO\pipe_non_disposable();
+    list($read, $write) = IO\pipe_nd();
     $container = new Container(new DependencyFactory());
     $app = new Foundation\Application($container, $read, $write);
     expect($app)->toBeInstanceOf(Foundation\Application::class);
   }
 
   public function testShouldApplyApplication(): void {
-    list($read, $write) = IO\pipe_non_disposable();
+    list($read, $write) = IO\pipe_nd();
     $container = new Container(new DependencyFactory());
     $app = new Foundation\Application($container, $read, $write);
     $app->build(new Foundation\ApplicationConfig());
@@ -24,7 +24,7 @@ final class ApplicationTest extends HackTest {
   }
 
   public function testApplicationRunThrowException(): void {
-    list($read, $write) = IO\pipe_non_disposable();
+    list($read, $write) = IO\pipe_nd();
     $container = new Container(new DependencyFactory());
     $app = new Foundation\Application($container, $read, $write);
     $app->build(new Foundation\ApplicationConfig());
@@ -33,7 +33,7 @@ final class ApplicationTest extends HackTest {
   }
 
   public async function testShouldReturnServerResponseCaseFoundRoute(): Awaitable<void> {
-    list($read, $write) = IO\pipe_non_disposable();
+    list($read, $write) = IO\pipe_nd();
     await $write->writeAsync(json_encode(dict[]));
     await $write->closeAsync();
     $container = new Container(new DependencyFactory());

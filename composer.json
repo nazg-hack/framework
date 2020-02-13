@@ -16,36 +16,27 @@
     }
   ],
   "require": {
-    "hhvm": "^4.20",
-    "hhvm/hsl": "^4.15",
-    "hhvm/hsl-experimental": "^4.15",
-    "hhvm/hhvm-autoload": "^2.0.0",
-    "facebook/hh-clilib": "^2.0.0",
+    "hhvm": "^4.35",
+    "hhvm/hsl": "^4.0",
+    "hhvm/hsl-experimental": "^4.25",
+    "hhvm/hhvm-autoload": "^3.0.0",
+    "hhvm/type-assert": "^3.7",
     "hack-psr/psr7-http-message-hhi": "^1.0.0",
-    "ytake/hungrr": "^0.5",
-    "ytake/hhypermedia": "^0.3.2",
-    "nazg/glue": "^1.2",
-    "nazg/heredity": "^1.5",
-    "nazg/hcache": "^0.3",
-    "nazg/http-server-request-handler": "^0.3.0",
-    "nazg/http-executor": "^0.5.0",
-    "facebook/hack-router": "^0.19",
+    "ytake/hungrr": "^0.9.0",
+    "ytake/hhypermedia": "^0.5.0",
+    "nazg/glue": "^1.4.0",
+    "nazg/heredity": "^1.8.0",
+    "nazg/hcache": "^0.5.0",
+    "nazg/http-server-request-handler": "^0.4.1",
+    "nazg/http-executor": "^0.8.0",
+    "facebook/hack-router": ">=0.17 <1.0",
     "facebook/hack-http-request-response-interfaces": "^0.2",
-    "hack-logging/hack-logging": "^0.1.1"
+    "hack-logging/hack-logging": "^0.4.0"
   },
   "require-dev": {
-    "hhvm/hacktest": "^1.6",
-    "facebook/fbexpect": "^2.5",
-    "hhvm/hhast": "^4.0.0"
-  },
-  "autoload": {
-    "psr-4": {
-      "Nazg\\": "src/"
-    },
-    "files": [
-      "src/http_enum.php",
-      "src/types.php"
-    ]
+    "facebook/fbexpect": "^2.6.1",
+    "hhvm/hhast": "^4.0",
+    "hhvm/hacktest": "^2.0"
   },
   "autoload-dev": {
     "psr-4": {
@@ -55,7 +46,6 @@
       "tests/Struct/Shapes.php"
     ]
   },
-  "minimum-stability": "stable",
   "scripts": {
     "tests": [
       "hhvm ./vendor/bin/hacktest.hack tests/"

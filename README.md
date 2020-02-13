@@ -4,7 +4,11 @@
 [![Packagist](https://img.shields.io/packagist/l/nazg/framework.svg?style=flat-square)](https://packagist.org/packages/nazg/framework)
 [![Build Status](http://img.shields.io/travis/nazg-hack/framework/master.svg?style=flat-square)](https://travis-ci.org/nazg-hack/framework)
 
-Http Application / Microframework for HHVM/Hack  
+Http Application / MicroFramework for HHVM/Hack  
+
+## Supported
+
+HHVM 4.35 and above.
 
 ## Usage
 

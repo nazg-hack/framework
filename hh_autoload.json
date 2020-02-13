@@ -4,5 +4,7 @@
   ],
   "devRoots": [
     "tests/"
-  ]
+  ],
+  "devFailureHandler": null,
+  "parser": "ext-factparse"
 }

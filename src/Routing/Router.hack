@@ -50,7 +50,7 @@ final class Router extends BaseRouter<TResponder> {
   protected function collectRoutes(): ImmMap<string, string> {
     $map = new Map($this->routeMap);
     $i = $map->getIterator();
-    $named = [];
+    $named = dict[];
     while ($i->valid()) {
       $current = $i->current();
       $keys = $current->keys();

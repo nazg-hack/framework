@@ -9,9 +9,8 @@ use namespace HH\Lib\{Dict, C};
 final class VndErrorFactoryTest extends HackTest {
 
   public function testShouldReturnSerializerInstance(): void {
-    $factory = new VndErrorFactory(
-      $e = new MockStandardVndErrorException('vnd error testing')
-    );
+    $e = new MockStandardVndErrorException('vnd error testing');
+    $factory = new VndErrorFactory($e);
     $v = $factory->invoke(dict[
       'exception' => get_class($e),
       'file' => $e->getFile(),
@@ -29,9 +28,8 @@ final class VndErrorFactoryTest extends HackTest {
   }
 
   public function testShouldReturnSerializerInstanceWithNotImplementsException(): void {
-    $factory = new VndErrorFactory(
-      $e = new NotFoundHttpException('vnd error testing')
-    );
+    $e = new NotFoundHttpException('vnd error testing');
+    $factory = new VndErrorFactory($e);
     $v = $factory->invoke(dict[
       'exception' => get_class($e),
       'file' => $e->getFile(),

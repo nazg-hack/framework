@@ -20,7 +20,7 @@ use type Nazg\Glue\ProviderInterface;
 use type Nazg\Foundation\ApplicationConfig;
 use type HackLogging\Logger;
 use type HackLogging\Handler\FilesystemHandler;
-use namespace HH\Lib\Experimental\Filesystem;
+use namespace HH\Lib\Experimental\File;
 
 final class LoggerProvider implements ProviderInterface<Logger> {
 
@@ -30,7 +30,7 @@ final class LoggerProvider implements ProviderInterface<Logger> {
     $config = $container->get(ApplicationConfig::class);
     $logConfig = $config->getLogConfig();
     return new Logger($logConfig['logname'], vec[
-      new FilesystemHandler(Filesystem\open_write_only_non_disposable($logConfig['logfile']))
+      new FilesystemHandler(File\open_write_only_nd($logConfig['logfile']))
     ]);
   }
 }
