@@ -17,4 +17,4 @@ if (hhvm --version | grep -q -- -dev); then
 fi
 composer install
 hh_client
-HH_FORCE_IS_DEV=0 ./vendor/bin/hacktest.hack tests/
+./vendor/bin/hacktest.hack tests/
