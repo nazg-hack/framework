@@ -50,7 +50,7 @@ class Application {
   public function __construct(
     private Container $container,
     private IO\ReadHandle $readHandle,
-    private IO\WriteHandle $writeHandle,
+    private IO\CloseableWriteHandle $writeHandle,
   ) {}
 
   public function build(ApplicationConfig $config): this {

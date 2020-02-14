@@ -14,7 +14,7 @@ final class LoggerProviderTest extends HackTest {
     $container->bind(ApplicationConfig::class)
       ->to(ApplicationConfig::class);
     expect(() ==> $logger->get($container))
-      ->toThrow(\HH\Lib\Experimental\OS\NotFoundException::class);
+      ->toThrow(\HH\Lib\Experimental\OS\Exception::class);
   }
 
   public function testShouldReturnLoggerInstance(): void {
