@@ -4,14 +4,13 @@ use type Facebook\Experimental\Http\Message\ServerRequestInterface;
 use type Nazg\Http\Server\AsyncMiddlewareInterface;
 use type Nazg\Http\Server\AsyncRequestHandlerInterface;
 
-final class FakeThrowExceptionMiddleware implements AsyncMiddlewareInterface {
+final class FakeActionMiddleware implements AsyncMiddlewareInterface {
 
   public async function processAsync(
     CloseableWriteHandle $writeHandle,
     ServerRequestInterface $request,
     AsyncRequestHandlerInterface $handler,
   ): Awaitable<ResponseInterface> {
-    throw new \Exception("error");
-    return $handler->handleAsync($writeHandle, $request);
+    return await $handler->handleAsync($writeHandle, $request);
   }
 }

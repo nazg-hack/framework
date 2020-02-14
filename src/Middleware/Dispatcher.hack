@@ -15,7 +15,7 @@
  */
  namespace Nazg\Middleware;
 
-use type HH\Lib\Experimental\IO\WriteHandle;
+use type HH\Lib\Experimental\IO\CloseableWriteHandle;
 use type Nazg\Heredity\AsyncHeredity;
 use type Nazg\Glue\Container;
 use type Nazg\Http\Server\AsyncMiddlewareInterface;
@@ -30,7 +30,7 @@ class Dispatcher extends AsyncHeredity {
 
   <<__Override>>
   protected async function processorAsync(
-    WriteHandle $writeHandle,
+    CloseableWriteHandle $writeHandle,
     AsyncMiddlewareInterface $middleware,
     ServerRequestInterface $request
   ): Awaitable<ResponseInterface> {
