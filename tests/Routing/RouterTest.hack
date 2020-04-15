@@ -5,7 +5,7 @@ use type Ytake\Hungrr\ServerRequestFactory;
 use type Facebook\Experimental\Http\Message\HTTPMethod;
 use type Facebook\HackRouter\BaseRouter;
 
-use namespace HH\Lib\Experimental\IO;
+use namespace HH\Lib\IO;
 
 use function Facebook\FBExpect\expect;
 

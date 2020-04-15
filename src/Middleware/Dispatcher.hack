@@ -15,7 +15,7 @@
  */
  namespace Nazg\Middleware;
 
-use type HH\Lib\Experimental\IO\CloseableWriteHandle;
+use type HH\Lib\IO\CloseableWriteHandle;
 use type Nazg\Heredity\AsyncHeredity;
 use type Nazg\Glue\Container;
 use type Nazg\Http\Server\AsyncMiddlewareInterface;

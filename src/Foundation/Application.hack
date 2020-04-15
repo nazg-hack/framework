@@ -26,7 +26,7 @@ use type Nazg\Glue\Container;
 use type Nazg\HttpExecutor\AsyncRequestHandleExecutor;
 
 use namespace Nazg\HttpExecutor\Emitter;
-use namespace HH\Lib\Experimental\IO;
+use namespace HH\Lib\IO;
 use namespace Nazg\Middleware;
 use namespace HH\Lib\Vec;
 

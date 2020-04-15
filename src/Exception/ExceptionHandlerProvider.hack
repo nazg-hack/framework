@@ -18,7 +18,7 @@ namespace Nazg\Exception;
 use type Nazg\Glue\Container;
 use type Nazg\Glue\ProviderInterface;
 use type Nazg\HttpExecutor\Emitter\EmitterInterface;
-use namespace HH\Lib\Experimental\IO;
+use namespace HH\Lib\IO;
 
 class ExceptionHandlerProvider implements ProviderInterface<ExceptionHandleInterface> {
 

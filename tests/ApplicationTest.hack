@@ -2,7 +2,7 @@ use type Facebook\HackTest\HackTest;
 use type Nazg\Glue\{Container, DependencyFactory};
 use type Ytake\Hungrr\ServerRequestFactory;
 use type Facebook\Experimental\Http\Message\HTTPMethod;
-use namespace HH\Lib\Experimental\IO;
+use namespace HH\Lib\IO;
 use namespace Nazg\Foundation;
 use function Facebook\FBExpect\expect;
 

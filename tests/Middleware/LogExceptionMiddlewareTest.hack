@@ -7,7 +7,7 @@ use type Nazg\RequestHandler\AsyncFallbackHandler;
 use type Nazg\Foundation\ApplicationConfig;
 use namespace Nazg\Logger;
 use namespace Nazg\Middleware;
-use namespace HH\Lib\Experimental\IO;
+use namespace HH\Lib\IO;
 use function Facebook\FBExpect\expect;
 
 final class LogExceptionMiddlewareTest extends HackTest {

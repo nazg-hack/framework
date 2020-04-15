@@ -15,7 +15,7 @@
  */
 namespace Nazg\RequestHandler;
 
-use type HH\Lib\Experimental\IO\WriteHandle;
+use type HH\Lib\IO\WriteHandle;
 use type Facebook\Experimental\Http\Message\ResponseInterface;
 use type Facebook\Experimental\Http\Message\ServerRequestInterface;
 use type Nazg\Http\Server\AsyncRequestHandlerInterface;

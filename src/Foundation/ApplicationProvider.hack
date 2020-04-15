@@ -23,7 +23,7 @@ use type HackLogging\Logger;
 use namespace Nazg\Logger;
 use namespace Nazg\Exception;
 use namespace Nazg\HttpExecutor\Emitter;
-use namespace HH\Lib\Experimental\IO;
+use namespace HH\Lib\IO;
 
 final class ApplicationProvider extends ServiceProvider {
 

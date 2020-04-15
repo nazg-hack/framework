@@ -6,7 +6,7 @@ use type Nazg\Exception\ExceptionHandler;
 use type Nazg\Exception\ExceptionRegister;
 use type Nazg\Exception\ExceptionHandlerProvider;
 use type Nazg\Exception\NotFoundHttpException;
-use namespace HH\Lib\Experimental\IO;
+use namespace HH\Lib\IO;
 use namespace Nazg\HttpExecutor\Emitter;
 
 final class ExceptionHandlerTest extends HackTest {

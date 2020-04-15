@@ -3,7 +3,7 @@ use type Nazg\Validation\ValidationException;
 use type Facebook\HackTest\HackTest;
 use type Ytake\Hungrr\ServerRequestFactory;
 use namespace Facebook\TypeAssert;
-use namespace HH\Lib\Experimental\IO;
+use namespace HH\Lib\IO;
 use function Facebook\FBExpect\expect;
 
 class ValidatorTest extends HackTest {

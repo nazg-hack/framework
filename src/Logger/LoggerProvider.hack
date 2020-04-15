@@ -20,7 +20,7 @@ use type Nazg\Glue\ProviderInterface;
 use type Nazg\Foundation\ApplicationConfig;
 use type HackLogging\Logger;
 use type HackLogging\Handler\FilesystemHandler;
-use namespace HH\Lib\Experimental\File;
+use namespace HH\Lib\File;
 
 final class LoggerProvider implements ProviderInterface<Logger> {
 

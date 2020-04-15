@@ -17,7 +17,7 @@ namespace Nazg\Middleware;
 
 use type HackLogging\Logger;
 use type HackLogging\LogLevel;
-use type HH\Lib\Experimental\IO\CloseableWriteHandle;
+use type HH\Lib\IO\CloseableWriteHandle;
 use type Facebook\Experimental\Http\Message\ResponseInterface;
 use type Facebook\Experimental\Http\Message\ServerRequestInterface;
 use type Nazg\Http\Server\AsyncMiddlewareInterface;
