@@ -10,7 +10,7 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  *
- * Copyright (c) 2017-2018 Yuuki Takezawa
+ * Copyright (c) 2017-2020 Yuuki Takezawa
  *
  */
 namespace Nazg\Cache\Resolver;
@@ -30,7 +30,10 @@ class MemcachedResolver {
     $m = new Memcached(Shapes::idx($config, 'persistentId'));
     $servers = Shapes::idx($config, 'servers');
     if($servers is nonnull) {
-      $m->addServers($servers);
+      foreach ($servers as $value) {
+        $m->addServer($value['host'], $value['port'], Shapes::idx($value, 'weight', 0));
+        
+      }
     }
     return $m;
   }

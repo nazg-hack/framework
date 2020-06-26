@@ -16,20 +16,20 @@
     }
   ],
   "require": {
-    "hhvm": "^4.58",
+    "hhvm": "^4.62",
     "hhvm/hsl": "^4.0",
     "hhvm/hsl-experimental": "^4.50",
     "hhvm/hhvm-autoload": "^3.0",
     "ytake/hungrr": "^0.12",
-    "ytake/hhypermedia": "^0.5.0",
-    "nazg/glue": "^1.4",
-    "nazg/heredity": "^1.11",
-    "nazg/hcache": "^0.5",
+    "ytake/hhypermedia": "^0.6.0",
+    "nazg/glue": "^1.5",
+    "nazg/heredity": "^1.12",
+    "nazg/hcache": "^0.6",
     "nazg/http-server-request-handler": "^0.6.0",
-    "nazg/http-executor": "^0.11",
+    "nazg/http-executor": "^0.12",
     "facebook/hack-router": "^0.19.6",
     "facebook/hack-http-request-response-interfaces": "^0.3",
-    "hack-logging/hack-logging": "^0.6.0"
+    "hack-logging/hack-logging": "^0.7.0"
   },
   "require-dev": {
     "facebook/fbexpect": "^2.6.1",

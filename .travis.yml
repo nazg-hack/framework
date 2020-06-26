@@ -4,7 +4,7 @@ services:
 - docker
 env:
   matrix:
-    - HHVM_VERSION=4.58.1
+    - HHVM_VERSION=4.62.0
     - HHVM_VERSION=latest
 install:
 - docker pull hhvm/hhvm-proxygen:$HHVM_VERSION
