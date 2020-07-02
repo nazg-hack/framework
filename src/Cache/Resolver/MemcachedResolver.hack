@@ -32,7 +32,6 @@ class MemcachedResolver {
     if($servers is nonnull) {
       foreach ($servers as $value) {
         $m->addServer($value['host'], $value['port'], Shapes::idx($value, 'weight', 0));
-        
       }
     }
     return $m;

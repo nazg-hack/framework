@@ -39,7 +39,7 @@ final class ApplicationTest extends HackTest {
     $container = new Container(new DependencyFactory());
     $app = new Foundation\Application($container, $read, $write);
     $config = new Foundation\ApplicationConfig();
-    $config->setRoutes(
+    await $config->setRoutesAsync(
       dict[HTTPMethod::GET => ImmMap{
       '/' => shape(
         'middleware' => vec[],

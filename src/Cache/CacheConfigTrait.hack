@@ -34,19 +34,21 @@ trait CacheConfigTrait {
     'servers' => vec[],
   );
 
-  public function setMemcachedCacheConfig(
+  public async function setMemcachedCacheConfigAsync(
     MemcachedConfig $memcachedConfig
-  ): void {
+  ): Awaitable<void> {
     $this->memcachedConfig = $memcachedConfig;
   }
 
-  public function setFilesystemCacheConfig(
+  public async function setFilesystemCacheConfigAsync(
     FileSystemConfig $FileSystemConfig
-  ): void {
+  ): Awaitable<void> {
     $this->FileSystemConfig = $FileSystemConfig;
   }
 
-  public function setCacheDriver(Driver $driver): void {
+  public async function setCacheDriverAsync(
+    Driver $driver
+  ): Awaitable<void> {
     $this->cacheDriver = $driver;
   }
 

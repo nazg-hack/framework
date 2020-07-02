@@ -36,9 +36,9 @@ class ApplicationConfig implements ConfigInterface {
   protected vec<classname<ConsistentServiceProvider>> $providers = vec[];
   protected vec<classname<AsyncMiddlewareInterface>> $middlewares = vec[];
 
-  public function setRoutes(
+  public async function setRoutesAsync(
     dict<HTTPMethod, ImmMap<string, \Nazg\Routing\TResponder>> $routes
-  ): void {
+  ): Awaitable<void> {
     $this->routes = $routes;
   }
 
@@ -46,7 +46,7 @@ class ApplicationConfig implements ConfigInterface {
     return $this->routes;
   }
 
-  public function setLogConfig(shape('logfile' => string, 'logname' => string) $logConfig): void {
+  public async function setLogConfigAsync(shape('logfile' => string, 'logname' => string) $logConfig): Awaitable<void> {
     $this->logfile = $logConfig;
   }
 
@@ -54,9 +54,9 @@ class ApplicationConfig implements ConfigInterface {
     return $this->logfile;
   }
 
-  public function setServiceProviders(
+  public async function setServiceProvidersAsync(
     vec<classname<ConsistentServiceProvider>> $providers
-  ): void {
+  ): Awaitable<void> {
     $this->providers = $providers;
   }
 
