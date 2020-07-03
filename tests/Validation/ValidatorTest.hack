@@ -14,7 +14,7 @@ class ValidatorTest extends HackTest {
   }
 
   public function testShouldThrowTypeException(): void {
-    list($read, $_) = IO\pipe_nd();
+    list($read, $_) = IO\pipe();
     $v = new MockStructureValidateFalied();
     $request = ServerRequestFactory::fromGlobals(
       $read,
@@ -34,7 +34,7 @@ class ValidatorTest extends HackTest {
   }
 
   public function testShouldThrow(): void {
-    list($read, $_) = IO\pipe_nd();
+    list($read, $_) = IO\pipe();
     $v = new MockStructureValidateSuccess();
     $request = ServerRequestFactory::fromGlobals(
       $read,

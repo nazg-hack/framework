@@ -30,7 +30,7 @@ final class LoggerProvider implements ProviderInterface<Logger> {
     $config = $container->get(ApplicationConfig::class);
     $logConfig = $config->getLogConfig();
     return new Logger($logConfig['logname'], vec[
-      new FilesystemHandler(File\open_write_only_nd($logConfig['logfile']))
+      new FilesystemHandler(File\open_write_only($logConfig['logfile']))
     ]);
   }
 }

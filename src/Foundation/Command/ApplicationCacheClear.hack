@@ -27,11 +27,9 @@ final class ApplicationCacheClear extends CliApplication {
     $stdout = $this->getStdout();
     if($cache->flushAll()) {
       await $stdout->writeAsync("Cache Clear");
-      await $stdout->flushAsync();
       return 0;
     }
     await $stdout->writeAsync("[ERROR] Failed to clear cache.");
-    await $stdout->flushAsync();
     return 1;
   }
 

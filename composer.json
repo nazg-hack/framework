@@ -20,16 +20,17 @@
     "hhvm/hsl": "^4.0",
     "hhvm/hsl-experimental": "^4.50",
     "hhvm/hhvm-autoload": "^3.0",
-    "ytake/hungrr": "^0.12",
-    "ytake/hhypermedia": "^0.6.0",
+    "ytake/hungrr": "^0.13.2",
+    "ytake/hhypermedia": "^0.6.1",
     "nazg/glue": "^1.5",
-    "nazg/heredity": "^1.12",
-    "nazg/hcache": "^0.6",
+    "nazg/heredity": "^1.12.1",
+    "nazg/hcache": "^0.6.1",
     "nazg/http-server-request-handler": "^0.6.0",
-    "nazg/http-executor": "^0.12",
+    "nazg/http-executor": "^0.12.1",
     "facebook/hack-router": "^0.19.6",
+    "facebook/hh-clilib": "^2.5.0",
     "facebook/hack-http-request-response-interfaces": "^0.3",
-    "hack-logging/hack-logging": "^0.7.0"
+    "hack-logging/hack-logging": "^0.7.1"
   },
   "require-dev": {
     "facebook/fbexpect": "^2.6.1",

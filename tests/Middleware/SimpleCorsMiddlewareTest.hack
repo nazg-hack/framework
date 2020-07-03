@@ -26,7 +26,7 @@ final class SimpleCorsMiddlewareTest extends HackTest {
 
   public async function testShouldReturnCorsHeader(): Awaitable<void> {
     $filename = __DIR__ . '/../storages/testing.log';
-    list($read, $write) = IO\pipe_nd();
+    list($read, $write) = IO\pipe();
     $heredity = new Middleware\Dispatcher(
       new AsyncMiddlewareStack(
         vec[

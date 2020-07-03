@@ -13,7 +13,7 @@ final class ExceptionHandlerTest extends HackTest {
 
   public function testShouldReturnExceptionHandlerInterface(): void {
     $container = new Container(new DependencyFactory());
-    list($read, $write) = IO\pipe_nd();
+    list($read, $write) = IO\pipe();
     $container->bind(ExceptionHandleInterface::class)
       ->provider(new ExceptionHandlerProvider($read, $write, new Emitter\SapiEmitter()));
     \HH\Asio\join($container->lockAsync());
@@ -22,7 +22,7 @@ final class ExceptionHandlerTest extends HackTest {
   }
 
   public function testFunctionalExceptionRegister(): void {
-    list($read, $write) = IO\pipe_nd();
+    list($read, $write) = IO\pipe();
     $e = new ExceptionHandler($read, $write, new Emitter\SapiEmitter());
     $register = new ExceptionRegister($e);
     $register->register();
@@ -39,7 +39,7 @@ final class ExceptionHandlerTest extends HackTest {
   }
 
   public function testFunctionalThrowNotFoundHttpException(): void {
-    list($read, $write) = IO\pipe_nd();
+    list($read, $write) = IO\pipe();
     $e = new ExceptionHandler($read, $write, new Emitter\SapiEmitter());
     $register = new ExceptionRegister($e);
     $register->register();

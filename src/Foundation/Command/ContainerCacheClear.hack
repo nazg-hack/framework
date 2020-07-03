@@ -28,7 +28,6 @@ final class ContainerCacheClear extends CliApplication {
     apc_delete($config->getContainerCacheKeyname());
     $stdout = $this->getStdout();
     await $stdout->writeAsync("Deleted Container Cache");
-    await $stdout->flushAsync();
     return 0;
   }
 
