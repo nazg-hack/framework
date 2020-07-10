@@ -26,6 +26,6 @@ class ExceptionRegister implements BootstrapRegisterInterface {
   ) {}
 
   public function register(): void {
-    set_exception_handler(array($this->handler, 'handle'));
+    set_exception_handler(vec[$this->handler, 'handle']);
   }
 }
